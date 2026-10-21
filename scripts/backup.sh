@@ -30,6 +30,8 @@ bundle_repo() {
   mkdir -p "$DEST/projects/_git-bundles"
   git -C "$1" bundle create "$DEST/projects/_git-bundles/$2.bundle" --all 2>/dev/null
   git -C "$1" remote -v > "$DEST/projects/_git-bundles/$2.remotes.txt"
+  # Esclusioni solo locali: non sono nel bundle né su GitHub
+  cp "$1/.git/info/exclude" "$DEST/projects/_git-bundles/$2.info-exclude"
   echo "  ok  projects/_git-bundles/$2.bundle"
 }
 
