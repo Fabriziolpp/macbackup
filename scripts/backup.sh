@@ -79,4 +79,8 @@ copy_dir "$HOME/allenamenti-app backup"   "projects/allenamenti-app backup"
 bundle_repo "$HOME/allenamenti-app"       "allenamenti-app"
 bundle_repo "$HOME/allenamenti-app copia" "allenamenti-app-copia"
 
-echo "== Fatto. Ora esegui: bash scripts/scan-secrets.sh"
+echo "== Cartelle vuote"
+# git non salva le cartelle vuote: un .gitkeep ne conserva la struttura
+find "$DEST" -path "$DEST/.git" -prune -o -type d -empty -print -exec touch {}/.gitkeep \; | sed "s|$DEST/|  .gitkeep in |"
+
+echo "== Fatto. Ora esegui: bash scripts/publish.sh"
