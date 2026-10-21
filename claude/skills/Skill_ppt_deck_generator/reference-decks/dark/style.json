@@ -1,0 +1,61 @@
+{
+  "reference": "Dark — Design Process (Artemis_II.pptx)",
+  "note": "Fidelity style pack for the Dark look: dark/black cinematic case-study deck with a single electric-blue accent (#A100FF), big white bold sans headlines, moon/space cover + spacecraft closing art, numbered blue eyebrows (0N · LABEL), dark accent-bar cards, green-check bullets, code-editor mock windows, right-edge dot-nav rail. Content slides are DARK — needs a dark content skin (current shared skin is white).",
+
+  "_color_rule": "COLOURS ARE ALWAYS ACN SONG — Dark contributes its dark cinematic LAYOUT only; the accent is Song purple #A100FF, not the reference's blue.",
+  "palette": {
+    "brand1": "#A100FF", "brand2": "#7500C0", "brand3": "#460073",
+    "dark":   "#000000", "soft1":  "#1F1F1F", "soft2":  "#111111",
+    "ink":    "#FFFFFF", "gray":   "#9CA3AF", "paper":  "#000000"
+  },
+  "accents": { "success": "#22C55E", "danger": "#EF4444", "warning": "#E87722", "amber": "#F59E0B" },
+  "text": { "heading": "#FFFFFF", "body": "#D1D5DB", "muted": "#9CA3AF", "faint": "#6B7280" },
+
+  "fonts": { "heading": "Helvetica Neue", "body": "Helvetica Neue", "accent": "Helvetica Neue", "mono": "SF Mono", "accent_italic": false },
+  "layout": { "align": "left", "radius": 6, "mode": "dark", "dark_dividers": true },
+
+  "cover": {
+    "asset": "assets/cover-bg.png",
+    "bg_color": "#000000",
+    "title_color": "#FFFFFF",
+    "accent_color": "#A100FF",
+    "kicker_color": "#A100FF",
+    "sub_color": "#D1D5DB",
+    "byline_color": "#6B7280",
+    "underline_color": "#A100FF"
+  },
+  "divider": {
+    "asset": "assets/divider-bg.png",
+    "bleed": "right",
+    "scrim": 45,
+    "scrim_color": "#000000",
+    "accent_color": "#A100FF"
+  },
+  "closing": {
+    "asset": "assets/divider-bg.png",
+    "bleed": "right",
+    "bg_color": "#000000",
+    "title_color": "#FFFFFF",
+    "kicker_color": "#A100FF",
+    "underline_color": "#A100FF"
+  },
+
+  "decoration": "none",
+  "cards": "dark-accent-bar",
+  "content_skin": "dark",
+  "content_skin_status": "TODO — shared content skin is white; Dark content is on #000000 with #111111/#1F1F1F cards, white headline, #D1D5DB body, blue #A100FF eyebrow/accent-bar",
+
+  "eyebrow": { "style": "numbered", "format": "0N · LABEL", "color": "#A100FF", "uppercase": true, "tracking": true },
+  "bullets": { "style": "green-check", "color": "#22C55E" },
+  "status_chips": { "success": {"icon": "check", "color": "#22C55E", "label": "Buon risultato"}, "danger": {"icon": "cross", "color": "#EF4444", "label": "Non sufficiente"} },
+
+  "motifs": {
+    "brand_lockup": "blue-dot + 'DARK'",
+    "footer": "case-study",
+    "footer_text": "DARK — CASE STUDY",
+    "nav_rail": "right-edge dot rail (active accent, rest #4B5563)",
+    "accent_word": false,
+    "underline": true,
+    "code_mock": { "chrome": "#1F1F1F", "dots": ["#EF4444", "#F59E0B", "#22C55E"], "keyword": "#A100FF", "heading": "#E87722" }
+  }
+}

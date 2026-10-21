@@ -1,0 +1,30 @@
+{
+  "reference": "Premium — Inclusive Design (AIDA_Offerta_Nexi.pptx)",
+  "note": "Fidelity style pack for the Premium look: electric-purple blade cover reused 1:1, dark blade dividers, rounded-gradient cards, chevron footer, purple accent word.",
+
+  "_color_rule": "COLOURS ARE ALWAYS ACN SONG — references contribute layout/structure/elements only, never their own colours.",
+  "palette": {
+    "brand1": "#A100FF", "brand2": "#7500C0", "brand3": "#460073",
+    "dark":   "#1B0A46", "soft1":  "#E6DCFF", "soft2":  "#C2A3FF",
+    "ink":    "#17123A", "gray":   "#818180", "paper":  "#FFFFFF"
+  },
+  "fonts": { "heading": "Graphik", "body": "Graphik", "accent": "Graphik", "accent_italic": false },
+  "layout": { "align": "left", "radius": 14, "mode": "light", "dark_dividers": true },
+
+  "cover": {
+    "asset": "assets/cover-bg.png",
+    "title_color": "#FFFFFF",
+    "accent_color": "#C9B6FF",
+    "kicker_color": "#D9CCFF",
+    "sub_color": "#E9DEFF"
+  },
+  "divider": {
+    "asset": "assets/cover-bg.png",
+    "scrim": 62,
+    "scrim_color": "#160838",
+    "accent_color": "#B79DFF"
+  },
+  "cards": "rounded-gradient",
+  "content_skin": "premium",
+  "motifs": { "footer": "chevron", "accent_word": true }
+}

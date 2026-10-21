@@ -1,0 +1,6 @@
+- [Backlog source of truth](backlog-source-of-truth.md) — docs/BACKLOG.md è il documento canonico; vince su tutto
+- [OFF1 implementation notes](off1-implementation-notes.md) — considerazioni tecniche da rivedere prima di implementare OFF1 (Live offline-first)
+- [Domande tutte insieme](open-questions-all-at-once.md) — punti aperti: un solo messaggio con tutte le domande, opzioni e raccomandazione
+- [Push su main](push-gate-main.md) — prima di ogni push: build + prova manuale Live; commit locali solo dopo git show --stat e ok
+- [Chiavi API mai lette](api-keys-never-read.md) — le chiavi (ANTHROPIC_API_KEY_EDGE, token) le imposta Fabrizio; io non leggo i valori
+- [Supabase = produzione](supabase-prod-safety.md) — niente operazioni distruttive; verifiche con 2 utenti di test, mai service role

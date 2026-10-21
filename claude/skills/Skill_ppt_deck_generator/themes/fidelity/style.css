@@ -1,0 +1,92 @@
+/* fidelity — replica 1:1 della pptx con micro-interazioni.
+   Le slide sono immagini full-bleed; tutto il resto è UI sovrapposta. */
+
+:root{
+  --bg:#000;
+  --accent:#FFFFFF;
+  --accent-dim:rgba(255,255,255,.6);
+  --accent-faint:rgba(255,255,255,.15);
+}
+
+body{background:var(--bg);color:#fff;font-family:Inter,system-ui,sans-serif;font-weight:400}
+.slide{background:var(--bg);padding:0;align-items:stretch;justify-content:stretch}
+
+/* SLIDE CONTENT — image or svg full-bleed, preserve aspect */
+.slide .fidelity-frame{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.slide .fidelity-frame img,
+.slide .fidelity-frame svg{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block;transition:transform 8s ease-out}
+.slide.active .fidelity-frame img,
+.slide.active .fidelity-frame svg{animation:slide-in .8s cubic-bezier(.2,.8,.2,1) backwards}
+@keyframes slide-in{from{opacity:0;transform:scale(.985)}to{opacity:1;transform:scale(1)}}
+
+/* Optional Ken Burns — add class kb to <section> */
+.slide.kb.active .fidelity-frame img{animation:slide-in .8s cubic-bezier(.2,.8,.2,1) backwards,kb 20s ease-out 1s forwards}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.04)}}
+
+/* TOP / FOOT bars — minimal overlay */
+.topbar,.footbar{position:fixed;left:0;right:0;padding:18px 28px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-dim);z-index:30;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.4),transparent)}
+.footbar{top:auto;bottom:0;background:linear-gradient(0deg,rgba(0,0,0,.4),transparent)}
+.topbar > *,.footbar > *{pointer-events:auto}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600}
+.brand .dot{width:6px;height:6px;background:var(--accent);border-radius:50%;flex-shrink:0;animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.4}}
+.brand img{height:22px;width:auto;display:block}
+.brand .logo-dark{display:block}
+.brand .logo-light{display:none}
+
+/* PROGRESS */
+.progress{position:fixed;top:0;left:0;right:0;height:2px;background:rgba(255,255,255,.06);z-index:50}
+.progress > i{display:block;height:100%;width:0;background:var(--accent);transition:width .6s cubic-bezier(.7,0,.2,1);box-shadow:0 0 8px var(--accent)}
+
+/* NAV — same pill as other themes */
+.nav{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:14px;background:rgba(0,0,0,.7);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.1);padding:10px 16px;border-radius:999px;z-index:60;color:#fff;font-size:13px}
+.nav button{background:transparent;border:0;color:#fff;cursor:pointer;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.nav button:hover{background:rgba(255,255,255,.15);transform:scale(1.1)}
+.nav .count{font-variant-numeric:tabular-nums;letter-spacing:.05em;min-width:54px;text-align:center}
+.dots{display:flex;gap:5px}
+.dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.22);cursor:pointer;transition:all .25s}
+.dots i.on{background:var(--accent);width:18px;border-radius:3px;box-shadow:0 0 12px var(--accent)}
+.dots i:hover{box-shadow:0 0 10px rgba(255,255,255,.5)}
+
+/* HINT */
+.hint{position:fixed;top:24px;right:24px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-dim);z-index:60;display:flex;gap:8px;align-items:center;pointer-events:none}
+.hint kbd{font-family:inherit;padding:3px 7px;background:rgba(255,255,255,.08);border:1px solid var(--accent-faint);border-radius:4px;color:var(--accent-dim)}
+
+/* Fullscreen toggle hint */
+.fs-hint{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-dim);z-index:50;pointer-events:none;opacity:.5}
+.fs-hint kbd{font-family:inherit;padding:2px 6px;background:rgba(255,255,255,.08);border:1px solid var(--accent-faint);border-radius:3px}
+
+/* Slide transitions — pure crossfade (override the default scale shift) */
+.slide{transition:opacity .35s ease}
+.slide.prev,.slide.next{transform:none;opacity:0}
+.slide.active{opacity:1}
+
+/* ── PER-ELEMENT ANIMATION INSIDE INLINED SVG ─────────────────── */
+/* When the SVG is inlined (not loaded via <img>), each tagged node
+   animates in sequence — this is what gives fidelity its "rich" feel
+   when SVG slides are provided.                                     */
+
+.slide.active .fidelity-frame > svg [data-anim]{
+  animation:svg-rise .9s cubic-bezier(.2,.8,.2,1) backwards;
+  transform-box:fill-box;
+  transform-origin:center
+}
+.slide.active .fidelity-frame > svg [data-anim="1"]{animation-delay:.15s}
+.slide.active .fidelity-frame > svg [data-anim="2"]{animation-delay:.25s}
+.slide.active .fidelity-frame > svg [data-anim="3"]{animation-delay:.35s}
+.slide.active .fidelity-frame > svg [data-anim="4"]{animation-delay:.45s}
+.slide.active .fidelity-frame > svg [data-anim="5"]{animation-delay:.55s}
+.slide.active .fidelity-frame > svg [data-anim="6"]{animation-delay:.65s}
+.slide.active .fidelity-frame > svg [data-anim="7"]{animation-delay:.75s}
+.slide.active .fidelity-frame > svg [data-anim="8"]{animation-delay:.85s}
+.slide.active .fidelity-frame > svg [data-anim="9"]{animation-delay:.95s}
+.slide.active .fidelity-frame > svg [data-anim="10"]{animation-delay:1.05s}
+
+@keyframes svg-rise{
+  from{opacity:0;transform:translateY(14px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* Hover on interactive SVG nodes (the agent can mark them with class="hot") */
+.fidelity-frame > svg .hot{cursor:pointer;transition:filter .25s,transform .25s;transform-box:fill-box;transform-origin:center}
+.fidelity-frame > svg .hot:hover{filter:brightness(1.12) drop-shadow(0 0 8px rgba(255,255,255,.35));transform:scale(1.02)}

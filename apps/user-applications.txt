@@ -1,0 +1,4 @@
+Chrome Apps.localized
+Claude Code URL Handler.app
+Comet Apps.localized
+Spotify.app

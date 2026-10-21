@@ -1,0 +1,31 @@
+Amazon Kindle.app
+Claude.app
+Company Portal.app
+Copilot.app
+DGCIApp.app
+DGNetworkExtensionManager.app
+Evernote.app
+GlobalProtect.app
+Google Chrome.app
+LibreOffice.app
+Microsoft Defender.app
+Microsoft Excel.app
+Microsoft OneNote.app
+Microsoft Outlook.app
+Microsoft PowerPoint.app
+Microsoft Teams.app
+Microsoft Word.app
+OneDrive.app
+Pages.app
+Pharos Print.app
+PrivilegeManagement.app
+Raindrop.io.app
+Safari.app
+Sante DICOM Viewer Lite.app
+Save to Raindrop.io.app
+Utilities
+Visual Studio Code.app
+Warp.app
+Xcode.app
+my Accenture Mac.app
+zoom.us.app

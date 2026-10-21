@@ -1,0 +1,38 @@
+{
+  "name": "allenamenti-app",
+  "version": "1.0.0",
+  "description": "App per il tracciamento degli allenamenti in palestra",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "vitest run",
+    "test:rls": "vitest run -c vitest.db.config.ts tests/db/rls.test.ts",
+    "test:db": "vitest run -c vitest.db.config.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.78.0",
+    "@capacitor/cli": "^8.5.2",
+    "@capacitor/core": "^8.5.2",
+    "@capacitor/ios": "^8.5.2",
+    "@supabase/supabase-js": "^2.99.2",
+    "chart.js": "^4.5.1",
+    "framer-motion": "^12.38.0",
+    "idb": "^8.0.3",
+    "next": "^16.3.8",
+    "react": "^19.2.4",
+    "react-chartjs-2": "^5.3.1",
+    "react-dom": "^19.2.4",
+    "zustand": "^5.0.12"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.2",
+    "@types/node": "^25.5.2",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "postcss": "^8.5.9",
+    "tailwindcss": "^4.2.2",
+    "typescript": "^6.0.2",
+    "vitest": "^5.0.2"
+  }
+}

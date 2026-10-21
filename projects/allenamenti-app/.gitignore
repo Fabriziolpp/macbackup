@@ -1,0 +1,16 @@
+node_modules/
+.env
+.env.local
+.env*.local
+config.json
+data.json
+backups/
+*.log
+.DS_Store
+.next/
+out/
+tsconfig.tsbuildinfo
+.claude/worktrees/
+
+# Documento di handoff a uso locale (analisi) — non deve finire nel remote
+docs/HANDOFF.md

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GymTonic — Mese</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body, #root { height: 100%; }
+  body { background: #e8e6e1; font-family: 'Barlow', sans-serif; display: flex; align-items: center; justify-content: center; }
+  #root { width: 100%; display: flex; align-items: flex-start; justify-content: center; padding: 40px 20px; min-height: 100%; }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 2px; }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes barGrow { from { transform:scaleY(0); } to { transform:scaleY(1); } }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "theme": "light",
+  "accentColor": "#FF3B6B",
+  "showForm": false
+}/*EDITMODE-END*/;
+
+const THEMES = {
+  dark: { bg:"#0D0D0D", surface:"#161616", card:"#1E1E1E", border:"rgba(255,255,255,0.08)", textPrimary:"#F0F0F0", textSecondary:"#888", textMuted:"#555", inputBg:"#121212", inputBorder:"rgba(255,255,255,0.1)", navBg:"#0D0D0D", navBorder:"rgba(255,255,255,0.08)", tagAprileBg:"#1a2a00", tagAprileColor:"#C8F135", tagMarzo:"#2a1a00", tagMarzoColor:"#FFA040" },
+  light: { bg:"#F4F2EE", surface:"#FFFFFF", card:"#FFFFFF", border:"rgba(0,0,0,0.08)", textPrimary:"#111", textSecondary:"#666", textMuted:"#AAA", inputBg:"#F4F2EE", inputBorder:"rgba(0,0,0,0.12)", navBg:"#FFFFFF", navBorder:"rgba(0,0,0,0.08)", tagAprileBg:"#e8f7c0", tagAprileColor:"#4a7000", tagMarzo:"#ffe8cc", tagMarzoColor:"#a05000" },
+  split: { bg:"#F0EEE9", surface:"#FFFFFF", card:"#FFFFFF", border:"rgba(0,0,0,0.07)", textPrimary:"#111", textSecondary:"#666", textMuted:"#AAA", inputBg:"#F8F7F5", inputBorder:"rgba(0,0,0,0.1)", navBg:"#0D0D0D", navBorder:"rgba(255,255,255,0.08)", tagAprileBg:"#e8f7c0", tagAprileColor:"#4a7000", tagMarzo:"#ffe8cc", tagMarzoColor:"#a05000" },
+};
+
+// April 2026: Apr 1 = Wednesday (dayOfWeek index 2, Mon=0)
+// Workouts keyed by day number
+const APRIL_WORKOUTS = [
+  { id:1,  day:5,  scheda:"MARZO 2026", giorno:"LIBRO",            durata:40, data:"5 aprile 2026",  ora:"11:03", note:"Corso Pull su trazioni 2x10, Tricep 2x10, Pino dorso 2x10, Pull-up 8x8, elastico 15kg, Chin up 4x8, elastico 15kg", color:"#FFA040", month:"MAR" },
+  { id:2,  day:8,  scheda:"MARZO 2026", giorno:"GIORNO 1",         durata:60, data:"8 aprile 2026",  ora:"08:00", note:"grande lavoro sulle trazioni", color:"#FFA040", month:"MAR" },
+  { id:3,  day:9,  scheda:"MARZO 2026", giorno:"PERSONAL TRAINER", durata:92, data:"9 aprile 2026",  ora:"08:00", note:"Chin-up 5×4, DIP enormi triple, stacchi fino a 90kg con nalzo, Panca Piana", color:"#FFA040", month:"MAR" },
+  { id:4,  day:14, scheda:"APRILE",     giorno:"GIORNO 1",         durata:75, data:"14 aprile 2026", ora:"20:00", note:"solo 2 giri di ogni circuito", color:"#C8F135", month:"APR" },
+  { id:5,  day:16, scheda:"APRILE",     giorno:"GIORNO 3",         durata:60, data:"16 aprile 2026", ora:"08:15", note:"insieme a PT", color:"#C8F135", month:"APR" },
+  { id:6,  day:19, scheda:"APRILE",     giorno:"GIORNO 2",         durata:75, data:"19 aprile 2026", ora:"09:00", note:"saltati i giri finali", color:"#C8F135", month:"APR" },
+  { id:7,  day:20, scheda:"APRILE",     giorno:"GIORNO 1",         durata:75, data:"20 aprile 2026", ora:"10:00", note:"", color:"#C8F135", month:"APR" },
+];
+
+// April 2026: 30 days, starts Wednesday (offset=2 from Monday)
+const APRIL_START_OFFSET = 2;
+const DAYS_IN_APRIL = 30;
+
+// Weekly buckets (Mon-Sun): W1=Apr1-5, W2=6-12, W3=13-19, W4=20-26, W5=27-30
+const WEEKS_APR = [
+  { label:"1–5 Apr",  days:[1,2,3,4,5] },
+  { label:"6–12 Apr", days:[6,7,8,9,10,11,12] },
+  { label:"13–19 Apr",days:[13,14,15,16,17,18,19] },
+  { label:"20–26 Apr",days:[20,21,22,23,24,25,26] },
+  { label:"27–30 Apr",days:[27,28,29,30] },
+];
+
+// ─── NAV ─────────────────────────────────────────────────────
+function Nav({ t, accent }) {
+  const isDark = t.navBg === "#0D0D0D";
+  return (
+    <nav style={{ background:t.navBg, borderBottom:`1px solid ${t.navBorder}`, padding:"0 28px", display:"flex", alignItems:"center", height:52, position:"sticky", top:0, zIndex:20 }}>
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" style={{ marginRight:24, flexShrink:0 }}>
+        <path d="M4 14 Q14 4 24 14 Q14 24 4 14Z" fill={accent}/>
+        <circle cx="14" cy="14" r="3" fill={isDark ? "#0D0D0D" : "#fff"}/>
+      </svg>
+      <div style={{ display:"flex", gap:4, flex:1 }}>
+        {["Home","Settimana","Mese","Anno","Schede"].map(l => (
+          <a key={l} href={l === "Home" ? "GymTonic Home.html" : l === "Settimana" ? "GymTonic Settimana.html" : "#"} style={{
+            textDecoration:"none", padding:"0 12px", height:52, position:"relative",
+            display:"flex", alignItems:"center",
+            fontFamily:"'Barlow', sans-serif", fontSize:14, fontWeight:500,
+            color: l === "Mese" ? (isDark ? "#F0F0F0" : "#111") : t.textSecondary,
+          }}>
+            {l}
+            {l === "Mese" && <div style={{ position:"absolute", bottom:0, left:12, right:12, height:2, background:accent, borderRadius:1 }}/>}
+          </a>
+        ))}
+      </div>
+      <div style={{ width:32, height:32, borderRadius:"50%", background:t.card, border:`1px solid ${t.border}`, display:"flex", alignItems:"center", justifyContent:"center" }}>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="6" r="3" stroke={t.textSecondary} strokeWidth="1.5"/><path d="M2 14c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke={t.textSecondary} strokeWidth="1.5" strokeLinecap="round"/></svg>
+      </div>
+    </nav>
+  );
+}
+
+// ─── HERO ────────────────────────────────────────────────────
+function MonthHero({ accent }) {
+  const totalMin = APRIL_WORKOUTS.reduce((s,w)=>s+w.durata,0);
+  const avgMin   = Math.round(totalMin / APRIL_WORKOUTS.length);
+  return (
+    <div style={{ background:"#0D0D0D", padding:"28px 28px 32px" }}>
+      {/* Month nav */}
+      <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:28 }}>
+        <button style={{ background:"none", border:"none", cursor:"pointer", color:"rgba(255,255,255,0.5)", padding:"6px 10px", display:"flex", alignItems:"center" }}>
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M11 4L6 9l5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        </button>
+        <div style={{ textAlign:"center" }}>
+          <div style={{ fontFamily:"'Barlow Condensed', sans-serif", fontSize:11, fontWeight:700, letterSpacing:2.5, color:"rgba(255,255,255,0.4)", textTransform:"uppercase", marginBottom:4 }}>Mese</div>
+          <div style={{ fontFamily:"'Barlow Condensed', sans-serif", fontSize:18, fontWeight:700, letterSpacing:0.5, color:"rgba(255,255,255,0.8)", textTransform:"uppercase" }}>Aprile 2026</div>
+        </div>
+        <button style={{ background:"none", border:"none", cursor:"pointer", color:"rgba(255,255,255,0.15)", padding:"6px 10px", display:"flex", alignItems:"center" }}>
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M7 4l5 5-5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        </button>
+      </div>
+
+      {/* Metrics */}
+      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:16, marginBottom:32 }}>
+        {[
+          { label:"Allenamenti", value: APRIL_WORKOUTS.length },
+          { label:"Minuti totali", value: totalMin },
+          { label:"Media/sessione", value: `${avgMin}′` },
+        ].map((m,i) => (
+          <div key={m.label} style={{ animation:`fadeUp 0.4s ease ${i*0.06}s both` }}>
+            <div style={{ fontFamily:"'Barlow Condensed', sans-serif", fontWeight:900, fontSize: String(m.value).length > 3 ? 52 : 68, lineHeight:0.9, color:"#F0F0F0", letterSpacing:-2, marginBottom:8 }}>{m.value}</div>
+            <div style={{ fontFamily:"'Barlow Condensed', sans-serif", fontSize:11, fontWeight:600, letterSpacing:2, color:"rgba(255,255,255,0.35)", textTransform:"uppercase" }}>{m.label}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Compact heatmap */}
+      <HeatmapCalendar accent={accent}/>
+    </div>
+  );
+}
+
+// ─── HEATMAP CALENDAR ────────────────────────────────────────
+function HeatmapCalendar({ accent }) {
+  const [tooltip, setTooltip] = React.useState(null);
+  const workoutByDay = {};
+  APRIL_WORKOUTS.forEach(w => { workoutByDay[w.day] = w; });
+
+  const dayLabels = ["L","M","M","G","V","S","D"];
+
+  // Build 5 weeks × 7 days grid
+  // April starts at offset 2 (Wed), so week 1: [null,null,1,2,3,4,5]
+  const grid = [];
+  for (let w = 0; w < 5; w++) {
+    const week = [];
+    for (let d = 0; d < 7; d++) {
+      const dayNum = w*7 + d - APRIL_START_OFFSET + 1;
+      week.push(dayNum >= 1 && dayNum <= DAYS_IN_APRIL ? dayNum : null);
+    }
+    grid.push(week);
+  }
+
+  const maxMin = Math.max(...APRIL_WORKOUTS.map(w=>w.durata));
+
+  return (
+    <div>
+      {/* Day labels */}
+      <div style={{ display:"grid", gridTemplateColumns:"repeat(7,1fr)", gap:4, marginBottom:6 }}>
+        {dayLabels.map((d,i) => (
+          <div key={i} style={{ fontFamily:"'Barlow Condensed', sans-serif", fontSize:10, fontWeight:700, letterSpacing:1, color:"rgba(255,255,255,0.25)", textAlign:"center", textTransform:"uppercase" }}>{d}</div>
+        ))}
+      </div>
+
+      {/* Grid */}
+      <div style={{ display:"flex", flexDirection:"column", gap:4, position:"relative" }}>
+        {grid.map((week, wi) => (
+          <div key={wi} style={{ display:"grid", gridTemplateColumns:"repeat(7,1fr)", gap:4 }}>
+            {week.map((day, di) => {
+              if (!day) return <div key={di} style={{ height:36 }}/>;
+              const w = workoutByDay[day];
+              const intensity = w ? w.durata / maxMin : 0;
+              const isToday = day === 20;
+              return (
+                <div
+                  key={di}
+                  onMouseEnter={(e) => w && setTooltip({ day, workout:w, x:e.clientX, y:e.clientY })}
+                  onMouseLeave={() => setTooltip(null)}
+                  style={{
+                    height:36, borderRadius:4, position:"relative", overflow:"hidden",
+                    background: w ? `${accent}${Math.round(intensity*0.9*255).toString(16).padStart(2,'0')}` : "rgba(255,255,255,0.05)",
+                    border: isToday ? `1.5px solid ${accent}` : w ? `1px solid ${accent}44` : "1px solid rgba(255,255,255,0.06)",
+                    cursor: w ? "pointer" : "default",
+                    transition:"transform 0.1s",
+                  }}
+                >
+                  {/* Day number */}
+                  <div style={{ position:"absolute", top:4, left:6, fontFamily:"'Barlow Condensed', sans-serif", fontSize:11, fontWeight:700, color: w ? accent : "rgba(255,255,255,0.3)", lineHeight:1 }}>{day}</div>
+                  {/* Duration bar at bottom */}
+                  {w && (
+                    <div style={{ position:"absolute", bottom:0, left:0, right:0, height:3, background:accent, transformOrigin:"left", animation:"barGrow 0.3s ease" }}/>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        ))}
+
+        {/* Tooltip */}
+        {tooltip && (
+          <div style={{ position:"fixed", top: tooltip.y - 72, left: tooltip.x - 80, background:"#1a1a1a", border:`1px solid ${accent}44`, borderRadius:6, padding:"10px 14px", zIndex:50, pointerEvents:"none", minWidth:160, boxShadow:"0 8px 24px rgba(0,0,0,0.4)" }}>
+            <div style={{ fontFamily:"'Barlow Condensed', sans-serif", fontWeight:700, fontSize:13, color:accent, marginBottom:2, textTransform:"uppercase", letterSpacing:0.5 }}>{tooltip.workout.giorno}</div>
+            <div style={{ fontFamily:"'Barlow Condensed', sans-serif", fontSize:12, color:"rgba(255,255,255,0.6)" }}>{tooltip.workout.data} · {tooltip.workout.durata} min</div>
+            {tooltip.workout.note && <div style={{ fontFamily:"'Barlow', sans-serif", fontSize:11, color:"rgba(255,255,255,0.4)", marginTop:4, fontStyle:"italic" }}>{tooltip.workout.note.substring(0,50)}{tooltip.workout.note.length>50?"…":""}</div>}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── WEEKLY PROGRESS ─────────────────────────────────────────
+function WeeklyProgress({ t, accent }) {
+  const [mode, setMode] = React.useState("min");
+  const maxVal = mode === "min"
+    ? Math.max(...WEEKS_APR.map(w => APRIL_WORKOUTS.filter(a => w.days.includes(a.day)).reduce((s,a)=>s+a.durata,0)))
+    : 3;
+
+  return (
+    <div style={{ padding:"28px 28px 8px", animation:"fadeUp 0.4s ease 0.15s both" }}>
+      <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:20 }}>
+        <div style={{ fontFamily:"'Barlow Condensed', sans-serif", fontWeight:800, fontSize:28, letterSpacing:-0.5, color:t.textPrimary }}>PROGRESSO SETTIMANALE</div>
+        <div style={{ display:"flex", background:t.inputBg, borderRadius:4, overflow:"hidden", border:`1px solid ${t.border}` }}>
+          {["min","sessioni"].map(m => (
+            <button key={m} onClick={() => setMode(m)} style={{ padding:"6px 14px", border:"none", cursor:"pointer", fontFamily:"'Barlow Condensed', sans-serif", fontSize:11, fontWeight:700, letterSpacing:1.5, textTransform:"uppercase", background: mode===m ? accent : "transparent", color: mode===m ? "#0D0D0D" : t.textMuted, transition:"all 0.15s" }}>{m}</button>
+          ))}
+        </div>
+      </div>
+
+      {/* Bars */}
+      <div style={{ display:"flex", alignItems:"flex-end", gap:8, height:100 }}>
+        {WEEKS_APR.map((w, i) => {
+          const workoutsInWeek = APRIL_WORKOUTS.filter(a => w.days.includes(a.day));
+          const val = mode === "min" ? workoutsInWeek.reduce((s,a)=>s+a.durata,0) : workoutsInWeek.length;
+          const pct = maxVal > 0 ? val / maxVal : 0;
+          return (
+            <div key={i} style={{ flex:1, display:"flex", flexDirection:"column", alignItems:"center", gap:6 }}>
+              <div style={{ fontFamily:"'Barlow Condensed', sans-serif", fontSize:11, fontWeight:700, color: val > 0 ? t.textPrimary : t.textMuted }}>{val > 0 ? (mode==="min" ? val : val) : ""}</div>
+              <div style={{ width:"100%", flex:1, display:"flex", alignItems:"flex-end" }}>
+                <div style={{ width:"100%", height:`${Math.max(pct*80,0)}px`, background: val > 0 ? accent : t.inputBg, borderRadius:"3px 3px 0 0", transition:"height 0.4s ease", opacity: val > 0 ? 1 : 0.5, animation: val > 0 ? `barGrow 0.5s ease ${i*0.06}s both` : "none", transformOrigin:"bottom" }}/>
+              </div>
+              <div style={{ fontFamily:"'Barlow Condensed', sans-serif", fontSize:9, fontWeight:600, letterSpacing:0.5, color:t.textMuted, textAlign:"center", whiteSpace:"nowrap" }}>{w.label}</div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ─── WORKOUT CARD ────────────────────────────────────────────
+function WorkoutCard({ w, t, accent, onDelete, idx }) {
+  const [hover, setHover] = React.useState(false);
+  const tagBg    = w.month === "APR" ? t.tagAprileBg : t.tagMarzo;
+  const tagColor = w.month === "APR" ? t.tagAprileColor : t.tagMarzoColor;
+  return (
+    <div onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
+      style={{ background:t.card, border:`1px solid ${hover ? w.color+"55" : t.border}`, borderRadius:8, overflow:"hidden", display:"flex", transition:"all 0.18s", animation:`fadeUp 0.4s ease ${0.04*idx}s both`, boxShadow: hover ? "0 4px 20px rgba(0,0,0,0.08)" : "none", transform: hover ? "translateY(-1px)" : "none" }}>
+      <div style={{ width:4, flexShrink:0, background:w.color }}/>
+      <div style={{ flex:1, padding:"14px 18px", minWidth:0 }}>
+        <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:8 }}>
+          <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+            <div style={{ background:tagBg, color:tagColor, fontFamily:"'Barlow Condensed', sans-serif", fontSize:10, fontWeight:700, letterSpacing:1.5, padding:"3px 8px", borderRadius:3, textTransform:"uppercase" }}>{w.scheda}</div>
+            <span style={{ fontFamily:"'Barlow Condensed', sans-serif", fontWeight:700, fontSize:15, letterSpacing:0.5, color:t.textPrimary, textTransform:"uppercase" }}>{w.giorno}</span>
+          </div>
+          <div style={{ fontFamily:"'Barlow Condensed', sans-serif", fontSize:12, fontWeight:700, color:t.textMuted, background:t.inputBg, padding:"3px 10px", borderRadius:3 }}>{w.durata} min</div>
+        </div>
+        <div style={{ fontFamily:"'Barlow', sans-serif", fontSize:12, color:t.textSecondary, marginBottom: w.note ? 8 : 0 }}>{w.data} · {w.ora}</div>
+        {w.note && <div style={{ fontFamily:"'Barlow', sans-serif", fontSize:12, color:t.textPrimary, fontStyle:"italic", lineHeight:1.5, paddingTop:6, borderTop:`1px solid ${t.border}`, overflow:"hidden", display:"-webkit-box", WebkitLineClamp:2, WebkitBoxOrient:"vertical" }}>"{w.note}"</div>}
+      </div>
+      <div style={{ flexShrink:0, display:"flex", flexDirection:"column", justifyContent:"center", gap:4, padding:"0 14px", borderLeft:`1px solid ${t.border}`, opacity: hover ? 1 : 0, transition:"opacity 0.15s" }}>
+        <button style={{ background:"none", border:"none", cursor:"pointer", color:t.textSecondary, padding:6, borderRadius:4, display:"flex" }}>
+          <svg width="14" height="14" viewBox="0 0 15 15" fill="none"><path d="M10.5 1.5l3 3M2 13l1-4L11.5 1l3 3L6 13H2z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/></svg>
+        </button>
+        <button onClick={onDelete} style={{ background:"none", border:"none", cursor:"pointer", color:"#FF5555", padding:6, borderRadius:4, display:"flex" }}>
+          <svg width="14" height="14" viewBox="0 0 15 15" fill="none"><path d="M3 4h9M6 4V2h3v2M5 4l.5 8M10 4l-.5 8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ─── WORKOUT LIST ────────────────────────────────────────────
+function WorkoutList({ t, accent }) {
+  const [deleted, setDeleted] = React.useState([]);
+  const visible = APRIL_WORKOUTS.filter(w => !deleted.includes(w.id)).slice().reverse();
+  return (
+    <div style={{ padding:"24px 28px 48px", animation:"fadeUp 0.4s ease 0.2s both" }}>
+      <div style={{ display:"flex", alignItems:"baseline", justifyContent:"space-between", marginBottom:20 }}>
+        <div style={{ fontFamily:"'Barlow Condensed', sans-serif", fontWeight:800, fontSize:36, letterSpacing:-1, color:t.textPrimary }}>ALLENAMENTI</div>
+        <div style={{ fontFamily:"'Barlow Condensed', sans-serif", fontSize:12, fontWeight:600, letterSpacing:1.5, color:t.textMuted, textTransform:"uppercase" }}>{visible.length} totali</div>
+      </div>
+      <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
+        {visible.map((w,i) => <WorkoutCard key={w.id} w={w} t={t} accent={accent} onDelete={() => setDeleted(d=>[...d,w.id])} idx={i}/>)}
+      </div>
+    </div>
+  );
+}
+
+// ─── TWEAKS ──────────────────────────────────────────────────
+function TweaksPanel({ tweaks, setTweaks, visible }) {
+  if (!visible) return null;
+  const btn = { fontFamily:"'Barlow Condensed', sans-serif", fontSize:13, fontWeight:600, letterSpacing:0.5, padding:"8px 14px", border:"1.5px solid #ddd", borderRadius:4, cursor:"pointer", background:"#fff", color:"#333", transition:"all 0.15s", textAlign:"left" };
+  return (
+    <div style={{ position:"fixed", bottom:24, right:24, zIndex:100, background:"#fff", border:"1px solid rgba(0,0,0,0.12)", borderRadius:8, padding:"18px 20px", boxShadow:"0 8px 32px rgba(0,0,0,0.15)", width:240 }}>
+      <div style={{ fontFamily:"'Barlow Condensed', sans-serif", fontWeight:700, fontSize:14, letterSpacing:1, textTransform:"uppercase", color:"#333", marginBottom:14 }}>Tweaks</div>
+      <div style={{ marginBottom:14 }}>
+        <div style={{ fontSize:11, fontWeight:600, letterSpacing:1, color:"#999", textTransform:"uppercase", marginBottom:8, fontFamily:"'Barlow Condensed', sans-serif" }}>Tema</div>
+        <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
+          {[["dark","Dark Athletic"],["light","Light Editorial"],["split","Split Contrast"]].map(([key,name]) => (
+            <button key={key} onClick={() => setTweaks(t=>({...t,theme:key}))} style={{ ...btn, background: tweaks.theme===key ? "#0D0D0D" : "#fff", color: tweaks.theme===key ? "#fff" : "#333", borderColor: tweaks.theme===key ? "#0D0D0D" : "#ddd" }}>{name}</button>
+          ))}
+        </div>
+      </div>
+      <div>
+        <div style={{ fontSize:11, fontWeight:600, letterSpacing:1, color:"#999", textTransform:"uppercase", marginBottom:8, fontFamily:"'Barlow Condensed', sans-serif" }}>Accent</div>
+        <div style={{ display:"flex", gap:8 }}>
+          {["#C8F135","#FF3B6B","#FF6B35","#3BE8FF","#B8A0FF"].map(a => (
+            <button key={a} onClick={() => setTweaks(t=>({...t,accentColor:a}))} style={{ width:28, height:28, borderRadius:"50%", background:a, border: tweaks.accentColor===a ? "2.5px solid #333" : "2px solid transparent", cursor:"pointer", outline:"none" }}/>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── APP ─────────────────────────────────────────────────────
+function App() {
+  const saved = (() => { try { return JSON.parse(localStorage.getItem("gymtonic-mese-tweaks")); } catch { return null; } })();
+  const [tweaks, setTweaks] = React.useState({ ...TWEAK_DEFAULTS, ...saved });
+  const [tweaksVisible, setTweaksVisible] = React.useState(false);
+
+  React.useEffect(() => {
+    localStorage.setItem("gymtonic-mese-tweaks", JSON.stringify(tweaks));
+    window.parent.postMessage({ type:'__edit_mode_set_keys', edits: tweaks }, '*');
+  }, [tweaks]);
+
+  React.useEffect(() => {
+    const handler = (e) => {
+      if (e.data?.type === '__activate_edit_mode') setTweaksVisible(true);
+      if (e.data?.type === '__deactivate_edit_mode') setTweaksVisible(false);
+    };
+    window.addEventListener('message', handler);
+    window.parent.postMessage({ type:'__edit_mode_available' }, '*');
+    return () => window.removeEventListener('message', handler);
+  }, []);
+
+  const t = THEMES[tweaks.theme] || THEMES.light;
+  const accent = tweaks.accentColor;
+
+  return (
+    <div style={{ width:"100%", maxWidth:820, background:t.bg, borderRadius:8, overflow:"hidden", boxShadow:"0 24px 80px rgba(0,0,0,0.25)", minHeight:"80vh", transition:"background 0.3s" }}>
+      <Nav t={t} accent={accent}/>
+      <MonthHero accent={accent}/>
+      <div style={{ height:1, background:t.border }}/>
+      <WeeklyProgress t={t} accent={accent}/>
+      <div style={{ height:1, background:t.border, margin:"20px 28px 0" }}/>
+      <WorkoutList t={t} accent={accent}/>
+      <TweaksPanel tweaks={tweaks} setTweaks={setTweaks} visible={tweaksVisible}/>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

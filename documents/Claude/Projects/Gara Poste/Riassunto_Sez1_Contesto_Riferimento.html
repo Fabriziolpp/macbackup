@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Riassunto Sez. 1 – Contesto di riferimento – Gara Poste Accessibilità</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; max-width: 1080px; margin: 32px auto; padding: 0 24px; color: #1d1d1f; line-height: 1.55; }
+  h1 { color: #6b1fa3; border-bottom: 3px solid #6b1fa3; padding-bottom: 8px; }
+  h2 { color: #6b1fa3; margin-top: 36px; border-left: 4px solid #6b1fa3; padding-left: 12px; }
+  h3 { color: #4a4a4a; margin-top: 22px; }
+  .meta { background: #f5f0fb; padding: 12px 16px; border-radius: 6px; font-size: 0.95em; }
+  .callout { background: #fff7e6; border-left: 4px solid #f39c12; padding: 12px 16px; margin: 16px 0; border-radius: 4px; }
+  .key { background: #eaf6ff; border-left: 4px solid #1f78d1; padding: 12px 16px; margin: 16px 0; border-radius: 4px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  .card { border: 1px solid #e0e0e0; border-radius: 8px; padding: 14px 18px; background: #fafafa; }
+  .card h4 { margin: 0 0 8px 0; color: #6b1fa3; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.92em; }
+  th, td { border: 1px solid #ddd; padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { background: #f5f0fb; }
+  .diagram { background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 16px; margin: 18px 0; text-align: center; }
+  .diagram svg { max-width: 100%; height: auto; }
+  ul { margin: 6px 0; }
+  .pill { display: inline-block; background: #6b1fa3; color: white; padding: 2px 10px; border-radius: 12px; font-size: 0.82em; margin-right: 4px; }
+  .pill.alt { background: #1f78d1; }
+  .pill.warn { background: #c0392b; }
+</style>
+</head>
+<body>
+
+<h1>Sezione 1 – Contesto di riferimento</h1>
+<div class="meta">
+  <strong>Allegato Tecnico (Allegato 1)</strong> – Accordo Quadro Poste Italiane: <em>Servizi di supporto specialistico per l'esecuzione e il monitoraggio dei test e delle verifiche tecniche dell'accessibilità dei canali digitali, dei servizi e dei prodotti del Gruppo Poste.</em><br>
+  Pagine coperte da questo riassunto: §1.1 → §1.11 (pp. 5–65).
+</div>
+
+<div class="callout">
+  <strong>Tesi di fondo della sezione.</strong> Poste Italiane ricade nel perimetro normativo dell'accessibilità (Legge Stanca + EAA) con sanzioni fino al <strong>5% del fatturato</strong>. La gara nasce per industrializzare verifiche tecniche, soggettive, dichiarazioni e monitoraggio su un ecosistema enorme (≈30 canali digitali, prodotti hw, servizi multibusiness), integrandosi con il modello DTO esistente (Service Creation, waterfall/agile, release management, test factory interna/esterna).
+</div>
+
+<h2>1.1–1.2 Obiettivo e cornice normativa</h2>
+<p><strong>Obiettivo gara:</strong> fornire supporto e strumenti per gli adempimenti delle <em>Linee Guida AgID</em> sull'accessibilità degli strumenti informatici e del <em>D.Lgs. 82/2022</em> (recepimento direttiva UE 2019/882 – European Accessibility Act).</p>
+<div class="grid">
+  <div class="card">
+    <h4>Pilastri normativi</h4>
+    <ul>
+      <li>Legge 4/2004 ("Stanca") – art. 3 comma 1-bis estende l'applicabilità a Poste</li>
+      <li>Linee Guida AgID accessibilità + Linee Guida sull'accessibilità dei servizi (art. 21 D.Lgs. 82/22)</li>
+      <li>UNI CEI EN 301549 + WCAG 2.2 (W3C)</li>
+      <li>Direttive UE 2016/2102 (PA) e 2019/882 (EAA)</li>
+      <li>D.Lgs. 82/2022 – obbligatorio dal 28 giugno 2025</li>
+      <li>Regolamento sanzionatorio AgID</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h4>4 principi di accessibilità</h4>
+    <ul>
+      <li><strong>Percepibile</strong></li>
+      <li><strong>Utilizzabile</strong></li>
+      <li><strong>Comprensibile</strong></li>
+      <li><strong>Solido</strong> (robusto)</li>
+    </ul>
+    <p style="font-size:0.88em;margin-top:8px;">Estesi ai requisiti di servizio: accessibilità del contenuto, fruibilità, efficienza, efficacia indipendente dal device, soddisfazione d'uso.</p>
+  </div>
+</div>
+
+<h2>1.3 Contesto organizzativo Poste</h2>
+<p>Poste è una "macchina" con dimensioni rilevanti per il dimensionamento delle attività:</p>
+<div class="diagram">
+<svg viewBox="0 0 900 220" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .lbl { font: 600 13px sans-serif; fill: #6b1fa3; text-anchor: middle; }
+    .num { font: 700 22px sans-serif; fill: #1d1d1f; text-anchor: middle; }
+    .sub { font: 11px sans-serif; fill: #666; text-anchor: middle; }
+    .box { fill: #f5f0fb; stroke: #6b1fa3; stroke-width: 1.5; rx: 8; }
+  </style>
+  <rect class="box" x="20" y="20" width="160" height="80"/>
+  <text class="num" x="100" y="55">12.800+</text>
+  <text class="sub" x="100" y="80">Uffici Postali</text>
+  <rect class="box" x="200" y="20" width="160" height="80"/>
+  <text class="num" x="280" y="55">7.400+</text>
+  <text class="sub" x="280" y="80">ATM</text>
+  <rect class="box" x="380" y="20" width="160" height="80"/>
+  <text class="num" x="460" y="55">22 mln</text>
+  <text class="sub" x="460" y="80">utenti consumer digitali</text>
+  <rect class="box" x="560" y="20" width="160" height="80"/>
+  <text class="num" x="640" y="55">4,9 mln</text>
+  <text class="sub" x="640" y="80">identità SPID</text>
+  <rect class="box" x="740" y="20" width="140" height="80"/>
+  <text class="num" x="810" y="55">~190</text>
+  <text class="sub" x="810" y="80">servizi multicanale</text>
+  <rect class="box" x="20" y="120" width="160" height="80"/>
+  <text class="num" x="100" y="155">2,65 mln</text>
+  <text class="sub" x="100" y="180">operazioni/giorno UP</text>
+  <rect class="box" x="200" y="120" width="160" height="80"/>
+  <text class="num" x="280" y="155">10,6 mln</text>
+  <text class="sub" x="280" y="180">invii postali/giorno</text>
+  <rect class="box" x="380" y="120" width="160" height="80"/>
+  <text class="num" x="460" y="155">25,5 mln</text>
+  <text class="sub" x="460" y="180">transazioni finanziarie/mese</text>
+  <rect class="box" x="560" y="120" width="160" height="80"/>
+  <text class="num" x="640" y="155">34 mln</text>
+  <text class="sub" x="640" y="180">download app del Gruppo</text>
+  <rect class="box" x="740" y="120" width="140" height="80"/>
+  <text class="num" x="810" y="155">11 mln</text>
+  <text class="sub" x="810" y="180">interazioni cliente/giorno</text>
+</svg>
+<p style="font-size:0.85em;color:#666;margin-top:4px;">Volumi Poste – richiamati per giustificare l'effort di copertura accessibilità.</p>
+</div>
+
+<h3>Macro-organizzazione</h3>
+<div class="diagram">
+<svg viewBox="0 0 900 320" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .t { font: 600 12px sans-serif; fill:#fff; text-anchor:middle; }
+    .ts { font: 11px sans-serif; fill:#1d1d1f; text-anchor:middle; }
+    .root { fill:#6b1fa3; }
+    .l1 { fill:#9156c4; }
+    .l2 { fill:#c4a3df; stroke:#6b1fa3; }
+    .corp { fill:#1f78d1; }
+    .lc { stroke:#999; stroke-width:1.2; fill:none; }
+  </style>
+  <rect x="380" y="10" width="180" height="40" class="root" rx="6"/>
+  <text class="t" x="470" y="35">POSTE ITALIANE S.p.A.</text>
+
+  <line class="lc" x1="470" y1="50" x2="470" y2="80"/>
+  <line class="lc" x1="100" y1="80" x2="840" y2="80"/>
+
+  <!-- 5 figli -->
+  <line class="lc" x1="100" y1="80" x2="100" y2="100"/>
+  <rect x="20" y="100" width="160" height="40" class="l1" rx="6"/>
+  <text class="t" x="100" y="125">Mercato Privati (MP)</text>
+
+  <line class="lc" x1="280" y1="80" x2="280" y2="100"/>
+  <rect x="200" y="100" width="160" height="40" class="l1" rx="6"/>
+  <text class="t" x="280" y="118">Mercato Impresa &amp;</text>
+  <text class="t" x="280" y="132">PA (MIPA)</text>
+
+  <line class="lc" x1="470" y1="80" x2="470" y2="100"/>
+  <rect x="380" y="100" width="180" height="40" class="l1" rx="6"/>
+  <text class="t" x="470" y="118">Aree Business:</text>
+  <text class="t" x="470" y="132">BancoPosta + PCL</text>
+
+  <line class="lc" x1="660" y1="80" x2="660" y2="100"/>
+  <rect x="580" y="100" width="160" height="40" class="corp" rx="6"/>
+  <text class="t" x="660" y="125">Funzioni Corporate</text>
+
+  <line class="lc" x1="840" y1="80" x2="840" y2="100"/>
+  <rect x="760" y="100" width="120" height="40" class="corp" rx="6"/>
+  <text class="t" x="820" y="118">DTO</text>
+  <text class="t" x="820" y="132">(perimetro gara)</text>
+
+  <!-- DTO sub -->
+  <line class="lc" x1="820" y1="140" x2="820" y2="170"/>
+  <line class="lc" x1="200" y1="170" x2="820" y2="170"/>
+
+  <line class="lc" x1="200" y1="170" x2="200" y2="200"/>
+  <rect x="120" y="200" width="160" height="40" class="l2" rx="6"/>
+  <text class="ts" x="200" y="218">Digital &amp; Experience</text>
+  <text class="ts" x="200" y="232">(DE) – CX, Canali digitali</text>
+
+  <line class="lc" x1="400" y1="170" x2="400" y2="200"/>
+  <rect x="320" y="200" width="160" height="40" class="l2" rx="6"/>
+  <text class="ts" x="400" y="218">Information Technology</text>
+  <text class="ts" x="400" y="232">(IT) – Sviluppo, Architetture</text>
+
+  <line class="lc" x1="600" y1="170" x2="600" y2="200"/>
+  <rect x="520" y="200" width="160" height="40" class="l2" rx="6"/>
+  <text class="ts" x="600" y="218">Customer Operations</text>
+  <text class="ts" x="600" y="232">(CO) – Assistenza, Back-office</text>
+
+  <line class="lc" x1="800" y1="170" x2="800" y2="200"/>
+  <rect x="720" y="200" width="160" height="40" class="l2" rx="6"/>
+  <text class="ts" x="800" y="218">Governance (GOV)</text>
+  <text class="ts" x="800" y="232">Master Plan, Compliance</text>
+
+  <text x="450" y="290" style="font:600 13px sans-serif;fill:#6b1fa3;text-anchor:middle;">La gara è governata da DTO/DE (Digital &amp; Experience – Ascolto Cliente)</text>
+</svg>
+</div>
+
+<div class="key">
+  <strong>Specificità da ricordare:</strong> il perimetro tocca <em>tutte</em> le quattro funzioni DTO – DE è committente, IT realizza/testa, CO opera customer care/back-office, GOV presidia compliance e Master Plan.
+</div>
+
+<h2>1.4 Piano strategico "2024 Sustain &amp; Innovate"</h2>
+<p>Innovazione e digitalizzazione come driver: trasformazione cliente-centrica, omnicanalità, hybrid cloud proprietario, customer satisfaction, dematerializzazione. <strong>Implicazione per la gara:</strong> l'accessibilità è leva chiave per CX inclusiva e per il ruolo "social" di Poste verso utenti fragili.</p>
+
+<h2>1.5–1.6 Service Creation e Gestione iniziative DTO</h2>
+<p>Tutto ciò che entra in gara si innesta su un <strong>processo end-to-end</strong> già strutturato. La verifica di accessibilità non è un'attività isolata: si appoggia ai punti di ingaggio del ciclo di vita IT.</p>
+
+<div class="diagram">
+<svg viewBox="0 0 900 130" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .step { fill:#f5f0fb; stroke:#6b1fa3; stroke-width:1.5; }
+    .lbl { font:600 12px sans-serif; fill:#1d1d1f; text-anchor:middle; }
+    .sub { font:10px sans-serif; fill:#666; text-anchor:middle; }
+    .arrow { fill:#6b1fa3; }
+  </style>
+  <g transform="translate(10,30)">
+    <polygon class="step" points="0,0 130,0 145,30 130,60 0,60 15,30"/>
+    <text class="lbl" x="72" y="28">Formalizzazione</text>
+    <text class="sub" x="72" y="44">requisiti utente</text>
+  </g>
+  <g transform="translate(160,30)">
+    <polygon class="step" points="0,0 130,0 145,30 130,60 0,60 15,30"/>
+    <text class="lbl" x="72" y="22">Offerta Tecnico-</text>
+    <text class="lbl" x="72" y="38">Economica (OTE)</text>
+    <text class="sub" x="72" y="54">+ pianificazione</text>
+  </g>
+  <g transform="translate(310,30)">
+    <polygon class="step" points="0,0 130,0 145,30 130,60 0,60 15,30"/>
+    <text class="lbl" x="72" y="22">Fase esecutiva</text>
+    <text class="sub" x="72" y="38">sviluppo + test funz./</text>
+    <text class="sub" x="72" y="50">accessibilità + UAT</text>
+  </g>
+  <g transform="translate(460,30)">
+    <polygon class="step" points="0,0 130,0 145,30 130,60 0,60 15,30"/>
+    <text class="lbl" x="72" y="28">Certificazione</text>
+    <text class="sub" x="72" y="44">VA, test integrati</text>
+  </g>
+  <g transform="translate(610,30)">
+    <polygon class="step" points="0,0 130,0 145,30 130,60 0,60 15,30"/>
+    <text class="lbl" x="72" y="28">Passaggio in</text>
+    <text class="lbl" x="72" y="42">Produzione (PIP)</text>
+  </g>
+  <g transform="translate(760,30)">
+    <rect x="0" y="0" width="130" height="60" rx="8" fill="#1f78d1"/>
+    <text style="font:600 12px sans-serif;fill:#fff;text-anchor:middle;" x="65" y="28">Esercizio</text>
+    <text style="font:10px sans-serif;fill:#fff;text-anchor:middle;" x="65" y="44">monitoraggio continuo</text>
+  </g>
+</svg>
+<p style="font-size:0.85em;color:#666;">Service Creation in modalità <strong>waterfall</strong> – ingaggio del fornitore principalmente sui test/accessibilità in fase esecutiva e certificazione.</p>
+</div>
+
+<h3>Modalità di delivery: Waterfall vs Agile</h3>
+<div class="grid">
+  <div class="card">
+    <h4>Waterfall</h4>
+    <p>Sequenza classica: Requisiti → OTE → Esecuzione → Collaudo → Certificazione → PIP. <em>PM end-to-end</em> centralizza il coordinamento.</p>
+  </div>
+  <div class="card">
+    <h4>Agile (Scrum)</h4>
+    <p>Sprint 2–4 settimane, Inception → Sprint (con Increment + Sprint Review) → Certificazione → PIP. PM/Product Owner + Scrum Master del fornitore. Spesso <em>ibrido</em> con waterfall.</p>
+  </div>
+</div>
+
+<h3>Release management</h3>
+<ul>
+  <li><strong>"A release":</strong> max 12 release/anno, con milestone fisse di OTE → Sviluppo → Collaudo Integrato/Utente → Certificazione → PIP. Richiede gestione in <em>parallelo</em> di più release.</li>
+  <li><strong>"Non a release":</strong> per iniziative verticali, urgenze normative o impatti trasversali su sistemi con piani divergenti.</li>
+</ul>
+
+<div class="diagram">
+<svg viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .ph { font:600 11px sans-serif; fill:#fff; text-anchor:middle; }
+    .rl { font:600 12px sans-serif; fill:#1d1d1f; text-anchor:end; }
+    .tk { font:10px sans-serif; fill:#666; }
+  </style>
+  <text class="rl" x="100" y="50">Release N</text>
+  <rect x="110" y="35" width="80" height="22" fill="#6b1fa3" rx="3"/><text class="ph" x="150" y="51">OTE</text>
+  <rect x="190" y="35" width="120" height="22" fill="#9156c4" rx="3"/><text class="ph" x="250" y="51">Sviluppo</text>
+  <rect x="310" y="35" width="100" height="22" fill="#b478d1" rx="3"/><text class="ph" x="360" y="51">Collaudo</text>
+  <rect x="410" y="35" width="80" height="22" fill="#1f78d1" rx="3"/><text class="ph" x="450" y="51">Cert.</text>
+  <rect x="490" y="35" width="60" height="22" fill="#1f5d9e" rx="3"/><text class="ph" x="520" y="51">PIP</text>
+
+  <text class="rl" x="100" y="100">Release N+1</text>
+  <rect x="190" y="85" width="80" height="22" fill="#6b1fa3" rx="3"/><text class="ph" x="230" y="101">OTE</text>
+  <rect x="270" y="85" width="120" height="22" fill="#9156c4" rx="3"/><text class="ph" x="330" y="101">Sviluppo</text>
+  <rect x="390" y="85" width="100" height="22" fill="#b478d1" rx="3"/><text class="ph" x="440" y="101">Collaudo</text>
+  <rect x="490" y="85" width="80" height="22" fill="#1f78d1" rx="3"/><text class="ph" x="530" y="101">Cert.</text>
+  <rect x="570" y="85" width="60" height="22" fill="#1f5d9e" rx="3"/><text class="ph" x="600" y="101">PIP</text>
+
+  <text class="rl" x="100" y="150">Release N+2</text>
+  <rect x="270" y="135" width="80" height="22" fill="#6b1fa3" rx="3"/><text class="ph" x="310" y="151">OTE</text>
+  <rect x="350" y="135" width="120" height="22" fill="#9156c4" rx="3"/><text class="ph" x="410" y="151">Sviluppo</text>
+  <rect x="470" y="135" width="100" height="22" fill="#b478d1" rx="3"/><text class="ph" x="520" y="151">Collaudo</text>
+  <rect x="570" y="135" width="80" height="22" fill="#1f78d1" rx="3"/><text class="ph" x="610" y="151">Cert.</text>
+  <rect x="650" y="135" width="60" height="22" fill="#1f5d9e" rx="3"/><text class="ph" x="680" y="151">PIP</text>
+
+  <text class="tk" x="450" y="190" style="text-anchor:middle;">Release sovrapposte → necessità di parallelismo nelle attività di test/certificazione</text>
+</svg>
+</div>
+
+<div class="key">
+  <strong>Implicazione operativa:</strong> i test di accessibilità (TOW 6) devono incastonarsi nel flusso di rilascio software, mentre le verifiche tecniche (TOW 1-2-3) sono "fuori release", su asset in esercizio. Le due logiche devono coesistere nel modello del fornitore.
+</div>
+
+<h2>1.7 Contesto tecnico – collaudo funzionale e integrato</h2>
+<div class="grid">
+  <div class="card">
+    <h4>Test Policy e standard</h4>
+    <ul>
+      <li>Riferimento ISO/IEC/IEEE 29119 + competenze ISTQB</li>
+      <li>Test Factory <strong>Interna</strong> (Poste, governance) + Test Factory <strong>Esterna</strong> (Fornitore, esecuzione)</li>
+      <li>Tre livelli: funzionale, integrato E2E, utente</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h4>Piattaforme</h4>
+    <ul>
+      <li><strong>SilkCentral</strong> e <strong>ALM/OCTANE</strong> (OpenText/Micro Focus)</li>
+      <li>Integrate con ServiceNow, Atlassian Jira, Mega Hopex</li>
+      <li>Reporting <strong>Power BI – ITMRA</strong> (Intelligent Test Management Reporting Analysis)</li>
+      <li>Workflow defect: SOTTOMESSO → APERTO → RISOLTO/RIGETTATO/POSTICIPATO → CHIUSO</li>
+      <li>Severity 1 Critica → 4 Minore</li>
+    </ul>
+  </div>
+</div>
+
+<div class="callout">
+  <strong>Da non sottovalutare:</strong> il fornitore deve operare <em>sugli stessi strumenti</em> già in uso (no piattaforme proprie sostitutive), generando deliverable Excel testbook, report Power BI, rapporti di collaudo, dashboard di baseline.
+</div>
+
+<h2>1.8 Metodologia operativa – verifiche tecniche e soggettive di accessibilità</h2>
+<p>Cuore operativo della gara. Due assi paralleli:</p>
+<table>
+  <tr><th>Verifica tecnica (oggettiva)</th><th>Verifica soggettiva</th></tr>
+  <tr>
+    <td>Conformità WCAG 2.2 / EN 301549, mix tool automatici + manuale: codice HTML, navigazione tastiera, contrasti, alternative testuali, screen reader.</td>
+    <td>Esperienza utenti con disabilità reali. Gruppo di Valutazione (GdV), task con esperti di fattori umani, ambiente domestico o laboratorio.</td>
+  </tr>
+</table>
+
+<h3>Le 4 fasi del processo (3.0 → 6.0)</h3>
+<div class="diagram">
+<svg viewBox="0 0 900 110" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .b { fill:#6b1fa3; }
+    .b2 { fill:#9156c4; }
+    .b3 { fill:#1f78d1; }
+    .b4 { fill:#16a085; }
+    .l { font:600 12px sans-serif; fill:#fff; text-anchor:middle; }
+    .s { font:10px sans-serif; fill:#fff; text-anchor:middle; }
+  </style>
+  <rect x="20" y="20" width="200" height="70" class="b" rx="8"/>
+  <text class="l" x="120" y="42">3.0 Setup Generale</text>
+  <text class="s" x="120" y="58">incontro conoscitivo,</text>
+  <text class="s" x="120" y="72">referenti, servizi richiesti</text>
+
+  <rect x="240" y="20" width="200" height="70" class="b2" rx="8"/>
+  <text class="l" x="340" y="42">4.0 Setup Tecnico</text>
+  <text class="s" x="340" y="58">classificazione servizi,</text>
+  <text class="s" x="340" y="72">scheda di setup, stima</text>
+
+  <rect x="460" y="20" width="200" height="70" class="b3" rx="8"/>
+  <text class="l" x="560" y="42">5.0 Svolgimento</text>
+  <text class="s" x="560" y="58">verifica tecnica/soggettiva,</text>
+  <text class="s" x="560" y="72">consegna deliverable</text>
+
+  <rect x="680" y="20" width="200" height="70" class="b4" rx="8"/>
+  <text class="l" x="780" y="42">6.0 Chiusura + KB</text>
+  <text class="s" x="780" y="58">aggiornamento KB,</text>
+  <text class="s" x="780" y="72">evoluzione reportistica</text>
+</svg>
+</div>
+
+<h3>Verifica tecnica – 6 step operativi</h3>
+<ol>
+  <li><strong>Definizione perimetro</strong> (checklist)</li>
+  <li><strong>Esplorazione automatica</strong> dell'intero oggetto (crawl pagine pubbliche/riservate)</li>
+  <li><strong>Campionamento</strong> pagine secondo Linee Guida AgID (per TOW 1)</li>
+  <li><strong>Analisi del campione</strong> – tool (Lighthouse, Axe DevTools, contrast checker, NVDA) + Test List manuale</li>
+  <li><strong>Apertura segnalazioni</strong> su SilkCentral/ALM con descrizione, evidenze visive, soluzioni proposte, prioritizzazione (livello WCAG, disabilità impattate, volumi, business)</li>
+  <li><strong>Consegna deliverable</strong>: Testbook Excel, Relazione Verifica Tecnica Word, bozza Dichiarazione di Accessibilità, report Power BI</li>
+</ol>
+
+<h3>Verifica soggettiva – flusso</h3>
+<p>Analisi del contesto → costituzione GdV (target con disabilità rappresentate) → esecuzione task in ambiente domestico/laboratorio → questionari su 12 dimensioni (percezione, comprensibilità, operabilità, coerenza, salute, sicurezza, trasparenza, apprendibilità, aiuto/documentazione, tolleranza errori, gradevolezza, flessibilità) → scala 0–4 con soglia di successo ≥ 2° livello (≥3) → relazione finale.</p>
+
+<h3>Dichiarazione di accessibilità</h3>
+<p>Documento pubblico in formato AgID: livello di conformità (WCAG 2.2), motivazioni delle non conformità + piano di miglioramento, meccanismo di feedback, contatti per alternative accessibili. Redatta in Word + PDF, entrambi accessibili.</p>
+
+<h2>1.9 Adeguamento European Accessibility Act</h2>
+<p>Approccio sistemico richiesto: non si verifica un singolo prodotto, si <strong>integra l'accessibilità in tutta la catena del valore</strong>.</p>
+
+<h3>Perimetro EAA</h3>
+<div class="grid">
+  <div class="card">
+    <h4>Prodotti</h4>
+    <ul>
+      <li>Computer e SO</li>
+      <li>Terminali self-service interattivi (ATM, POS, totem, locker, chioschi)</li>
+      <li>Smartphone e dispositivi mobili</li>
+      <li>Lettori e-book</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h4>Servizi</h4>
+    <ul>
+      <li>Comunicazione elettronica</li>
+      <li>Accesso a contenuti audiovisivi</li>
+      <li>Servizi bancari al dettaglio</li>
+      <li>Trasporto passeggeri (web/app)</li>
+      <li>E-commerce e marketplace</li>
+      <li>Customer care</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Roadmap operativa EAA (11 fasi)</h3>
+<div class="diagram">
+<svg viewBox="0 0 900 320" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .n { fill:#6b1fa3; }
+    .nt { font:600 11px sans-serif; fill:#fff; text-anchor:middle; }
+    .ns { font:10px sans-serif; fill:#1d1d1f; text-anchor:middle; }
+    .ar { stroke:#6b1fa3; stroke-width:2; fill:none; marker-end:url(#a); }
+  </style>
+  <defs>
+    <marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><polygon points="0,0 8,4 0,8" fill="#6b1fa3"/></marker>
+  </defs>
+  <g>
+    <circle cx="60" cy="40" r="22" class="n"/><text class="nt" x="60" y="44">1</text>
+    <text class="ns" x="60" y="78">Mappatura</text>
+    <text class="ns" x="60" y="92">prodotti/servizi</text>
+
+    <circle cx="180" cy="40" r="22" class="n"/><text class="nt" x="180" y="44">2</text>
+    <text class="ns" x="180" y="78">Mappatura</text>
+    <text class="ns" x="180" y="92">documentazione</text>
+
+    <circle cx="300" cy="40" r="22" class="n"/><text class="nt" x="300" y="44">3</text>
+    <text class="ns" x="300" y="78">Contratti</text>
+    <text class="ns" x="300" y="92">e procurement</text>
+
+    <circle cx="420" cy="40" r="22" class="n"/><text class="nt" x="420" y="44">4</text>
+    <text class="ns" x="420" y="78">Tracciabilità</text>
+    <text class="ns" x="420" y="92">normativa</text>
+
+    <circle cx="540" cy="40" r="22" class="n"/><text class="nt" x="540" y="44">5</text>
+    <text class="ns" x="540" y="78">Progettazione</text>
+    <text class="ns" x="540" y="92">accessibile</text>
+
+    <circle cx="660" cy="40" r="22" class="n"/><text class="nt" x="660" y="44">6</text>
+    <text class="ns" x="660" y="78">Assessment</text>
+    <text class="ns" x="660" y="92">tecnico/doc</text>
+
+    <line class="ar" x1="82" y1="40" x2="158" y2="40"/>
+    <line class="ar" x1="202" y1="40" x2="278" y2="40"/>
+    <line class="ar" x1="322" y1="40" x2="398" y2="40"/>
+    <line class="ar" x1="442" y1="40" x2="518" y2="40"/>
+    <line class="ar" x1="562" y1="40" x2="638" y2="40"/>
+
+    <circle cx="60" cy="180" r="22" class="n"/><text class="nt" x="60" y="184">7</text>
+    <text class="ns" x="60" y="218">Risoluzione</text>
+    <text class="ns" x="60" y="232">non conformità</text>
+
+    <circle cx="180" cy="180" r="22" class="n"/><text class="nt" x="180" y="184">8</text>
+    <text class="ns" x="180" y="218">Dichiarazione</text>
+    <text class="ns" x="180" y="232">UE conformità</text>
+
+    <circle cx="300" cy="180" r="22" class="n"/><text class="nt" x="300" y="184">9</text>
+    <text class="ns" x="300" y="218">Comunicazioni</text>
+    <text class="ns" x="300" y="232">e assistenza</text>
+
+    <circle cx="420" cy="180" r="22" class="n"/><text class="nt" x="420" y="184">10</text>
+    <text class="ns" x="420" y="218">Sorveglianza</text>
+    <text class="ns" x="420" y="232">post-market</text>
+
+    <circle cx="540" cy="180" r="22" class="n"/><text class="nt" x="540" y="184">11</text>
+    <text class="ns" x="540" y="218">Corresponsabilità</text>
+    <text class="ns" x="540" y="232">filiera</text>
+
+    <line class="ar" x1="660" y1="65" x2="660" y2="140" stroke-dasharray="4 4"/>
+    <line class="ar" x1="660" y1="155" x2="82" y2="155" stroke-dasharray="4 4"/>
+    <line class="ar" x1="82" y1="180" x2="158" y2="180"/>
+    <line class="ar" x1="202" y1="180" x2="278" y2="180"/>
+    <line class="ar" x1="322" y1="180" x2="398" y2="180"/>
+    <line class="ar" x1="442" y1="180" x2="518" y2="180"/>
+  </g>
+</svg>
+</div>
+
+<h2>1.10 Processo di produzione/aggiornamento dichiarazioni</h2>
+<p>Sei fasi che articolano il ciclo di vita continuo:</p>
+<ol>
+  <li>Catalogo siti/app/servizi/prodotti</li>
+  <li>Pianificazione assessment</li>
+  <li>Esecuzione assessment</li>
+  <li>Predisposizione dichiarazioni/valutazioni</li>
+  <li>Gestione non conformità</li>
+  <li>Monitoraggio e reportistica</li>
+</ol>
+<p>Le verifiche si concentrano su finestre temporali ristrette per scadenze normative, ma devono coprire l'intero anno.</p>
+
+<h2>1.11 Ecosistema da coprire</h2>
+<div class="grid">
+  <div class="card">
+    <h4><span class="pill">~30</span> Canali digitali</h4>
+    <p style="font-size:0.9em;">Web + App: Poste Italiane, NoiDiPoste, poste.it, postebusiness, PosteID, postel, postemobile, postevita, postewelfare, sda, postepay, Spazi per l'Italia, portale immigrazione, TG Poste, Postalo, ecc.</p>
+  </div>
+  <div class="card">
+    <h4><span class="pill alt">8</span> Famiglie di prodotti hw</h4>
+    <p style="font-size:0.9em;">Gestore attese, sign pad/POS, totem, ATM, terminale portalettere, locker, modem, bacheca digitale.</p>
+  </div>
+</div>
+<div class="card" style="margin-top:12px;">
+  <h4><span class="pill warn">6</span> Categorie di servizi</h4>
+  <p style="font-size:0.9em;">Bancari, pagamenti, e-commerce, telco, postali-logistici, assicurativi. Verifiche su <strong>tutti i touchpoint</strong> digitali e fisici impattati (sito/app, ufficio postale, recapito, assistenza). Funzionalità trasversali da verificare: identificazione/autenticazione, firma digitale, pagamenti, sicurezza.</p>
+</div>
+
+<h2>Sintesi delle "specificità" – cosa rende questo contesto unico</h2>
+<div class="key">
+  <ol>
+    <li><strong>Scala industriale</strong> – decine di canali, milioni di utenti, ~190 servizi multicanale; serve un Estimator parametrico (anticipato in §2.1) per dimensionare ogni iniziativa.</li>
+    <li><strong>Dualismo waterfall/agile + a release/non a release</strong> – il modello del fornitore deve gestire entrambe le logiche e i parallelismi.</li>
+    <li><strong>Doppio asse "test" e "verifica"</strong> – TOW 6 dentro i collaudi pre-rilascio, TOW 1-2-3 sull'esercizio, con stessi strumenti ma cadenze diverse.</li>
+    <li><strong>Stack strumentale obbligato</strong> – SilkCentral/ALM Octane + ServiceNow + Jira + Hopex + Power BI ITMRA; il fornitore non porta una propria piattaforma sostitutiva ma si integra.</li>
+    <li><strong>Catena del valore EAA</strong> – non basta verificare: serve governance, tracciabilità su Allegato I/II, dichiarazione UE, sorveglianza post-market, clausole contrattuali nella filiera.</li>
+    <li><strong>Tre livelli di output</strong> – verifica tecnica oggettiva, verifica soggettiva con persone con disabilità, dichiarazione pubblica AgID/UE.</li>
+    <li><strong>Touchpoint fisici e digitali insieme</strong> – ATM, POS, totem, locker, sportelli rientrano nello stesso perimetro dei canali web/app.</li>
+    <li><strong>Knowledge Base evolutiva</strong> – ogni intervento alimenta una KB Power BI per accelerare i successivi (riuso di segnalazioni, pattern, soluzioni).</li>
+  </ol>
+</div>
+
+</body>
+</html>

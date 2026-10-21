@@ -1,0 +1,155 @@
+{
+  "name": "ACN Song 2030",
+  "description": "Accenture Song 2030 template (Sept 2026) — Graphik, 21 layouts in matched White/Dark pairs: covers (white, dark, photo), 'id'-style numbered section dividers, bold statements, quotes, 2x3 and 7-up photo grids, 12-column grids. Wordmark 'Accenture Song' + copyright in the footer are provided by the master. Content layout puts the headline at y=0.94 and a subheadline placeholder (idx 10) at y=1.60 that serves as the message line.",
+  "template": "assets/masters/acn-song-2030.pptx",
+  "cover_text_color": "BLACK",
+  "layout_indices": {
+    "cover": 2,
+    "cover_white": 2,
+    "cover_dark": 12,
+    "cover_photo": 13,
+    "content": 0,
+    "content_dark": 10,
+    "blank": 1,
+    "blank_dark": 11,
+    "section": 3,
+    "section_white": 3,
+    "section_dark": 14,
+    "section_photo": 15,
+    "bold_statement": 4,
+    "bold_statement_dark": 16,
+    "full_bleed_image": 5,
+    "grid_showcase_2x3": 6,
+    "grid_showcase_2x3_dark": 17,
+    "quote": 7,
+    "quote_dark": 18,
+    "product_grid_7up": 8,
+    "product_grid_7up_dark": 19,
+    "grid_12col": 9,
+    "grid_12col_alt": 20
+  },
+  "layout_constants": {
+    "note": "This template does NOT use the default helpers geometry. Override these module constants right after load_theme(): title sits at y=0.94, message line is placeholder idx 10 at y=1.60, content starts at y=2.10, content baseline (master guide) is y=6.51, footer furniture starts at y=7.21.",
+    "ML": 0.14,
+    "CW": 13.05,
+    "TITLE_Y": 0.94,
+    "TITLE_H": 0.57,
+    "MSG_Y": 1.60,
+    "MSG_H": 0.26,
+    "CY": 2.10,
+    "BY": 6.51,
+    "AH": 4.41,
+    "BREADCRUMB_Y": 0.14,
+    "BREADCRUMB_H": 0.20
+  },
+  "layout_notes": {
+    "cover": {
+      "background": "white",
+      "note": "Layout 2: 'Cover White'. White background — use BLACK text. idx=0 title @0.67in (4.25in tall, 160pt default: keep titles to 2-4 words per line or set 72-96pt for longer titles), idx=10 date @5.58in (10pt, 'Month YYYY'), idx=11 subtitle/client @5.58in x=3.47 (10pt). Dark variant = layout 12 (WHITE text), photo variant = layout 13 (picture idx=12 full-bleed + WHITE text).",
+      "placeholders": {
+        "idx_0":  {"role": "title",    "note": "presentation title — BLACK, Graphik, very large"},
+        "idx_10": {"role": "date",     "note": "date — BLACK, 10pt"},
+        "idx_11": {"role": "subtitle", "note": "subject or client name — BLACK, 10pt"}
+      }
+    },
+    "cover_dark": {
+      "background": "black",
+      "note": "Layout 12: 'Cover Dark'. Same placeholder structure as layout 2, WHITE text. Layout 13 'Cover Photo' adds picture idx=12 (13.33x7.5in) behind the same placeholders."
+    },
+    "content": {
+      "title_idx": 0,
+      "title_y": 0.94,
+      "title_h": 0.57,
+      "breadcrumb_idx": null,
+      "breadcrumb_y": 0.14,
+      "breadcrumb_h": 0.20,
+      "message_line_idx": 10,
+      "message_line_y": 1.60,
+      "message_line_h": 0.26,
+      "content_area_y": 2.10,
+      "content_area_bottom": 6.51,
+      "note": "Layout 0: 'Headline + Content'. Title idx=0 @0.94in (11.50in wide, 0.57in tall, 40pt master default — set 28pt). Subheadline idx=10 @1.60in (6.77in wide, 0.26in tall) is the MESSAGE LINE: write to it, 16-18pt, do NOT call clear_placeholders() on idx 10 without first writing the message. No breadcrumb placeholder: add_breadcrumb creates a textbox — place it at y=0.14 (eyebrow guide), left of the top-right page number. No body placeholder: clean canvas from y=2.10 to y=6.51. Master provides 'Accenture Song' wordmark @7.21in and copyright @7.26in; do not call set_footer() text overrides that collide with them. Dark twin = layout 10 (WHITE text)."
+    },
+    "section": {
+      "background": "white",
+      "note": "Layout 3: 'Section Divider White'. Left half: giant section number idx=10 (588pt, clipped 'id'-style, use 2 digits '01'). Right half: idx=0 section title @0.80in x=6.71 (80pt default — set 36-44pt for titles longer than 2 words), idx=11 one-sentence context @5.58in. Vertical divider line at x=6.67 is part of the layout. Dark twin = layout 14, photo twin = layout 15 (picture idx=12). Do NOT draw a background rectangle: use the dark layout instead.",
+      "placeholders": {
+        "idx_0":  {"role": "title",   "note": "section name — BLACK (white layout) / WHITE (dark layout)"},
+        "idx_10": {"role": "number",  "note": "two-digit section number, oversized and clipped by design"},
+        "idx_11": {"role": "context", "note": "one-sentence section context — 10pt"}
+      }
+    },
+    "bold_statement": {
+      "note": "Layout 4 / 16: 'Bold Statement'. idx=0 statement (100pt default, 12.9in wide — set 44-60pt for a full sentence), idx=13 faint stacked numbers @0.14in in #DADADA. Use for Pattern D (Key Message) instead of drawing a purple rectangle."
+    },
+    "quote": {
+      "note": "Layout 7 / 18: 'Quote Single'. idx=0 quote (80pt default — set 36-44pt), idx=10 portrait picture @x=10.99 y=3.33 (2.21x2.90in), idx=11 attribution name, idx=14 attribution role (10pt)."
+    },
+    "grid_showcase_2x3": {
+      "note": "Layout 6 / 17: 'Grid Showcase 2x3'. idx=0 title top-left (5.14in wide), pictures idx=21 (top-right 3.33x3.74) and idx=30 (bottom-left 6.67x3.75), three text cells: number idx=26/35/33 + caption idx=25/34/32 (2.88x0.54in each)."
+    },
+    "product_grid_7up": {
+      "note": "Layout 8 / 19: 'Product Grid 7 Up'. Title idx=0 top-left cell; six picture placeholders (3.33x1.86in) idx=16,18,21,27,30,31,36 with number/caption pairs idx=17/10, 26/25, 23/22, 29/28, 35/34, 33/32, 38/37."
+    },
+    "closing": {
+      "note": "No salutation layout in this template. make_closing_slide() should use layout 12 'Cover Dark' (or 2 'Cover White') with the title placeholder set to the closing text, or the blank dark layout 11 with a textbox."
+    }
+  },
+  "tokens": {
+    "primary":        "#A100FF",
+    "primary_medium": "#7500C0",
+    "primary_light":  "#C2A3FF",
+    "primary_dark":   "#460073",
+    "accent_lilac":   "#E6DCFF",
+    "accent_pink":    "#FF50A0",
+    "background":     "#FFFFFF",
+    "surface":        "#F1F1EF",
+    "text_heading":   "#000000",
+    "text_body":      "#333333",
+    "text_muted":     "#818180",
+    "border":         "#DADADA"
+  },
+  "theme_xml_colors": {
+    "dk1": "#000000",
+    "lt1": "#FFFFFF",
+    "dk2": "#000000",
+    "lt2": "#DADADA",
+    "accent1": "#A100FF",
+    "accent2": "#460073",
+    "accent3": "#7500C0",
+    "accent4": "#C2A3FF",
+    "accent5": "#E6DCFF",
+    "accent6": "#FF50A0",
+    "hlink": "#A100FF",
+    "folHlink": "#C2A3FF"
+  },
+  "fonts": {
+    "major_latin": "Graphik",
+    "minor_latin": "Graphik",
+    "major_ea": "",
+    "minor_ea": ""
+  },
+  "all_layouts": [
+    {"idx": 0,  "name": "Headline + Content",        "category": "content"},
+    {"idx": 1,  "name": "Blank",                     "category": "blank"},
+    {"idx": 2,  "name": "Cover White",               "category": "cover"},
+    {"idx": 3,  "name": "Section Divider White",     "category": "section"},
+    {"idx": 4,  "name": "Bold Statement White",      "category": "key_message"},
+    {"idx": 5,  "name": "Photo Full Bleed",          "category": "content"},
+    {"idx": 6,  "name": "Grid Showcase 2x3 White",   "category": "content"},
+    {"idx": 7,  "name": "Quote Single White",        "category": "quote"},
+    {"idx": 8,  "name": "Product Grid 7 Up White",   "category": "content"},
+    {"idx": 9,  "name": "12 Column Grid",            "category": "blank"},
+    {"idx": 10, "name": "Headline + Content Dark",   "category": "content"},
+    {"idx": 11, "name": "Blank Dark",                "category": "blank"},
+    {"idx": 12, "name": "Cover Dark",                "category": "cover"},
+    {"idx": 13, "name": "Cover Photo",               "category": "cover"},
+    {"idx": 14, "name": "Section Divider Dark",      "category": "section"},
+    {"idx": 15, "name": "Section Divider Photo",     "category": "section"},
+    {"idx": 16, "name": "Bold Statement Dark",       "category": "key_message"},
+    {"idx": 17, "name": "Grid Showcase 2x3 Dark",    "category": "content"},
+    {"idx": 18, "name": "Quote Single Dark",         "category": "quote"},
+    {"idx": 19, "name": "Product Grid 7 Up Dark",    "category": "content"},
+    {"idx": 20, "name": "12 Column Grid Alt",        "category": "blank"}
+  ]
+}

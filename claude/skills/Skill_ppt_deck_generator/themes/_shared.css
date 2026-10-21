@@ -1,0 +1,55 @@
+/* SHARED — structural CSS used by every theme.
+   Concatenate this BEFORE the theme-specific style.css when generating a deck. */
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;-webkit-font-smoothing:antialiased}
+
+.deck{position:fixed;inset:0;perspective:2000px}
+.slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:5vh 6vw;opacity:0;visibility:hidden;transition:opacity .6s ease,transform .9s cubic-bezier(.7,0,.2,1);overflow:hidden}
+.slide.active{opacity:1;visibility:visible;z-index:2}
+.slide.prev{transform:translateX(-6%) scale(.96);opacity:0}
+.slide.next{transform:translateX(6%) scale(.96);opacity:0}
+
+.stage{position:relative;width:100%;max-width:1280px;height:100%;max-height:760px;display:flex;flex-direction:column;justify-content:center}
+.topbar{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:0 2px;font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+.footbar{position:absolute;bottom:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;font-size:11px;letter-spacing:.1em}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600}
+.brand img{height:22px;width:auto;display:block}
+.brand .logo-dark{display:none}
+.dark .brand .logo-light{display:none}
+.dark .brand .logo-dark{display:block}
+
+/* PROGRESS BAR */
+.progress{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(255,255,255,.06);z-index:50}
+.progress > i{display:block;height:100%;width:0;transition:width .6s cubic-bezier(.7,0,.2,1)}
+
+/* NAV PILL */
+.nav{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:14px;backdrop-filter:blur(16px);padding:10px 16px;z-index:60;font-size:13px}
+.nav button{background:transparent;border:0;cursor:pointer;width:30px;height:30px;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.nav .count{font-variant-numeric:tabular-nums;letter-spacing:.05em;min-width:54px;text-align:center}
+.dots{display:flex;gap:5px}
+.dots i{width:6px;height:6px;border-radius:50%;cursor:pointer;transition:all .25s}
+
+/* ENTER ANIMATIONS — themes may override duration/curve but not the data-anim system */
+.slide.active [data-anim]{animation:rise .9s cubic-bezier(.2,.8,.2,1) backwards}
+.slide.active [data-anim="1"]{animation-delay:.05s}
+.slide.active [data-anim="2"]{animation-delay:.15s}
+.slide.active [data-anim="3"]{animation-delay:.25s}
+.slide.active [data-anim="4"]{animation-delay:.35s}
+.slide.active [data-anim="5"]{animation-delay:.45s}
+.slide.active [data-anim="6"]{animation-delay:.55s}
+.slide.active [data-anim="7"]{animation-delay:.65s}
+.slide.active [data-anim="8"]{animation-delay:.75s}
+.slide.active [data-anim="9"]{animation-delay:.85s}
+.slide.active [data-anim="10"]{animation-delay:.95s}
+@keyframes rise{from{opacity:0;transform:translateY(28px) scale(.98);filter:blur(6px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+
+/* HINT badge */
+.hint{position:fixed;top:24px;right:24px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;z-index:60;display:flex;gap:8px;align-items:center}
+.hint kbd{font-family:inherit;padding:3px 7px;border-radius:4px}
+
+/* Responsive collapse — themes can extend */
+@media(max-width:900px){
+  .agenda-grid,.pillars,.focus-grid,.team-grid{grid-template-columns:1fr!important}
+  .ctx,.now-wrap,.prop,.pdet,.met{grid-template-columns:1fr!important;gap:32px!important}
+}

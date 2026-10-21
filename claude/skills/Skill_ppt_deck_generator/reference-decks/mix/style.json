@@ -1,0 +1,19 @@
+{
+  "reference": "MIX — best archetypes from ALL references, on one coherent Song canvas",
+  "_color_rule": "COLOURS ARE ALWAYS ACN SONG. MIX does NOT switch canvas per slide: it keeps ONE coherent light Song base (palette + numbered eyebrow + chevron footer) and only varies the ARCHETYPE per content block, chosen autonomously from the union of every reference's patterns.md.",
+  "_mix_note": "This is a synthetic pack, not a real reference. Cover/divider use the Song deconstructed bar (decoration:'bar'), neutral/on-brand, not a single client's asset.",
+
+  "palette": {
+    "brand1": "#A100FF", "brand2": "#7500C0", "brand3": "#460073",
+    "dark":   "#1B0A46", "soft1":  "#E6DCFF", "soft2":  "#C2A3FF",
+    "ink":    "#17123A", "gray":   "#818180", "paper":  "#FFFFFF"
+  },
+  "fonts": { "heading": "Graphik", "body": "Graphik", "accent": "Graphik", "accent_italic": false },
+  "layout": { "align": "left", "radius": 14, "mode": "light", "dark_dividers": true },
+
+  "decoration": "bar",
+  "cards": "rounded-gradient",
+  "content_skin": "mix",
+  "mix": true,
+  "motifs": { "footer": "chevron", "accent_word": true }
+}

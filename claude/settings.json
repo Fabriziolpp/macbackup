@@ -1,0 +1,7 @@
+{
+  "model": "opus",
+  "enabledPlugins": {
+    "superpowers@claude-plugins-official": true
+  },
+  "theme": "dark-daltonized"
+}

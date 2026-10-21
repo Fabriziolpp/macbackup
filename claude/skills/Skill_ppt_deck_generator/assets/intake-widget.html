@@ -1,0 +1,187 @@
+<!--
+  Skill_ppt_deck_generator — INTAKE WIDGET (5 questions)
+  Render this verbatim via the visualize show_widget tool at the START of the skill,
+  in place of the text intake questions. One single clickable panel:
+    1 Formato        · PPT / HTML / Entrambi
+    2 Direzione      · ACN SONG / MIX / Custom
+    3 (condizionale) · ACN SONG -> quale reference dalla libreria
+                       MIX      -> autonomo: archetipi migliori da TUTTE le reference (tela Song), nessuna scelta
+                       Custom   -> riferimento esterno (URL sito/Figma o DESIGN.md in chat)
+    4 Multimedia     · Sì / No
+    5 Testo          · contenuto della presentazione (textarea)
+  On submit it calls sendPrompt() with the structured config, which arrives as the
+  next user turn. Only then does the skill start building.
+
+  NB — the ACN SONG reference buttons below must be kept in sync with
+  reference-decks/INDEX.md: before showing the widget, regenerate this block from the
+  library so new references appear as options. (See SKILL.md §Workflow.)
+
+  NOTE: no file dropzone (a custom widget can't attach bytes to chat) — files
+  (DESIGN.md, photos, source deck) are attached in the chat composer.
+-->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+.cop{--accent:#a100ff;--accent-d:#7500c0;--accent-t:#f7f0ff;--accent-b:#e3ccff;--ink:#1f1f1f;--ink2:#605e5c;--line:#ededeb;--line2:#d9d9d6;--surf2:#faf9f8;font-family:'Segoe UI','Segoe UI Variable Text',system-ui,'Inter',-apple-system,sans-serif;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:16px;box-shadow:0 6px 28px rgba(0,0,0,0.06);padding:30px 34px 26px}
+.cop *{box-sizing:border-box}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+.cop-head{display:flex;gap:14px;align-items:center}
+.cop-ic{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,#c2a3ff 0%,#a100ff 55%,#7500c0 100%);display:flex;align-items:center;justify-content:center;color:#fff;flex:none;font-size:22px}
+.cop-h1{font-size:20px;font-weight:600;margin:0;line-height:1.25}
+.cop-sub{font-size:13px;color:var(--ink2);margin:2px 0 0}
+.cop-div{border:none;border-top:1px solid var(--line);margin:22px 0 26px}
+.q{margin-bottom:26px}
+.q-lbl{font-size:15px;font-weight:600;margin:0 0 12px;color:var(--ink)}
+.q-lbl .n{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--accent-t);color:var(--accent-d);font-size:12px;font-weight:600;margin-right:9px;vertical-align:1px}
+.row{display:flex;flex-wrap:wrap;gap:10px}
+.opt{position:relative;border:1px solid var(--line2);border-radius:10px;background:#fff;cursor:pointer;font:inherit;color:var(--ink);transition:border-color .15s,background .15s,box-shadow .15s;text-align:left}
+.opt:hover{border-color:var(--accent);box-shadow:0 2px 10px rgba(0,0,0,0.08)}
+.opt.sel{border:1.5px solid var(--accent);background:var(--accent-t);box-shadow:0 0 0 3px rgba(161,0,255,0.12)}
+.opt.card{padding:14px 16px;display:flex;gap:12px;align-items:flex-start;min-width:190px}
+.opt.pill{padding:9px 18px;border-radius:999px;font-size:13px;font-weight:500}
+.opt.pill.sel{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 3px 10px rgba(161,0,255,0.28)}
+.opt .dot{width:20px;height:20px;border-radius:6px;flex:none;margin-top:1px;background:var(--accent-t);border:1px solid var(--accent-b)}
+.opt.sel .dot{background:var(--accent)}
+.ck{position:absolute;top:10px;right:10px;width:18px;height:18px;border-radius:50%;display:none;align-items:center;justify-content:center;background:var(--accent);color:#fff;font-size:11px;font-weight:700}
+.opt.card.sel .ck{display:flex}
+.opt.hidden{display:none}
+.ot{font-size:14px;font-weight:600;line-height:1.3}
+.os{font-size:12px;color:var(--ink2);display:block;margin-top:3px}
+.opt.sel .os{color:var(--accent-d)}
+.note{font-size:13px;color:var(--ink2);line-height:1.5}
+.note code{font-size:12px;background:#fff;border:1px solid var(--line2);border-radius:5px;padding:1px 6px}
+.sub{display:none;flex-direction:column;gap:10px;margin-top:12px;padding:14px 16px;background:var(--surf2);border:1px solid var(--line);border-radius:12px}
+.sub.show{display:flex}
+.sub-lbl{font-size:13px;font-weight:600;color:var(--ink)}
+.cop textarea,.cop input[type=text]{width:100%;font:inherit;font-size:13px;color:var(--ink);background:#fff;border:1px solid var(--line2);border-radius:8px;padding:11px 13px;outline:none;transition:border-color .15s,box-shadow .15s}
+.cop textarea{min-height:120px;resize:vertical}
+.cop textarea:focus,.cop input[type=text]:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(161,0,255,0.12)}
+.foot{display:flex;align-items:center;gap:14px;margin-top:6px;padding-top:22px;border-top:1px solid var(--line)}
+.brand{font-size:13px;color:var(--ink2);margin-right:auto}
+.brand b{font-weight:600;color:var(--accent)}
+.err{font-size:13px;color:var(--accent-d);display:none}
+.cta{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:8px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;border:none;background:var(--accent);color:#fff;box-shadow:0 3px 10px rgba(161,0,255,0.28);transition:background .15s}
+.cta:hover{background:var(--accent-d)}
+</style>
+<div class="cop">
+  <h2 class="sr-only">Pannello di configurazione della presentazione: formato, direzione creativa, reference, multimedia e testo sorgente.</h2>
+  <div class="cop-head">
+    <div class="cop-ic" aria-hidden="true">✦</div>
+    <div>
+      <h1 class="cop-h1">Genera la tua presentazione</h1>
+      <p class="cop-sub">Accenture Song · configurazione deck</p>
+    </div>
+  </div>
+  <hr class="cop-div">
+
+  <div class="q" data-group="output">
+    <p class="q-lbl"><span class="n">1</span>Che formato vuoi in uscita?</p>
+    <div class="row">
+      <button type="button" class="opt card" data-value="PPT (.pptx nativo)"><span class="dot" aria-hidden="true"></span><span><span class="ot">PPT</span><span class="os">PowerPoint .pptx</span></span><span class="ck">✓</span></button>
+      <button type="button" class="opt card" data-value="Deck interattivo (HTML animato)"><span class="dot" aria-hidden="true"></span><span><span class="ot">Deck interattivo</span><span class="os">HTML animato</span></span><span class="ck">✓</span></button>
+      <button type="button" class="opt card" data-value="Entrambi (PPT + HTML)"><span class="dot" aria-hidden="true"></span><span><span class="ot">Entrambi</span><span class="os">PPT + HTML</span></span><span class="ck">✓</span></button>
+    </div>
+  </div>
+
+  <div class="q" data-group="creative">
+    <p class="q-lbl"><span class="n">2</span>Che direzione creativa preferisci?</p>
+    <div class="row">
+      <button type="button" class="opt card" data-value="ACN SONG"><span class="dot" aria-hidden="true"></span><span><span class="ot">ACN Song</span><span class="os">Ispirata a una reference della libreria</span></span><span class="ck">✓</span></button>
+      <button type="button" class="opt card" data-value="MIX"><span class="dot" aria-hidden="true"></span><span><span class="ot">MIX reference</span><span class="os">Elementi migliori da tutte, tela Song</span></span><span class="ck">✓</span></button>
+      <button type="button" class="opt card" data-value="Custom"><span class="dot" aria-hidden="true"></span><span><span class="ot">Custom</span><span class="os">Brand esterno / design tuo</span></span><span class="ck">✓</span></button>
+    </div>
+
+    <div class="sub" id="sub-acn">
+      <span class="sub-lbl">A quale reference deve ispirarsi?</span>
+      <div class="row" data-group="acn_ref">
+        <!-- ACN-REFS:BEGIN — regenerated from reference-decks/INDEX.md before every show_widget.
+             One <button> per entry; keep "Song Standard" first as the default.
+             data-value = full reference id (name + file); .ot = short label; .os = one-line hint. -->
+        <button type="button" class="opt card" data-value="Song Standard (template FY26 ufficiale)"><span class="dot" aria-hidden="true"></span><span><span class="ot">Song Standard</span><span class="os">Template FY26 · default</span></span><span class="ck">✓</span></button>
+        <button type="button" class="opt card" data-value="Premium — Inclusive Design (premium/style.json)"><span class="dot" aria-hidden="true"></span><span><span class="ot">Premium</span><span class="os">Viola · blade 3D · data-viz</span></span><span class="ck">✓</span></button>
+        <button type="button" class="opt card" data-value="Dark — Design Process (dark/style.json)"><span class="dot" aria-hidden="true"></span><span><span class="ot">Dark</span><span class="os">Dark-tech · mock codice</span></span><span class="ck">✓</span></button>
+        <button type="button" class="opt card" data-value="Canvas — User Research (canvas/style.json)"><span class="dot" aria-hidden="true"></span><span><span class="ot">Canvas</span><span class="os">Light · report UX · mockup</span></span><span class="ck">✓</span></button>
+        <button type="button" class="opt card" data-value="Essential — Digital Offering (essential/style.json)"><span class="dot" aria-hidden="true"></span><span><span class="ot">Essential</span><span class="os">Song on-brand · barra decostruita</span></span><span class="ck">✓</span></button>
+        <!-- ACN-REFS:END -->
+      </div>
+    </div>
+
+    <div class="sub" id="sub-custom">
+      <span class="sub-lbl">Riferimento esterno del brand</span>
+      <span class="note">Incolla un link a un <b>sito</b> o a <b>Figma</b>…</span>
+      <input type="text" id="custom_ref" placeholder="https://sito.com  oppure  https://figma.com/…">
+      <span class="note">…oppure allega in chat un <code>DESIGN.md</code> / brand guidelines di un brand diverso da ACN Song e ne applico i token.</span>
+    </div>
+
+    <div class="sub" id="sub-mix">
+      <span class="sub-lbl">MIX reference — selezione autonoma</span>
+      <span class="note">Analizzo il tuo testo e, per ogni sezione, scelgo l'<b>archetipo</b> più adatto tra <b>tutte</b> le reference (donut e blade Premium, mock codice Dark, flussi Canvas, barra Song…). Tela unica e coerente, sempre in <b>colori Song</b>. Non devi scegliere nulla.</span>
+    </div>
+  </div>
+
+  <div class="q" data-group="multimedia">
+    <p class="q-lbl"><span class="n">3</span>Vuoi contenuti multimediali (foto / video)?</p>
+    <div class="row">
+      <button type="button" class="opt pill" data-value="Sì">Sì</button>
+      <button type="button" class="opt pill" data-value="No">No</button>
+    </div>
+    <div class="sub" id="sub-media">
+      <span class="note">Allega foto/video nella chat. Se servono, dopo l'avvio creo <code>assets/photos</code> e <code>assets/video</code> dentro la cartella del deck.</span>
+    </div>
+  </div>
+
+  <div class="q">
+    <p class="q-lbl"><span class="n">4</span>Incolla il testo della presentazione</p>
+    <textarea id="source_text" placeholder="Titolo, sezioni, contenuti, dati, citazioni… — tutto il testo da cui generare le slide."></textarea>
+  </div>
+
+  <div class="foot">
+    <span class="brand">Accenture <b>Song</b></span>
+    <span class="err" id="err">Completa le scelte mancanti.</span>
+    <button type="button" class="cta" id="submit">Genera la presentazione →</button>
+  </div>
+</div>
+<script>
+(function(){
+  var state={output:"",creative:"",acn_ref:"",multimedia:""};
+  function show(id,on){document.getElementById(id).classList.toggle("show",on);}
+  function pick(groupEl,val,btn){
+    var g=groupEl.getAttribute("data-group");
+    state[g]=val;
+    groupEl.querySelectorAll(".opt").forEach(function(b){if(b.closest("[data-group]")===groupEl)b.classList.remove("sel");});
+    btn.classList.add("sel");
+    reveal();
+  }
+  function reveal(){
+    show("sub-acn",state.creative==="ACN SONG");
+    show("sub-mix",state.creative==="MIX");
+    show("sub-custom",state.creative==="Custom");
+    show("sub-media",state.multimedia==="Sì");
+    if(state.creative!=="ACN SONG"&&state.acn_ref){state.acn_ref="";document.querySelectorAll('[data-group="acn_ref"] .opt').forEach(function(b){b.classList.remove("sel");});}
+  }
+  document.querySelectorAll(".q[data-group], .row[data-group]").forEach(function(grp){
+    grp.querySelectorAll(".opt").forEach(function(btn){
+      if(btn.closest("[data-group]")!==grp) return;
+      btn.addEventListener("click",function(){pick(grp,btn.getAttribute("data-value"),btn);});
+    });
+  });
+  document.getElementById("submit").addEventListener("click",function(){
+    var txt=(document.getElementById("source_text").value||"").trim();
+    var cref=(document.getElementById("custom_ref").value||"").trim();
+    var miss=!state.output||!state.creative||!state.multimedia||!txt;
+    if(state.creative==="ACN SONG"&&!state.acn_ref) miss=true;
+    if(miss){document.getElementById("err").style.display="inline";return;}
+    var parts=[];
+    parts.push("Configurazione deck — Formato: "+state.output);
+    if(state.creative==="ACN SONG"){
+      parts.push("Direzione: ACN SONG · reference: "+state.acn_ref);
+    }else if(state.creative==="MIX"){
+      parts.push("Direzione: MIX reference (autonomo — archetipi migliori da tutte le reference, tela Song unica)");
+    }else{
+      parts.push("Direzione: Custom (brand esterno)"+(cref?" · riferimento: "+cref:" · riferimento allegato in chat (DESIGN.md/URL)"));
+    }
+    parts.push("Multimedia: "+state.multimedia);
+    var msg=parts.join(" · ")+"\n\nTesto sorgente:\n"+txt;
+    sendPrompt(msg);
+  });
+})();
+</script>

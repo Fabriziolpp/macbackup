@@ -1,0 +1,46 @@
+{
+  "reference": "Canvas — User Research Report (Isybank_Report.pptx)",
+  "note": "Fidelity style pack for the Canvas UX-research look: bright white / off-white (#F8F7F3) canvas, heavy BLACK Helvetica-style headlines with a single ORANGE accent word, orange underline markers under stats, a green→blue ring-arc motif top-right (asset), full-bleed solid dividers (blue or mint-green) with a ghosted section number, and a 'Canvas | Accenture Song' co-brand lockup bottom-right on every slide.",
+
+  "_color_rule": "COLOURS ARE ALWAYS ACN SONG — Canvas contributes its light report LAYOUT + ring-arc motif only; accent is Song purple #A100FF, not the reference's orange/blue/mint.",
+  "palette": {
+    "brand1": "#A100FF", "brand2": "#7500C0", "brand3": "#460073",
+    "dark":   "#1B0A46", "soft1":  "#F8F7F3", "soft2":  "#C2A3FF",
+    "ink":    "#000000", "gray":   "#5E5E5E", "paper":  "#FFFFFF"
+  },
+  "fonts": { "heading": "Helvetica Neue", "body": "Helvetica Neue", "accent": "Helvetica Neue", "accent_italic": false },
+  "layout": { "align": "left", "radius": 6, "mode": "light", "dark_dividers": false },
+  "decoration": "none",
+
+  "cover": {
+    "asset": "assets/ring-arc.png",
+    "title_color": "#000000",
+    "accent_color": "#A100FF",
+    "kicker_color": "#5E5E5E",
+    "sub_color": "#000000"
+  },
+  "divider": {
+    "asset": null,
+    "fill": "#A100FF",
+    "fill_alt": "#7500C0",
+    "ghost_number": true,
+    "ghost_number_color": "#FFFFFF",
+    "ghost_number_alpha": 22,
+    "title_color": "#FFFFFF",
+    "accent_color": "#FFFFFF",
+    "underline_marker": true
+  },
+  "cards": "flat-white",
+  "content_skin": "canvas",
+  "motifs": {
+    "footer": "co-brand-lockup",
+    "footer_text": "Canvas  |  Accenture Song",
+    "accent_word": true,
+    "underline_marker": "#A100FF",
+    "ring_arc": "assets/ring-arc.png",
+    "eyebrow": "uppercase-tracked",
+    "fraction_header": true,
+    "stars": "#A100FF",
+    "link_arrow": "#A100FF"
+  }
+}

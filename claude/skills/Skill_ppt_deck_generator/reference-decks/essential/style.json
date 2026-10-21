@@ -1,0 +1,21 @@
+{
+  "reference": "Essential — Progettazione digitale inclusiva (Offering_MAECI.pptx)",
+  "note": "Essential IS the on-brand Accenture Song FY26 look. This style pack maps onto the existing engine Song support: decoration:'bar' gives the deconstructed-bar cover / light section dividers / purple 'Thank you', the ACN Song purple palette, and Graphik. Content is light editorial and should use the Song content archetypes (headline + body/bullets + image + built-in 'Accenture Song' footer) — NOT the Premium content_skin, so content_skin is intentionally unset. A real purple-gradient cover background was curated to assets/cover-bg.png; the engine's decoration:'bar' cover currently renders on a flat dark #120A1C field (not the gradient) and the cover.asset branch would suppress the deconstructed bar, so we keep decoration:'bar' for the signature bar and leave the gradient asset available for a future engine tweak.",
+
+  "palette": {
+    "brand1": "#A100FF", "brand2": "#7500C0", "brand3": "#460073",
+    "dark":   "#120A1C", "soft1":  "#E6DCFF", "soft2":  "#C2A3FF",
+    "ink":    "#000000", "gray":   "#818180", "paper":  "#FFFFFF"
+  },
+  "fonts": { "heading": "Graphik", "body": "Graphik", "accent": "Graphik", "accent_italic": false },
+  "layout": { "align": "left", "radius": 0, "mode": "light", "dark_dividers": true },
+
+  "decoration": "bar",
+
+  "cover_asset_available": "assets/cover-bg.png",
+  "_cover_asset_note": "Purple radial-gradient cover/closing background (1642x923, from PPTX image1.png, clean, no baked text). Not wired to cover.asset because that branch suppresses the deconstructed bar; kept for a future gradient-cover engine option.",
+
+  "cards": "flat-sharp",
+  "content_skin": null,
+  "motifs": { "footer": "song", "accent_word": true, "deconstructed_bar": true }
+}

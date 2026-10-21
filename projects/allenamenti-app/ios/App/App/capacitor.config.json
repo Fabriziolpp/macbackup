@@ -1,0 +1,9 @@
+{
+	"appId": "com.fabriziolp.allenamenti",
+	"appName": "Allenamenti",
+	"server": {
+		"url": "https://allenamenti-app.vercel.app",
+		"cleartext": false
+	},
+	"packageClassList": []
+}

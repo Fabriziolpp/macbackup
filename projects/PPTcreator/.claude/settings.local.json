@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//private/tmp/**)",
+      "Bash(mkdir -p slidemaster_extract)",
+      "Bash(unzip -o \"/Users/fabrizio.lo.presti/PPTcreator/slidemaster.pptx\" -d slidemaster_extract)",
+      "Bash(pip3 list *)",
+      "Bash(mkdir -p ~/.claude/skills/AIDAslidecreator/references ~/.claude/skills/AIDAslidecreator/scripts ~/.claude/skills/AIDAslidecreator/evals/specs)",
+      "Bash(cp /Users/fabrizio.lo.presti/PPTcreator/DesignSlide.md ~/.claude/skills/AIDAslidecreator/references/DesignSlide.md)",
+      "Bash(python3 scripts/build_pptx.py evals/specs/minimal.json --out /tmp/aida-minimal.pptx)",
+      "Bash(python3 *)",
+      "Bash(echo \"---EXIT: $?---\")",
+      "Bash(file *)",
+      "Bash(cp \"liquid-steel-{blob,ring,drop}.png\" liquid-steel-blob.png)",
+      "Bash(cp \"liquid-steel-{blob,ring,drop}.png\" liquid-steel-ring.png)",
+      "Bash(cp \"liquid-steel-{blob,ring,drop}.png\" liquid-steel-drop.png)",
+      "Bash(cp \"/Users/fabrizio.lo.presti/.claude/skills/AIDAslidecreator/assets/decorations/liquid-steel-{blob,ring,drop}.png\" /Users/fabrizio.lo.presti/.claude/skills/AIDAslidecreator/assets/decorations/liquid-steel-blob.png)",
+      "Bash(cp \"/Users/fabrizio.lo.presti/.claude/skills/AIDAslidecreator/assets/decorations/liquid-steel-{blob,ring,drop}.png\" /Users/fabrizio.lo.presti/.claude/skills/AIDAslidecreator/assets/decorations/liquid-steel-ring.png)",
+      "Bash(cp \"/Users/fabrizio.lo.presti/.claude/skills/AIDAslidecreator/assets/decorations/liquid-steel-{blob,ring,drop}.png\" /Users/fabrizio.lo.presti/.claude/skills/AIDAslidecreator/assets/decorations/liquid-steel-drop.png)"
+    ]
+  }
+}

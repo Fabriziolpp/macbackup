@@ -1,0 +1,179 @@
+{
+  "title": "L'Ordine di San Benedetto",
+  "subtitle": "Quindici secoli di vita monastica",
+  "date": "April 2026",
+  "author": "Fabrizio Lo Presti",
+  "year": 2026,
+  "slides": [
+    {
+      "type": "cover",
+      "eyebrow": "Storia dell'Ordine",
+      "product_logo": { "glyph": "✠", "wordmark": "OSB" },
+      "title": "L'Ordine di San Benedetto",
+      "title_emphasis": "San Benedetto",
+      "decoration": "petals"
+    },
+    {
+      "type": "section-purple",
+      "chapter_name": "ORIGINI",
+      "chapter_number": "01",
+      "title": "Benedetto da Norcia, ",
+      "title_emphasis": "Montecassino, anno 529"
+    },
+    {
+      "type": "content-white",
+      "chapter_name": "ORIGINI E FONDAZIONE",
+      "chapter_number": "01",
+      "title": "Da Subiaco a Montecassino",
+      "subtitle": "L'Ordine di San Benedetto (O.S.B.) nasce intorno al 529",
+      "body": "Benedetto da Norcia (480/490 – 21 marzo 547), dopo gli studi a Roma e un periodo eremitico a Subiaco, fonda il cenobio di Montecassino, dove resterà fino alla morte. Le notizie sulla sua vita derivano dai Dialoghi di Gregorio Magno.",
+      "body_underline": "Dialoghi di Gregorio Magno",
+      "decoration": "liquid-blob"
+    },
+    {
+      "type": "content-white",
+      "chapter_name": "LA REGOLA",
+      "chapter_number": "01",
+      "title": "Un prologo e ",
+      "title_emphasis": "73 capitoli",
+      "subtitle": "Composta tra il 530 e il 540",
+      "body": "La Regola disciplina struttura del monastero, liturgia delle ore, lavoro e accoglienza. Il monaco emette tre voti: stabilità, obbedienza e conversione dei costumi. Studi filologici recenti hanno mostrato la dipendenza dalla precedente Regula Magistri.",
+      "body_underline": "stabilità, obbedienza e conversione dei costumi",
+      "decoration": "liquid-ring"
+    },
+    {
+      "type": "section-purple",
+      "chapter_name": "DIFFUSIONE",
+      "chapter_number": "02",
+      "title": "Dal VI al IX secolo, ",
+      "title_emphasis": "il monachesimo conquista l'Europa"
+    },
+    {
+      "type": "multi-column",
+      "chapter_name": "TAPPE DECISIVE",
+      "chapter_number": "02",
+      "subtitle": "I momenti che hanno plasmato la diffusione",
+      "subtitle_underline": "diffusione",
+      "decoration": "liquid-blob",
+      "columns": [
+        {
+          "title": "672\\nFleury",
+          "items": [
+            "I monaci di Fleury recuperano le reliquie di Benedetto",
+            "La memoria del fondatore torna in Francia"
+          ]
+        },
+        {
+          "title": "717\\nMontecassino",
+          "items": [
+            "Ricostruzione del cenobio originario",
+            "Riapertura del centro spirituale dell'Ordine"
+          ]
+        },
+        {
+          "title": "817\\nAquisgrana",
+          "items": [
+            { "label": "Capitulare Monasticum", "desc": "ispirato da Benedetto d'Aniane" },
+            { "label": "Imposizione", "desc": "a tutti i monasteri franco-germanici" }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "content-white",
+      "chapter_name": "CENTRI CULTURALI",
+      "chapter_number": "02",
+      "title": "Scriptoria, biblioteche, scuole",
+      "subtitle": "I monasteri come motore della cultura altomedievale",
+      "body": "Su impulso dell'Admonitio Generalis di Carlo Magno (789), i monasteri benedettini divennero centri di copia, conservazione e insegnamento. Custodi della cultura classica, antenati delle università.",
+      "body_underline": "Admonitio Generalis di Carlo Magno",
+      "decoration": "liquid-drop"
+    },
+    {
+      "type": "section-purple",
+      "chapter_name": "CRISI E RIFORME",
+      "chapter_number": "03",
+      "title": "Dopo l'impero carolingio, ",
+      "title_emphasis": "il monachesimo si reinventa"
+    },
+    {
+      "type": "multi-column",
+      "chapter_name": "LE GRANDI RIFORME",
+      "chapter_number": "03",
+      "subtitle": "Risposte plurali alla crisi del X-XII secolo",
+      "subtitle_underline": "crisi",
+      "decoration": "liquid-ring",
+      "columns": [
+        {
+          "title": "Cluny\\n909/910",
+          "items": [
+            "Centralizzata, esente da autorità vescovile",
+            "Circa 1.300 monasteri in Francia",
+            "Diffusione in Germania, Italia, Spagna"
+          ]
+        },
+        {
+          "title": "Gorze &\\nLorena",
+          "items": [
+            "Riforma parallela senza esenzione",
+            "Camaldoli (san Romualdo): ritorno all'eremitismo",
+            "Fonte Avellana (Pier Damiani)"
+          ]
+        },
+        {
+          "title": "Italia &\\nautonomia",
+          "items": [
+            { "label": "Vallombrosa", "desc": "Giovanni Gualberto" },
+            { "label": "Montevergine", "desc": "anti-simonia" },
+            { "label": "1098", "desc": "nascita di Cîteaux" }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "content-white",
+      "chapter_name": "DECLINO E NUOVE FAMIGLIE",
+      "chapter_number": "04",
+      "title": "Concorrenza dei ",
+      "title_emphasis": "mendicanti",
+      "subtitle": "XIII-XIV secolo: monasteri spopolati, nuove congregazioni",
+      "body": "La bolla Summi Magistri (1336) di Benedetto XII tenta una riorganizzazione con effetti limitati. Sorgono nuove famiglie: silvestrini (1231), celestini (1259), olivetani (1313, Bernardo Tolomei).",
+      "body_underline": "olivetani (1313, Bernardo Tolomei)",
+      "decoration": "liquid-blob"
+    },
+    {
+      "type": "content-white",
+      "chapter_name": "MOVIMENTO DE UNITATE",
+      "chapter_number": "05",
+      "title": "Ludovico Barbo e ",
+      "title_emphasis": "Santa Giustina di Padova",
+      "subtitle": "Una nuova architettura di governo monastico (XV secolo)",
+      "body": "Contro l'abuso della commenda, nel 1419 nasce la congregazione de Unitate. Dal 1504, con l'ingresso di Montecassino, diventa Cassinese: capitolo generale annuale, abate presidente e mobilità dei monaci. Riforme parallele in Germania (Bursfelde, Melk) e Spagna (Montserrat, Valladolid).",
+      "body_underline": "abate presidente e mobilità dei monaci",
+      "decoration": "liquid-ring"
+    },
+    {
+      "type": "dark",
+      "title": "1521. ",
+      "title_emphasis": "La Riforma protestante.",
+      "body": "Delle oltre 1.500 abbazie europee di inizio Cinquecento, ne sopravvivono circa 800. In Inghilterra, dal 1528 Enrico VIII avvia la dissoluzione dei monasteri.",
+      "decoration": "liquid-drop"
+    },
+    {
+      "type": "section-purple",
+      "chapter_name": "LA CONFEDERAZIONE",
+      "chapter_number": "06",
+      "title": "1893: Leone XIII riunisce ",
+      "title_emphasis": "tutte le congregazioni"
+    },
+    {
+      "type": "closing",
+      "contact": {
+        "name": "Sant'Anselmo all'Aventino",
+        "role": "Sede dell'Abate Primate",
+        "org": "Confederatio Benedictina",
+        "department": "Roma — dal 1893"
+      }
+    }
+  ]
+}

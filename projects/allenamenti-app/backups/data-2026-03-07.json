@@ -1,0 +1,26 @@
+{
+  "workouts": [],
+  "schede": [
+    {
+      "id": "1772907184462",
+      "nome": "Marzo 2026",
+      "mese": "Marzo 2026",
+      "tipi": [
+        {
+          "id": "1772907196930",
+          "nome": "Giorno 1",
+          "esercizi": [
+            {
+              "id": "1772907218168",
+              "titolo": "Dragon flag 1 Leg",
+              "ripetizioni": "",
+              "carico": "",
+              "recupero": "",
+              "note": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

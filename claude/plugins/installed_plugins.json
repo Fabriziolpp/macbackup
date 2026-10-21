@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "plugins": {
+    "skill-creator@claude-plugins-official": [
+      {
+        "scope": "project",
+        "projectPath": "/Users/fabrizio.lo.presti/allenamenti-app",
+        "installPath": "/Users/fabrizio.lo.presti/.claude/plugins/cache/claude-plugins-official/skill-creator/f359d43b4060",
+        "version": "f359d43b4060",
+        "installedAt": "2026-06-08T16:31:38.259Z",
+        "lastUpdated": "2026-10-13T12:28:01.879Z",
+        "gitCommitSha": "f359d43b406057f1a8cdbc4ea93b827642c162e6"
+      }
+    ],
+    "superpowers@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/fabrizio.lo.presti/.claude/plugins/cache/claude-plugins-official/superpowers/6.4.1",
+        "version": "6.4.1",
+        "installedAt": "2026-07-22T18:34:10.429Z",
+        "lastUpdated": "2026-10-13T12:28:09.177Z",
+        "gitCommitSha": "5bf4e78011075bcfc0dc295f0724994cd123ee71"
+      }
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "song-standard",
+  "mood": "Accenture Song FY26 master — light default, deconstructed bar, sharp & flat",
+  "_source": "DESIGN.md + FY26 Song Template (resources/)",
+  "fonts": { "heading": "Graphik", "body": "Graphik", "accent": "Graphik", "accent_italic": false },
+  "palette": {
+    "brand1": "#A100FF", "brand2": "#7500C0", "brand3": "#460073",
+    "dark": "#120A1C", "soft1": "#E6DCFF", "soft2": "#C2A3FF",
+    "ink": "#000000", "gray": "#818180", "paper": "#FFFFFF"
+  },
+  "layout": { "align": "left", "radius": 0, "mode": "light", "dark_dividers": true },
+  "decoration": "bar"
+}

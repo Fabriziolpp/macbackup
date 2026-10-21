@@ -1,0 +1,118 @@
+<!--
+  TEMPLATE — page skeleton for any Skill_ppt_deck_generator output, ANY theme.
+
+  Build process:
+    1. Concatenate inside <style>:
+         a. The contents of ~/.claude/skills/Skill_ppt_deck_generator/themes/_shared.css
+         b. The contents of ~/.claude/skills/Skill_ppt_deck_generator/themes/<chosen-theme>/style.css
+       (in this order — theme overrides shared where they collide)
+
+    2. In :root, override --brand-1..--soft-2 with values from DESIGN.md
+       or from the pptx-extracted palette.
+
+    3. If using local fonts, prepend @font-face blocks pointing to fonts/.
+       (omit if no fonts provided — system stack handles it via the theme.)
+
+    4. Insert <section class="slide"> blocks inside <div class="deck">,
+       using markup from reference/slide-types.md.
+       FIRST slide must have class "active".
+
+  Multi-variant mode: produce N copies of this template, each with a different
+  theme's CSS injected, identical body content, identical asset folders.
+-->
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>{{DECK_TITLE}}</title>
+<style>
+  /* @font-face blocks here (only if user supplied local fonts) */
+
+  /* ── CONCATENATE: themes/_shared.css + themes/<chosen>/style.css ── */
+  /* The chosen theme's :root defines defaults; override below with
+     values from DESIGN.md or extracted pptx palette. */
+</style>
+</head>
+<body>
+
+<div class="progress"><i id="prog"></i></div>
+<div class="hint"><kbd>←</kbd><kbd>→</kbd> per navigare</div>
+
+<div class="deck" id="deck">
+
+  <!-- Insert <section class="slide"> blocks here in order.        -->
+  <!-- The first slide must have class "active".                    -->
+  <!-- Use markup from reference/slide-types.md.                    -->
+
+</div>
+
+<div class="nav">
+  <button id="prev" aria-label="precedente">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+  </button>
+  <div class="dots" id="dots"></div>
+  <span class="count" id="count">01 / 01</span>
+  <button id="next" aria-label="successivo">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+  </button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dotsEl = document.getElementById('dots');
+  const countEl = document.getElementById('count');
+  const progEl = document.getElementById('prog');
+  let cur = 0;
+  const total = slides.length;
+
+  slides.forEach((_,i)=>{
+    const d = document.createElement('i');
+    d.addEventListener('click',()=>go(i));
+    dotsEl.appendChild(d);
+  });
+  const dots = dotsEl.querySelectorAll('i');
+
+  function go(i){
+    if(i<0||i>=total||i===cur) return;
+    slides[cur].classList.remove('active');
+    slides[cur].classList.add(i>cur?'prev':'next');
+    setTimeout(()=>{slides.forEach(s=>{if(!s.classList.contains('active'))s.classList.remove('prev','next')})},900);
+    cur = i;
+    slides[cur].classList.remove('prev','next');
+    slides[cur].classList.add('active');
+    update();
+  }
+  function update(){
+    dots.forEach((d,i)=>d.classList.toggle('on',i===cur));
+    countEl.textContent = String(cur+1).padStart(2,'0')+' / '+String(total).padStart(2,'0');
+    progEl.style.width = ((cur+1)/total*100)+'%';
+  }
+  document.querySelectorAll('[data-goto]').forEach(el=>{
+    el.addEventListener('click',()=>go(parseInt(el.dataset.goto,10)));
+  });
+  document.getElementById('prev').onclick = ()=>go(cur-1);
+  document.getElementById('next').onclick = ()=>go(cur+1);
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown') {e.preventDefault();go(cur+1);}
+    if(e.key==='ArrowLeft'||e.key==='PageUp') {e.preventDefault();go(cur-1);}
+    if(e.key==='Home') go(0);
+    if(e.key==='End') go(total-1);
+  });
+  let tx=0;
+  document.addEventListener('touchstart',e=>tx=e.changedTouches[0].clientX);
+  document.addEventListener('touchend',e=>{
+    const d = e.changedTouches[0].clientX - tx;
+    if(Math.abs(d)>60) go(cur + (d<0?1:-1));
+  });
+  let wl=0;
+  document.addEventListener('wheel',e=>{
+    const now=Date.now(); if(now-wl<800) return;
+    if(Math.abs(e.deltaY)<30) return;
+    wl=now; go(cur + (e.deltaY>0?1:-1));
+  },{passive:true});
+
+  update();
+</script>
+</body>
+</html>
