@@ -11,7 +11,8 @@ EXCLUDES="$DEST/scripts/excludes.txt"
 copy_dir() {
   if [ ! -d "$1" ]; then echo "  (manca, salto) $1"; return; fi
   mkdir -p "$DEST/$2"
-  rsync -a --delete --exclude-from="$EXCLUDES" "$1/" "$DEST/$2/"
+  # --delete-excluded: toglie dal repo anche i file diventati esclusi dopo un backup precedente
+  rsync -a --delete --delete-excluded --exclude-from="$EXCLUDES" "$1/" "$DEST/$2/"
   echo "  ok  $2"
 }
 
