@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Allenamenti</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    /* ── Card ── */
+    .card { background: white; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+    input, select, textarea { outline: none; }
+    input:focus, select:focus, textarea:focus { box-shadow: 0 0 0 2px #3b82f6; }
+
+    /* ── Dark mode overrides ── */
+    html.dark body          { background-color: #0f172a; color: #e2e8f0; }
+    html.dark .card         { background: #1e293b; box-shadow: 0 1px 6px rgba(0,0,0,0.4); }
+    html.dark nav           { background: #1e293b !important; border-color: #334155; }
+    html.dark .bg-white     { background-color: #1e293b !important; }
+    html.dark .bg-gray-50   { background-color: #0f172a !important; }
+    html.dark .bg-gray-100  { background-color: #1e293b !important; }
+    html.dark input, html.dark select, html.dark textarea {
+      background: #0f172a !important; border-color: #334155 !important; color: #e2e8f0 !important; }
+    html.dark .border-gray-200 { border-color: #334155 !important; }
+    html.dark .border-gray-100 { border-color: #2d3748 !important; }
+    html.dark .text-gray-800   { color: #e2e8f0 !important; }
+    html.dark .text-gray-700   { color: #cbd5e1 !important; }
+    html.dark .text-gray-600   { color: #94a3b8 !important; }
+    html.dark .text-gray-500   { color: #64748b !important; }
+    html.dark .text-gray-400   { color: #475569 !important; }
+    html.dark .bg-blue-50      { background-color: rgba(59,130,246,0.15) !important; }
+    html.dark .hover\:bg-gray-100:hover { background-color: #1e293b !important; }
+    html.dark .hover\:bg-gray-50:hover  { background-color: #0f172a !important; }
+    html.dark .tab-btn.text-gray-500 { color: #64748b; }
+
+    /* ── Drag & drop ── */
+    .dnd-row { cursor: grab; }
+    .dnd-row:active { cursor: grabbing; }
+    .dnd-row.dragging { opacity: 0.35; }
+    .dnd-row.drag-over { border-top: 2px solid #3b82f6; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans text-gray-800">
+
+<!-- ═══════════════════════════ NAV ═══════════════════════════ -->
+<nav class="bg-white shadow-sm sticky top-0 z-50">
+  <div class="max-w-2xl mx-auto px-4 flex items-center">
+    <div class="flex overflow-x-auto flex-1">
+      <button onclick="setTab('home')"      id="tab-home"      class="tab-btn px-4 py-4 text-sm whitespace-nowrap border-b-2 border-transparent text-gray-500 transition-colors">Home</button>
+      <button onclick="setTab('settimana')" id="tab-settimana" class="tab-btn px-4 py-4 text-sm whitespace-nowrap border-b-2 border-transparent text-gray-500 transition-colors">Settimana</button>
+      <button onclick="setTab('mese')"      id="tab-mese"      class="tab-btn px-4 py-4 text-sm whitespace-nowrap border-b-2 border-transparent text-gray-500 transition-colors">Mese</button>
+      <button onclick="setTab('anno')"      id="tab-anno"      class="tab-btn px-4 py-4 text-sm whitespace-nowrap border-b-2 border-transparent text-gray-500 transition-colors">Anno</button>
+      <button onclick="setTab('schede')"    id="tab-schede"    class="tab-btn px-4 py-4 text-sm whitespace-nowrap border-b-2 border-transparent text-gray-500 transition-colors">Schede</button>
+    </div>
+    <!-- Dark mode toggle -->
+    <button onclick="toggleDarkMode()" class="ml-2 p-2 rounded-lg hover:bg-gray-100 text-gray-500 shrink-0" title="Cambia tema">
+      <svg id="icon-dark" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 7a5 5 0 000 10 5 5 0 000-10z"/></svg>
+      <svg id="icon-light" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+    </button>
+  </div>
+</nav>
+
+<main class="max-w-2xl mx-auto px-4 py-6">
+
+  <!-- ═══════════════════════════════════════════ HOME ═══ -->
+  <div id="page-home" class="tab-page">
+
+    <!-- Streak banner -->
+    <div id="streak-banner" class="mb-4"></div>
+
+    <h1 class="text-xl font-bold mb-4">Registra allenamento</h1>
+    <div class="card p-5 mb-6">
+      <form id="workout-form" onsubmit="saveWorkout(event)" class="space-y-4">
+        <input type="hidden" id="edit-workout-id" value="" />
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-medium text-gray-500 mb-1">Data</label>
+            <input type="date" id="f-date" required class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-gray-500 mb-1">Ora</label>
+            <input type="time" id="f-time" required class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" />
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-gray-500 mb-1">Scheda</label>
+          <select id="f-scheda" required class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white" onchange="onSchedaChange()">
+            <option value="">Seleziona scheda…</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-gray-500 mb-1">Tipo di allenamento</label>
+          <select id="f-tipo" required disabled class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white">
+            <option value="">Prima seleziona una scheda…</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-gray-500 mb-1">Durata (minuti)</label>
+          <input type="number" id="f-duration" min="1" step="1" required
+            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" placeholder="es. 60" />
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-gray-500 mb-1">Note</label>
+          <textarea id="f-notes" rows="2"
+            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm resize-none" placeholder="Facoltativo…"></textarea>
+        </div>
+        <div class="flex gap-3">
+          <button type="submit" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg py-2.5 text-sm transition-colors">Salva</button>
+          <button type="button" id="cancel-edit-btn" onclick="cancelEdit()" style="display:none"
+            class="px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-lg py-2.5 text-sm transition-colors">Annulla</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="flex items-center justify-between mb-3">
+      <h2 class="text-base font-semibold">Allenamenti recenti</h2>
+    </div>
+    <div id="recent-list" class="space-y-3"></div>
+    <button id="load-more-btn" onclick="loadMoreRecent()" style="display:none"
+      class="mt-4 w-full border border-gray-200 text-gray-600 rounded-lg py-2.5 text-sm font-semibold hover:bg-gray-50 transition-colors">
+      Carica altri
+    </button>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SETTIMANA ═══ -->
+  <div id="page-settimana" class="tab-page hidden">
+    <div class="flex items-center justify-between mb-4">
+      <button onclick="prevWeek()" class="p-2 rounded-lg hover:bg-gray-100 text-gray-500">&#8592;</button>
+      <h1 class="text-base font-bold text-center" id="week-title"></h1>
+      <button onclick="nextWeek()" class="p-2 rounded-lg hover:bg-gray-100 text-gray-500">&#8594;</button>
+    </div>
+    <div class="grid grid-cols-2 gap-3 mb-5">
+      <div class="card p-4 text-center">
+        <div class="text-2xl font-bold text-blue-600" id="week-count">0</div>
+        <div class="text-xs text-gray-500 mt-1">Allenamenti</div>
+      </div>
+      <div class="card p-4 text-center">
+        <div class="text-2xl font-bold text-green-600" id="week-mins">0</div>
+        <div class="text-xs text-gray-500 mt-1">Minuti totali</div>
+      </div>
+    </div>
+    <div id="week-list" class="space-y-3"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ MESE ═══ -->
+  <div id="page-mese" class="tab-page hidden">
+    <div class="flex items-center justify-between mb-4">
+      <button onclick="prevMonth()" class="p-2 rounded-lg hover:bg-gray-100 text-gray-500">&#8592;</button>
+      <h1 class="text-base font-bold text-center" id="month-title"></h1>
+      <button onclick="nextMonth()" class="p-2 rounded-lg hover:bg-gray-100 text-gray-500">&#8594;</button>
+    </div>
+    <div class="grid grid-cols-3 gap-3 mb-5">
+      <div class="card p-4 text-center">
+        <div class="text-2xl font-bold text-blue-600" id="month-count">0</div>
+        <div class="text-xs text-gray-500 mt-1">Allenamenti</div>
+      </div>
+      <div class="card p-4 text-center">
+        <div class="text-2xl font-bold text-green-600" id="month-mins">0</div>
+        <div class="text-xs text-gray-500 mt-1">Minuti totali</div>
+      </div>
+      <div class="card p-4 text-center">
+        <div class="text-2xl font-bold text-purple-600" id="month-avg">0</div>
+        <div class="text-xs text-gray-500 mt-1">Media/sett.</div>
+      </div>
+    </div>
+    <!-- Chart -->
+    <div class="card p-4 mb-5">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Progressi settimanali</span>
+        <div class="flex gap-1">
+          <button id="month-btn-min" onclick="setMonthMode('minuti')" class="px-2 py-1 text-xs rounded font-medium bg-blue-600 text-white transition-colors">Min</button>
+          <button id="month-btn-cnt" onclick="setMonthMode('count')"  class="px-2 py-1 text-xs rounded font-medium bg-gray-100 text-gray-600 transition-colors">Sessioni</button>
+        </div>
+      </div>
+      <div style="position:relative;height:160px">
+        <canvas id="month-chart"></canvas>
+      </div>
+    </div>
+    <div id="month-list" class="space-y-3"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ ANNO ═══ -->
+  <div id="page-anno" class="tab-page hidden">
+    <div class="flex items-center justify-between mb-4">
+      <button onclick="prevYear()" class="p-2 rounded-lg hover:bg-gray-100 text-gray-500">&#8592;</button>
+      <h1 class="text-base font-bold text-center" id="year-title"></h1>
+      <button onclick="nextYear()" class="p-2 rounded-lg hover:bg-gray-100 text-gray-500">&#8594;</button>
+    </div>
+    <div class="grid grid-cols-2 gap-3 mb-5">
+      <div class="card p-4 text-center">
+        <div class="text-2xl font-bold text-blue-600" id="year-count">0</div>
+        <div class="text-xs text-gray-500 mt-1">Allenamenti</div>
+      </div>
+      <div class="card p-4 text-center">
+        <div class="text-2xl font-bold text-green-600" id="year-mins">0</div>
+        <div class="text-xs text-gray-500 mt-1">Minuti totali</div>
+      </div>
+    </div>
+    <!-- Chart -->
+    <div class="card p-4 mb-5">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Progressi mensili</span>
+        <div class="flex gap-1">
+          <button id="year-btn-min" onclick="setYearMode('minuti')" class="px-2 py-1 text-xs rounded font-medium bg-blue-600 text-white transition-colors">Min</button>
+          <button id="year-btn-cnt" onclick="setYearMode('count')"  class="px-2 py-1 text-xs rounded font-medium bg-gray-100 text-gray-600 transition-colors">Sessioni</button>
+        </div>
+      </div>
+      <div style="position:relative;height:160px">
+        <canvas id="year-chart"></canvas>
+      </div>
+    </div>
+    <h2 class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Riepilogo mensile</h2>
+    <div id="year-monthly" class="space-y-2 mb-5"></div>
+    <h2 class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Tutti gli allenamenti</h2>
+    <div id="year-list" class="space-y-3"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SCHEDE ═══ -->
+  <div id="page-schede" class="tab-page hidden">
+    <div class="flex items-center justify-between mb-4">
+      <h1 class="text-xl font-bold">Schede</h1>
+      <button onclick="openSchedaModal()" class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">+ Nuova scheda</button>
+    </div>
+
+    <!-- API Key config -->
+    <div id="apikey-box" class="card p-4 mb-4 border-l-4 border-yellow-400 hidden">
+      <div class="flex items-start gap-3">
+        <svg class="w-5 h-5 text-yellow-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+        </svg>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-semibold text-gray-700 mb-1">Configura API Key Anthropic</p>
+          <p class="text-xs text-gray-500 mb-3">Necessaria per l'import automatico da PDF. La chiave viene salvata in locale sul tuo Mac. <a href="https://console.anthropic.com/settings/keys" target="_blank" class="text-blue-500 underline">Ottienila qui →</a></p>
+          <div id="apikey-set-form">
+            <div class="flex gap-2">
+              <input type="password" id="apikey-input" placeholder="sk-ant-api03-…"
+                class="flex-1 border border-gray-200 rounded-lg px-3 py-2 text-sm font-mono" />
+              <button onclick="saveApiKey()" class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors whitespace-nowrap">Salva</button>
+            </div>
+          </div>
+          <div id="apikey-saved-form" class="hidden flex items-center gap-3">
+            <span class="text-xs font-mono text-gray-500 bg-gray-100 px-2 py-1 rounded" id="apikey-masked"></span>
+            <button onclick="removeApiKey()" class="text-xs text-red-500 hover:underline">Rimuovi</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PDF Drop Zone -->
+    <div id="pdf-drop-zone"
+      class="relative border-2 border-dashed border-gray-200 rounded-xl p-6 mb-5 text-center transition-all duration-200 cursor-pointer hover:border-blue-400 hover:bg-blue-50 group"
+      ondragover="pdfDragOver(event)" ondragleave="pdfDragLeave(event)" ondrop="pdfDrop(event)"
+      onclick="document.getElementById('pdf-input').click()">
+      <input type="file" id="pdf-input" accept=".pdf" class="hidden" onchange="pdfFileSelected(event)" />
+
+      <!-- Idle state -->
+      <div id="pdf-idle">
+        <div class="flex justify-center mb-3">
+          <div class="w-12 h-12 bg-red-50 group-hover:bg-red-100 rounded-xl flex items-center justify-center transition-colors">
+            <svg class="w-7 h-7 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+          </div>
+        </div>
+        <p class="text-sm font-semibold text-gray-600 group-hover:text-blue-600 transition-colors">Importa scheda da PDF</p>
+        <p class="text-xs text-gray-400 mt-1">Trascina qui il file oppure <span class="text-blue-500 underline">clicca per selezionarlo</span></p>
+        <p class="text-xs text-gray-300 mt-2">L'AI legge il PDF e crea la scheda automaticamente</p>
+      </div>
+
+      <!-- Loading state -->
+      <div id="pdf-loading" class="hidden">
+        <div class="flex justify-center mb-3">
+          <svg class="w-8 h-8 text-blue-500 animate-spin" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+          </svg>
+        </div>
+        <p class="text-sm font-semibold text-blue-600" id="pdf-status">Lettura del PDF…</p>
+        <p class="text-xs text-gray-400 mt-1">L'AI sta analizzando la scheda</p>
+      </div>
+    </div>
+
+    <div id="schede-list" class="space-y-4"></div>
+  </div>
+
+</main>
+
+<!-- ═══════════════════════════════ MODALS ══════════════════════════════════ -->
+<!-- Toast notification -->
+<div id="toast" class="hidden fixed bottom-5 left-1/2 -translate-x-1/2 z-[60] px-5 py-3 rounded-xl shadow-lg text-sm font-medium text-white max-w-sm text-center transition-all duration-300">
+  <span id="toast-msg"></span>
+</div>
+
+<div id="modal-backdrop" onclick="closeAllModals()" class="hidden fixed inset-0 bg-black/40 z-40"></div>
+
+<!-- Modal: Scheda -->
+<div id="modal-scheda" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4">
+  <div class="card w-full max-w-md p-5" onclick="event.stopPropagation()">
+    <h2 class="text-lg font-bold mb-4" id="modal-scheda-title">Nuova scheda</h2>
+    <div class="space-y-3">
+      <div>
+        <label class="block text-xs font-medium text-gray-500 mb-1">Nome scheda</label>
+        <input type="text" id="ms-nome" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" placeholder="es. Scheda Marzo 2026" />
+      </div>
+      <div>
+        <label class="block text-xs font-medium text-gray-500 mb-1">Mese/Periodo (facoltativo)</label>
+        <input type="text" id="ms-mese" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" placeholder="es. Marzo 2026" />
+      </div>
+    </div>
+    <div class="flex gap-3 mt-5">
+      <button onclick="closeAllModals()" class="flex-1 border border-gray-200 text-gray-600 rounded-lg py-2.5 text-sm font-semibold hover:bg-gray-50">Annulla</button>
+      <button onclick="saveScheda()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg py-2.5 text-sm font-semibold transition-colors">Salva</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Duplica scheda -->
+<div id="modal-duplica" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4">
+  <div class="card w-full max-w-md p-5" onclick="event.stopPropagation()">
+    <h2 class="text-lg font-bold mb-4">Duplica scheda</h2>
+    <div class="space-y-3">
+      <div>
+        <label class="block text-xs font-medium text-gray-500 mb-1">Nuovo nome</label>
+        <input type="text" id="dup-nome" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" placeholder="es. Scheda Aprile 2026" />
+      </div>
+      <div>
+        <label class="block text-xs font-medium text-gray-500 mb-1">Mese/Periodo (facoltativo)</label>
+        <input type="text" id="dup-mese" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" placeholder="es. Aprile 2026" />
+      </div>
+    </div>
+    <div class="flex gap-3 mt-5">
+      <button onclick="closeAllModals()" class="flex-1 border border-gray-200 text-gray-600 rounded-lg py-2.5 text-sm font-semibold hover:bg-gray-50">Annulla</button>
+      <button onclick="confirmDuplica()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg py-2.5 text-sm font-semibold transition-colors">Duplica</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Tipo -->
+<div id="modal-tipo" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4">
+  <div class="card w-full max-w-md p-5" onclick="event.stopPropagation()">
+    <h2 class="text-lg font-bold mb-4" id="modal-tipo-title">Nuovo tipo di allenamento</h2>
+    <div>
+      <label class="block text-xs font-medium text-gray-500 mb-1">Nome</label>
+      <input type="text" id="mt-nome" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" placeholder="es. Forza, Cardio, Yoga…" />
+    </div>
+    <div class="flex gap-3 mt-5">
+      <button onclick="closeAllModals()" class="flex-1 border border-gray-200 text-gray-600 rounded-lg py-2.5 text-sm font-semibold hover:bg-gray-50">Annulla</button>
+      <button onclick="saveTipo()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg py-2.5 text-sm font-semibold transition-colors">Salva</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Esercizio -->
+<div id="modal-esercizio" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4">
+  <div class="card w-full max-w-md p-5" onclick="event.stopPropagation()">
+    <h2 class="text-lg font-bold mb-4" id="modal-esercizio-title">Nuovo esercizio</h2>
+    <div class="space-y-3">
+      <div>
+        <label class="block text-xs font-medium text-gray-500 mb-1">Esercizio</label>
+        <input type="text" id="me-titolo" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" placeholder="es. Squat" />
+      </div>
+      <div class="grid grid-cols-3 gap-3">
+        <div>
+          <label class="block text-xs font-medium text-gray-500 mb-1">Ripetizioni</label>
+          <input type="text" id="me-rip" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" placeholder="es. 4x8" />
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-gray-500 mb-1">Carico</label>
+          <input type="text" id="me-carico" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" placeholder="es. 80kg" />
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-gray-500 mb-1">Recupero</label>
+          <input type="text" id="me-recupero" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" placeholder="es. 90s" />
+        </div>
+      </div>
+      <div>
+        <label class="block text-xs font-medium text-gray-500 mb-1">Note</label>
+        <textarea id="me-note" rows="2" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm resize-none" placeholder="Facoltativo…"></textarea>
+      </div>
+    </div>
+    <div class="flex gap-3 mt-5">
+      <button onclick="closeAllModals()" class="flex-1 border border-gray-200 text-gray-600 rounded-lg py-2.5 text-sm font-semibold hover:bg-gray-50">Annulla</button>
+      <button onclick="saveEsercizio()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg py-2.5 text-sm font-semibold transition-colors">Salva</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Storico pesi -->
+<div id="modal-storico" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 overflow-y-auto">
+  <div class="card w-full max-w-lg p-5 my-4" onclick="event.stopPropagation()">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-base font-bold" id="storico-title">Storico pesi</h2>
+      <button onclick="closeAllModals()" class="text-gray-400 hover:text-gray-600 p-1">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <!-- Chart -->
+    <div style="position:relative;height:150px" class="mb-4">
+      <canvas id="storico-chart"></canvas>
+    </div>
+    <p id="storico-no-chart" class="text-xs text-gray-400 text-center mb-3 hidden">Nessun dato numerico disponibile per il grafico</p>
+    <!-- Add entry form -->
+    <div class="border border-gray-100 rounded-lg p-3 mb-4">
+      <p class="text-xs font-semibold text-gray-500 mb-3 uppercase tracking-wide">Aggiungi rilevazione</p>
+      <div class="grid grid-cols-2 gap-3 mb-3">
+        <div>
+          <label class="block text-xs text-gray-500 mb-1">Data</label>
+          <input type="date" id="sl-date" class="w-full border border-gray-200 rounded-lg px-2 py-1.5 text-sm" />
+        </div>
+        <div>
+          <label class="block text-xs text-gray-500 mb-1">Carico</label>
+          <input type="text" id="sl-carico" class="w-full border border-gray-200 rounded-lg px-2 py-1.5 text-sm" placeholder="es. 80kg" />
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="block text-xs text-gray-500 mb-1">Note</label>
+        <input type="text" id="sl-note" class="w-full border border-gray-200 rounded-lg px-2 py-1.5 text-sm" placeholder="Facoltativo…" />
+      </div>
+      <button onclick="addWeightLog()" class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-lg py-2 text-sm font-semibold transition-colors">Aggiungi</button>
+    </div>
+    <!-- Log list -->
+    <div id="storico-list" class="space-y-2 max-h-48 overflow-y-auto"></div>
+  </div>
+</div>
+
+<!-- Modal: Conferma -->
+<div id="modal-confirm" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+  <div class="card w-full max-w-sm p-5" onclick="event.stopPropagation()">
+    <p class="text-sm text-gray-700 mb-5" id="confirm-msg">Sei sicuro?</p>
+    <div class="flex gap-3">
+      <button onclick="closeAllModals()" class="flex-1 border border-gray-200 text-gray-600 rounded-lg py-2.5 text-sm font-semibold hover:bg-gray-50">Annulla</button>
+      <button id="confirm-ok" class="flex-1 bg-red-600 hover:bg-red-700 text-white rounded-lg py-2.5 text-sm font-semibold transition-colors">Elimina</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Avviso duplicato -->
+<div id="modal-warn" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+  <div class="card w-full max-w-sm p-5" onclick="event.stopPropagation()">
+    <p class="text-sm font-semibold text-yellow-600 mb-1">Attenzione</p>
+    <p class="text-sm text-gray-700 mb-5" id="warn-msg"></p>
+    <div class="flex gap-3">
+      <button onclick="closeAllModals()" class="flex-1 border border-gray-200 text-gray-600 rounded-lg py-2.5 text-sm font-semibold hover:bg-gray-50">Annulla</button>
+      <button id="warn-ok" class="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg py-2.5 text-sm font-semibold transition-colors">Salva comunque</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════════════
+let workouts   = [];
+let schede     = [];
+let weightLogs = [];
+
+let currentTab  = 'home';
+let weekOffset  = 0;
+let monthOffset = 0;
+let yearOffset  = 0;
+
+let recentPage = 0;
+const PER_PAGE = 10;
+
+let monthChartMode = 'minuti';
+let yearChartMode  = 'minuti';
+
+let monthChartInst = null;
+let yearChartInst  = null;
+let storChartInst  = null;
+
+let modalState = {};
+let dndSrc     = null; // { esId, schedaId, tipoId }
+let storEsNome = '';   // exercise name for storico
+
+const MESI = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno',
+              'Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+const MESI_S = ['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
+
+// ═══════════════════════════════════════════════════════════════
+//  INIT & DARK MODE
+// ═══════════════════════════════════════════════════════════════
+async function init() {
+  if (localStorage.getItem('darkMode') === 'true') applyDark(true);
+  await Promise.all([loadWorkouts(), loadSchede(), loadWeightLogs()]);
+  setDefaultFormValues();
+  setTab('home');
+}
+
+function applyDark(on) {
+  document.documentElement.classList.toggle('dark', on);
+  document.getElementById('icon-dark').classList.toggle('hidden', !on);
+  document.getElementById('icon-light').classList.toggle('hidden', on);
+}
+
+function toggleDarkMode() {
+  const on = !document.documentElement.classList.contains('dark');
+  applyDark(on);
+  localStorage.setItem('darkMode', on);
+  // Redraw charts with updated colors
+  if (currentTab === 'mese')  { if (monthChartInst) { monthChartInst.destroy(); monthChartInst = null; } renderMese(); }
+  if (currentTab === 'anno')  { if (yearChartInst)  { yearChartInst.destroy();  yearChartInst  = null; } renderAnno(); }
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  API
+// ═══════════════════════════════════════════════════════════════
+async function loadWorkouts()   { const r = await fetch('/api/workouts');    workouts   = await r.json(); }
+async function loadSchede()     { const r = await fetch('/api/schede');      schede     = await r.json(); }
+async function loadWeightLogs() { const r = await fetch('/api/weight-logs'); weightLogs = await r.json(); }
+
+// ═══════════════════════════════════════════════════════════════
+//  TABS
+// ═══════════════════════════════════════════════════════════════
+function setTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab-page').forEach(p => p.classList.add('hidden'));
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.remove('text-blue-600','font-semibold','border-blue-600');
+    b.classList.add('text-gray-500','border-transparent');
+  });
+  document.getElementById('page-' + tab).classList.remove('hidden');
+  const btn = document.getElementById('tab-' + tab);
+  btn.classList.remove('text-gray-500','border-transparent');
+  btn.classList.add('text-blue-600','font-semibold','border-blue-600');
+  renderTab(tab);
+}
+
+function renderTab(tab) {
+  if      (tab === 'home')      renderHome();
+  else if (tab === 'settimana') renderSettimana();
+  else if (tab === 'mese')      renderMese();
+  else if (tab === 'anno')      renderAnno();
+  else if (tab === 'schede')    renderSchede();
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  DATE HELPERS
+// ═══════════════════════════════════════════════════════════════
+function toDateString(d) { return d.toISOString().slice(0,10); }
+function toTimeString(d) { return d.toTimeString().slice(0,5); }
+function parseLocalDate(s) { const [y,m,d] = s.split('-').map(Number); return new Date(y, m-1, d); }
+function getMonday(d) {
+  const c = new Date(d); const day = c.getDay();
+  c.setDate(c.getDate() + (day === 0 ? -6 : 1 - day)); c.setHours(0,0,0,0); return c;
+}
+function addDays(d, n) { const c = new Date(d); c.setDate(c.getDate()+n); return c; }
+function isoWeek(d) {
+  const dt = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+  dt.setUTCDate(dt.getUTCDate() + 4 - (dt.getUTCDay()||7));
+  const ys = new Date(Date.UTC(dt.getUTCFullYear(),0,1));
+  return Math.ceil((((dt - ys) / 86400000) + 1)/7);
+}
+function formatDateIT(s) {
+  const d = parseLocalDate(s);
+  return d.getDate() + ' ' + MESI[d.getMonth()].toLowerCase() + ' ' + d.getFullYear();
+}
+
+function setDefaultFormValues() {
+  const now = new Date();
+  document.getElementById('f-date').value = toDateString(now);
+  document.getElementById('f-time').value = toTimeString(now);
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  STREAK
+// ═══════════════════════════════════════════════════════════════
+function calcStreak() {
+  const dates = new Set(workouts.map(w => w.data));
+  const today = toDateString(new Date());
+  const yesterday = toDateString(addDays(new Date(), -1));
+  // Streak starts from today if trained, otherwise from yesterday
+  let cur = dates.has(today) ? today : (dates.has(yesterday) ? yesterday : null);
+  if (!cur) return { days: 0, active: false };
+  let count = 0;
+  while (dates.has(cur)) {
+    count++;
+    cur = toDateString(addDays(parseLocalDate(cur), -1));
+  }
+  return { days: count, active: dates.has(today) };
+}
+
+function renderStreak() {
+  const el = document.getElementById('streak-banner');
+  const { days, active } = calcStreak();
+  if (days === 0) {
+    el.innerHTML = `<div class="card p-3 mb-2 border-l-4 border-gray-300 flex items-center gap-3">
+      <span class="text-xl">💪</span>
+      <div><p class="text-sm font-medium text-gray-700">Nessuna serie attiva</p>
+      <p class="text-xs text-gray-400">Registra oggi il tuo allenamento per iniziare!</p></div></div>`;
+    return;
+  }
+  const color = active ? 'border-orange-400' : 'border-yellow-300';
+  const emoji = days >= 14 ? '🔥' : days >= 7 ? '⚡' : '🏅';
+  const msg   = active ? `Serie attiva!` : `Allenati oggi per continuare!`;
+  const sub   = days === 1 ? '1 giorno consecutivo' : `${days} giorni consecutivi`;
+  el.innerHTML = `<div class="card p-3 mb-2 border-l-4 ${color} flex items-center gap-3">
+    <span class="text-2xl">${emoji}</span>
+    <div><p class="text-sm font-semibold text-gray-700">${msg} <span class="text-orange-500">${sub}</span></p>
+    <p class="text-xs text-gray-400">${active ? 'Continua così!' : 'Hai allenato ieri — non fermarti ora.'}</p></div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  HOME
+// ═══════════════════════════════════════════════════════════════
+function renderHome() {
+  populateSchedaDropdown();
+  renderStreak();
+  renderRecentList();
+}
+
+function renderRecentList() {
+  const sorted = [...workouts].sort((a,b) => (b.data+b.ora).localeCompare(a.data+a.ora));
+  const shown  = sorted.slice(0, (recentPage + 1) * PER_PAGE);
+  const el     = document.getElementById('recent-list');
+  const btn    = document.getElementById('load-more-btn');
+  if (sorted.length === 0) {
+    el.innerHTML = '<p class="text-sm text-gray-400 text-center py-6">Nessun allenamento registrato</p>';
+    btn.style.display = 'none';
+    return;
+  }
+  el.innerHTML = shown.map(w => workoutCard(w, true)).join('');
+  btn.style.display = shown.length < sorted.length ? '' : 'none';
+}
+
+function loadMoreRecent() { recentPage++; renderRecentList(); }
+
+function populateSchedaDropdown() {
+  const sel = document.getElementById('f-scheda');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">Seleziona scheda…</option>' +
+    schede.map(s => `<option value="${esc(s.nome)}" ${s.nome===cur?'selected':''}>${esc(s.nome)}</option>`).join('');
+  // Auto-select if only one scheda
+  if (schede.length === 1 && !cur) {
+    sel.value = schede[0].nome;
+    onSchedaChange();
+  }
+}
+
+function onSchedaChange() {
+  const schedaNome = document.getElementById('f-scheda').value;
+  const tipoSel = document.getElementById('f-tipo');
+  if (!schedaNome) {
+    tipoSel.innerHTML = '<option value="">Prima seleziona una scheda…</option>';
+    tipoSel.disabled = true;
+    return;
+  }
+  const scheda = schede.find(s => s.nome === schedaNome);
+  if (!scheda) { tipoSel.disabled = true; return; }
+  tipoSel.innerHTML = '<option value="">Seleziona tipo…</option>' +
+    scheda.tipi.map(t => `<option value="${esc(t.nome)}">${esc(t.nome)}</option>`).join('');
+  tipoSel.disabled = false;
+  tipoSel.value = '';
+}
+
+function populateTipoDropdown(schedaNome, currentTipo) {
+  const scheda = schede.find(s => s.nome === schedaNome);
+  const tipoSel = document.getElementById('f-tipo');
+  if (!scheda) { tipoSel.disabled = true; return; }
+  tipoSel.innerHTML = '<option value="">Seleziona tipo…</option>' +
+    scheda.tipi.map(t => `<option value="${esc(t.nome)}" ${t.nome===currentTipo?'selected':''}>${esc(t.nome)}</option>`).join('');
+  tipoSel.disabled = false;
+}
+
+function workoutCard(w, editable) {
+  return `<div class="card p-4">
+    <div class="flex items-start justify-between gap-2">
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center gap-2 flex-wrap">
+          ${w.scheda ? `<span class="text-xs text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">${esc(w.scheda)}</span>` : ''}
+          <span class="text-sm font-semibold">${esc(w.tipo)}</span>
+          <span class="text-xs bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">${w.durata} min</span>
+        </div>
+        <div class="text-xs text-gray-400 mt-1">${formatDateIT(w.data)} · ${w.ora}</div>
+        ${w.note ? `<div class="text-xs text-gray-500 mt-1.5 italic">${esc(w.note)}</div>` : ''}
+      </div>
+      ${editable ? `<div class="flex gap-1 shrink-0">
+        <button onclick="editWorkout('${w.id}')" class="p-1.5 text-gray-400 hover:text-blue-600 rounded-lg hover:bg-blue-50 transition-colors" title="Modifica">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+        </button>
+        <button onclick="deleteWorkout('${w.id}')" class="p-1.5 text-gray-400 hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors" title="Elimina">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+        </button>
+      </div>` : ''}
+    </div>
+  </div>`;
+}
+
+async function saveWorkout(e) {
+  e.preventDefault();
+  const id       = document.getElementById('edit-workout-id').value;
+  const dataVal  = document.getElementById('f-date').value;
+  const schedaVal = document.getElementById('f-scheda').value;
+  const tipoVal  = document.getElementById('f-tipo').value;
+
+  // Validazione duplicati
+  if (!id) {
+    const dup = workouts.find(w => w.data === dataVal && w.scheda === schedaVal && w.tipo === tipoVal);
+    if (dup) {
+      warnAction(`Hai già un allenamento "${tipoVal}" il ${formatDateIT(dataVal)}. Vuoi salvarne un altro?`,
+        () => doSaveWorkout(id));
+      return;
+    }
+  }
+  await doSaveWorkout(id);
+}
+
+async function doSaveWorkout(id) {
+  const body = {
+    data:   document.getElementById('f-date').value,
+    ora:    document.getElementById('f-time').value,
+    scheda: document.getElementById('f-scheda').value,
+    tipo:   document.getElementById('f-tipo').value,
+    durata: document.getElementById('f-duration').value,
+    note:   document.getElementById('f-notes').value
+  };
+  if (id) {
+    await fetch('/api/workouts/' + id, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+  } else {
+    await fetch('/api/workouts', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+  }
+  await loadWorkouts();
+  recentPage = 0;
+  resetWorkoutForm();
+  showToast('Allenamento salvato', 'success');
+  renderHome();
+  if (currentTab !== 'home') renderTab(currentTab);
+}
+
+function resetWorkoutForm() {
+  document.getElementById('edit-workout-id').value = '';
+  document.getElementById('f-duration').value = '';
+  document.getElementById('f-notes').value = '';
+  document.getElementById('f-scheda').value = '';
+  const tipoSel = document.getElementById('f-tipo');
+  tipoSel.innerHTML = '<option value="">Prima seleziona una scheda…</option>';
+  tipoSel.disabled = true;
+  setDefaultFormValues();
+  document.getElementById('cancel-edit-btn').style.display = 'none';
+}
+
+function editWorkout(id) {
+  const w = workouts.find(x => x.id === id);
+  if (!w) return;
+  setTab('home');
+  document.getElementById('edit-workout-id').value = id;
+  document.getElementById('f-date').value     = w.data;
+  document.getElementById('f-time').value     = w.ora;
+  document.getElementById('f-duration').value = w.durata;
+  document.getElementById('f-notes').value    = w.note;
+  populateSchedaDropdown();
+  document.getElementById('f-scheda').value = w.scheda || '';
+  populateTipoDropdown(w.scheda || '', w.tipo);
+  document.getElementById('cancel-edit-btn').style.display = '';
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+function cancelEdit() { resetWorkoutForm(); renderHome(); }
+
+function deleteWorkout(id) {
+  confirmAction('Eliminare questo allenamento?', async () => {
+    await fetch('/api/workouts/' + id, { method:'DELETE' });
+    await loadWorkouts();
+    recentPage = 0;
+    renderHome();
+    if (currentTab !== 'home') renderTab(currentTab);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  SETTIMANA
+// ═══════════════════════════════════════════════════════════════
+function prevWeek() { weekOffset--; renderSettimana(); }
+function nextWeek() { weekOffset++; renderSettimana(); }
+
+function renderSettimana() {
+  const today  = new Date();
+  const monday = addDays(getMonday(today), weekOffset * 7);
+  const sunday = addDays(monday, 6);
+  const wn = isoWeek(monday);
+  const s1 = monday.getDate() + ' ' + MESI[monday.getMonth()].toLowerCase().slice(0,3);
+  const s2 = sunday.getDate()  + ' ' + MESI[sunday.getMonth()].toLowerCase().slice(0,3) + ' ' + sunday.getFullYear();
+  document.getElementById('week-title').textContent = `Settimana ${wn} · ${s1}-${s2}`;
+
+  const from = toDateString(monday), to = toDateString(sunday);
+  const filtered = workouts.filter(w => w.data >= from && w.data <= to)
+    .sort((a,b) => (b.data+b.ora).localeCompare(a.data+a.ora));
+  document.getElementById('week-count').textContent = filtered.length;
+  document.getElementById('week-mins').textContent  = filtered.reduce((s,w) => s+w.durata, 0);
+  const el = document.getElementById('week-list');
+  el.innerHTML = filtered.length === 0
+    ? '<p class="text-sm text-gray-400 text-center py-6">Nessun allenamento questa settimana</p>'
+    : filtered.map(w => workoutCard(w, false)).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  MESE
+// ═══════════════════════════════════════════════════════════════
+function prevMonth() { monthOffset--; renderMese(); }
+function nextMonth() { monthOffset++; renderMese(); }
+function setMonthMode(m) {
+  monthChartMode = m;
+  document.getElementById('month-btn-min').className = `px-2 py-1 text-xs rounded font-medium transition-colors ${m==='minuti' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600'}`;
+  document.getElementById('month-btn-cnt').className = `px-2 py-1 text-xs rounded font-medium transition-colors ${m==='count'  ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600'}`;
+  renderMese();
+}
+
+function renderMese() {
+  const today  = new Date();
+  const target = new Date(today.getFullYear(), today.getMonth() + monthOffset, 1);
+  const ty = target.getFullYear(), tm = target.getMonth();
+  document.getElementById('month-title').textContent = `${MESI[tm]} ${ty}`;
+
+  const prefix   = `${ty}-${String(tm+1).padStart(2,'0')}`;
+  const filtered = workouts.filter(w => w.data.startsWith(prefix))
+    .sort((a,b) => (b.data+b.ora).localeCompare(a.data+a.ora));
+  document.getElementById('month-count').textContent = filtered.length;
+  document.getElementById('month-mins').textContent  = filtered.reduce((s,w) => s+w.durata, 0);
+
+  const firstDay = new Date(ty, tm, 1);
+  const lastDay  = new Date(ty, tm + 1, 0);
+  const firstMon = getMonday(firstDay);
+  const lastMon  = getMonday(lastDay);
+  const numWeeks = Math.round((lastMon - firstMon) / (7 * 86400000)) + 1;
+  const avg = numWeeks > 0 ? (filtered.length / numWeeks).toFixed(1) : '0';
+  document.getElementById('month-avg').textContent = avg;
+
+  // Chart: group by week-block inside month
+  const daysInMonth = new Date(ty, tm+1, 0).getDate();
+  const numWeeks    = Math.ceil(daysInMonth / 7);
+  const labels      = [];
+  const values      = Array(numWeeks).fill(0);
+  for (let i = 0; i < numWeeks; i++) {
+    const s = i * 7 + 1, e2 = Math.min((i+1)*7, daysInMonth);
+    labels.push(`${s}-${e2}`);
+  }
+  filtered.forEach(w => {
+    const day = parseInt(w.data.slice(8,10), 10);
+    const idx = Math.min(Math.floor((day-1)/7), numWeeks-1);
+    values[idx] += monthChartMode === 'minuti' ? w.durata : 1;
+  });
+
+  const dark  = document.documentElement.classList.contains('dark');
+  const label = monthChartMode === 'minuti' ? 'Minuti' : 'Sessioni';
+  if (monthChartInst) { monthChartInst.destroy(); monthChartInst = null; }
+  monthChartInst = new Chart(document.getElementById('month-chart'), barChartCfg(labels, values, label, dark));
+
+  const el = document.getElementById('month-list');
+  el.innerHTML = filtered.length === 0
+    ? '<p class="text-sm text-gray-400 text-center py-6">Nessun allenamento questo mese</p>'
+    : filtered.map(w => workoutCard(w, false)).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  ANNO
+// ═══════════════════════════════════════════════════════════════
+function prevYear() { yearOffset--; renderAnno(); }
+function nextYear() { yearOffset++; renderAnno(); }
+function setYearMode(m) {
+  yearChartMode = m;
+  document.getElementById('year-btn-min').className = `px-2 py-1 text-xs rounded font-medium transition-colors ${m==='minuti' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600'}`;
+  document.getElementById('year-btn-cnt').className = `px-2 py-1 text-xs rounded font-medium transition-colors ${m==='count'  ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600'}`;
+  renderAnno();
+}
+
+function renderAnno() {
+  const ty = new Date().getFullYear() + yearOffset;
+  document.getElementById('year-title').textContent = `Anno ${ty}`;
+
+  const prefix   = `${ty}-`;
+  const filtered = workouts.filter(w => w.data.startsWith(prefix))
+    .sort((a,b) => (b.data+b.ora).localeCompare(a.data+a.ora));
+  document.getElementById('year-count').textContent = filtered.length;
+  document.getElementById('year-mins').textContent  = filtered.reduce((s,w) => s+w.durata, 0);
+
+  // Chart: one bar per month
+  const values = Array(12).fill(0);
+  filtered.forEach(w => {
+    const mi = parseInt(w.data.slice(5,7), 10) - 1;
+    values[mi] += yearChartMode === 'minuti' ? w.durata : 1;
+  });
+  const dark  = document.documentElement.classList.contains('dark');
+  const label = yearChartMode === 'minuti' ? 'Minuti' : 'Sessioni';
+  if (yearChartInst) { yearChartInst.destroy(); yearChartInst = null; }
+  yearChartInst = new Chart(document.getElementById('year-chart'), barChartCfg(MESI_S, values, label, dark));
+
+  // Monthly summary
+  const byMonth = {};
+  filtered.forEach(w => {
+    const mk = w.data.slice(0,7);
+    if (!byMonth[mk]) byMonth[mk] = { count:0, mins:0 };
+    byMonth[mk].count++; byMonth[mk].mins += w.durata;
+  });
+  const monthly = document.getElementById('year-monthly');
+  const keys = Object.keys(byMonth).sort().reverse();
+  monthly.innerHTML = keys.length === 0
+    ? '<p class="text-sm text-gray-400 text-center py-2">Nessun dato</p>'
+    : keys.map(k => {
+        const [ky, km] = k.split('-');
+        return `<div class="card px-4 py-3 flex items-center justify-between">
+          <span class="text-sm font-medium">${MESI[parseInt(km)-1]} ${ky}</span>
+          <div class="flex gap-3 text-xs text-gray-500">
+            <span>${byMonth[k].count} allenamenti</span>
+            <span class="font-semibold text-gray-700">${byMonth[k].mins} min</span>
+          </div>
+        </div>`;
+      }).join('');
+
+  const el = document.getElementById('year-list');
+  el.innerHTML = filtered.length === 0
+    ? '<p class="text-sm text-gray-400 text-center py-6">Nessun allenamento quest\'anno</p>'
+    : filtered.map(w => workoutCard(w, false)).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  CHART HELPER
+// ═══════════════════════════════════════════════════════════════
+function barChartCfg(labels, data, label, dark) {
+  const textColor = dark ? '#94a3b8' : '#6b7280';
+  const gridColor = dark ? '#334155' : '#f1f5f9';
+  return {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label,
+        data,
+        backgroundColor: 'rgba(59,130,246,0.75)',
+        borderColor:      'rgba(59,130,246,1)',
+        borderWidth: 1,
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color: textColor, font: { size: 10 } }, grid: { color: gridColor } },
+        y: { beginAtZero: true, ticks: { color: textColor, font: { size: 10 }, precision: 0 }, grid: { color: gridColor } }
+      }
+    }
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  SCHEDE
+// ═══════════════════════════════════════════════════════════════
+function renderSchede() {
+  loadApiKeyStatus();
+  const el = document.getElementById('schede-list');
+  if (schede.length === 0) {
+    el.innerHTML = '<p class="text-sm text-gray-400 text-center py-10">Nessuna scheda. Creane una!</p>';
+    return;
+  }
+  el.innerHTML = schede.map(s => schedaBlock(s)).join('');
+}
+
+function schedaBlock(s) {
+  return `<div class="card p-4" id="scheda-${s.id}">
+    <div class="flex items-center justify-between mb-3">
+      <div>
+        <div class="font-semibold">${esc(s.nome)}</div>
+        ${s.mese ? `<div class="text-xs text-gray-400">${esc(s.mese)}</div>` : ''}
+      </div>
+      <div class="flex gap-1">
+        <button onclick="openDuplicaModal('${s.id}')" class="p-1.5 text-gray-400 hover:text-green-600 rounded-lg hover:bg-green-50 transition-colors" title="Duplica">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+        </button>
+        <button onclick="openSchedaModal('${s.id}')" class="p-1.5 text-gray-400 hover:text-blue-600 rounded-lg hover:bg-blue-50 transition-colors" title="Modifica">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+        </button>
+        <button onclick="deleteScheda('${s.id}')" class="p-1.5 text-gray-400 hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors" title="Elimina">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="space-y-3 mb-3">${s.tipi.map(t => tipoBlock(s.id, t)).join('')}</div>
+    <button onclick="openTipoModal('${s.id}')" class="w-full border-2 border-dashed border-gray-200 rounded-lg py-2 text-xs text-gray-400 hover:border-blue-300 hover:text-blue-500 transition-colors">
+      + Aggiungi tipo di allenamento
+    </button>
+  </div>`;
+}
+
+function tipoBlock(schedaId, t) {
+  return `<div class="border border-gray-100 rounded-lg p-3">
+    <div class="flex items-center justify-between mb-2">
+      <span class="text-sm font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded">${esc(t.nome)}</span>
+      <div class="flex gap-1">
+        <button onclick="openTipoModal('${schedaId}','${t.id}')" class="p-1 text-gray-400 hover:text-blue-600 rounded hover:bg-blue-50 transition-colors">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+        </button>
+        <button onclick="deleteTipo('${schedaId}','${t.id}')" class="p-1 text-gray-400 hover:text-red-600 rounded hover:bg-red-50 transition-colors">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+        </button>
+      </div>
+    </div>
+    ${t.esercizi.length > 0 ? `<div class="space-y-1 mb-2">${t.esercizi.map(e => esercizioRow(schedaId, t.id, e)).join('')}</div>` : ''}
+    <button onclick="openEsercizioModal('${schedaId}','${t.id}')" class="w-full text-left text-xs text-gray-400 hover:text-blue-500 py-1 transition-colors">
+      + Aggiungi esercizio
+    </button>
+  </div>`;
+}
+
+function esercizioRow(schedaId, tipoId, e) {
+  const tags = [e.ripetizioni, e.carico, e.recupero].filter(Boolean);
+  return `<div class="dnd-row flex items-start gap-2 text-xs p-1 rounded hover:bg-gray-50 transition-colors"
+    draggable="true"
+    ondragstart="dndStart(event,'${e.id}','${schedaId}','${tipoId}')"
+    ondragend="dndEnd(event)"
+    ondragover="dndOver(event)"
+    ondrop="dndDrop(event,'${e.id}','${schedaId}','${tipoId}')"
+    data-esid="${e.id}">
+    <span class="text-gray-300 mt-0.5 shrink-0 select-none" style="font-size:14px">⠿</span>
+    <div class="flex-1 min-w-0">
+      <span class="font-medium text-gray-700">${esc(e.titolo)}</span>
+      ${tags.length ? `<span class="text-gray-400 ml-1">${tags.map(esc).join(' · ')}</span>` : ''}
+      ${e.note ? `<div class="text-gray-400 italic mt-0.5">${esc(e.note)}</div>` : ''}
+    </div>
+    <div class="flex gap-1 shrink-0">
+      <button onclick="openStorico('${esc(e.titolo)}')" class="p-1 text-gray-300 hover:text-green-500 rounded transition-colors" title="Storico pesi">
+        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+      </button>
+      <button onclick="openEsercizioModal('${schedaId}','${tipoId}','${e.id}')" class="p-1 text-gray-300 hover:text-blue-500 rounded transition-colors" title="Modifica">
+        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+      </button>
+      <button onclick="deleteEsercizio('${schedaId}','${tipoId}','${e.id}')" class="p-1 text-gray-300 hover:text-red-500 rounded transition-colors" title="Elimina">
+        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+  </div>`;
+}
+
+// ─── Drag & Drop ──────────────────────────────────────────────────────────────
+function dndStart(e, esId, schedaId, tipoId) {
+  dndSrc = { esId, schedaId, tipoId };
+  e.currentTarget.classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+}
+function dndEnd(e) {
+  document.querySelectorAll('.dnd-row').forEach(el => el.classList.remove('dragging','drag-over'));
+  dndSrc = null;
+}
+function dndOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  document.querySelectorAll('.dnd-row').forEach(el => el.classList.remove('drag-over'));
+  e.currentTarget.classList.add('drag-over');
+}
+async function dndDrop(e, targetEsId, schedaId, tipoId) {
+  e.preventDefault();
+  document.querySelectorAll('.dnd-row').forEach(el => el.classList.remove('drag-over','dragging'));
+  if (!dndSrc || dndSrc.esId === targetEsId || dndSrc.schedaId !== schedaId || dndSrc.tipoId !== tipoId) return;
+  const scheda = schede.find(s => s.id === schedaId);
+  const tipo   = scheda.tipi.find(t => t.id === tipoId);
+  const list   = [...tipo.esercizi];
+  const si = list.findIndex(ex => ex.id === dndSrc.esId);
+  const ti = list.findIndex(ex => ex.id === targetEsId);
+  if (si === -1 || ti === -1) return;
+  const [moved] = list.splice(si, 1);
+  list.splice(ti, 0, moved);
+  await fetch(`/api/schede/${schedaId}/tipi/${tipoId}/reorder`, {
+    method: 'PUT', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ ordine: list.map(ex => ex.id) })
+  });
+  await loadSchede();
+  renderSchede();
+  dndSrc = null;
+}
+
+// ─── Scheda Modal ─────────────────────────────────────────────────────────────
+function openSchedaModal(id) {
+  const ed = id ? schede.find(s => s.id === id) : null;
+  modalState = { type:'scheda', id: id || null };
+  document.getElementById('modal-scheda-title').textContent = ed ? 'Modifica scheda' : 'Nuova scheda';
+  document.getElementById('ms-nome').value = ed ? ed.nome : '';
+  document.getElementById('ms-mese').value = ed ? ed.mese : '';
+  showModal('modal-scheda');
+}
+async function saveScheda() {
+  const nome = document.getElementById('ms-nome').value.trim();
+  if (!nome) return;
+  const body = { nome, mese: document.getElementById('ms-mese').value.trim() };
+  if (modalState.id) {
+    await fetch('/api/schede/' + modalState.id, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+  } else {
+    await fetch('/api/schede', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+  }
+  await loadSchede();
+  closeAllModals();
+  renderSchede();
+  populateTypeDropdown();
+}
+async function deleteScheda(id) {
+  confirmAction('Eliminare questa scheda e tutti i suoi dati?', async () => {
+    await fetch('/api/schede/' + id, { method:'DELETE' });
+    await loadSchede(); renderSchede(); populateTypeDropdown();
+  });
+}
+
+// ─── Duplica Modal ────────────────────────────────────────────────────────────
+function openDuplicaModal(id) {
+  const orig = schede.find(s => s.id === id);
+  modalState = { type:'duplica', id };
+  document.getElementById('dup-nome').value = orig ? orig.nome + ' (copia)' : '';
+  document.getElementById('dup-mese').value = '';
+  showModal('modal-duplica');
+}
+async function confirmDuplica() {
+  const nome = document.getElementById('dup-nome').value.trim();
+  if (!nome) return;
+  const body = { nome, mese: document.getElementById('dup-mese').value.trim() };
+  await fetch(`/api/schede/${modalState.id}/duplica`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+  await loadSchede();
+  closeAllModals();
+  renderSchede();
+  populateTypeDropdown();
+}
+
+// ─── Tipo Modal ───────────────────────────────────────────────────────────────
+function openTipoModal(schedaId, tipoId) {
+  const scheda = schede.find(s => s.id === schedaId);
+  const tipo   = tipoId ? scheda.tipi.find(t => t.id === tipoId) : null;
+  modalState = { type:'tipo', schedaId, tipoId: tipoId || null };
+  document.getElementById('modal-tipo-title').textContent = tipo ? 'Modifica tipo' : 'Nuovo tipo di allenamento';
+  document.getElementById('mt-nome').value = tipo ? tipo.nome : '';
+  showModal('modal-tipo');
+}
+async function saveTipo() {
+  const nome = document.getElementById('mt-nome').value.trim();
+  if (!nome) return;
+  const { schedaId, tipoId } = modalState;
+  if (tipoId) {
+    await fetch(`/api/schede/${schedaId}/tipi/${tipoId}`, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ nome }) });
+  } else {
+    await fetch(`/api/schede/${schedaId}/tipi`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ nome }) });
+  }
+  await loadSchede(); closeAllModals(); renderSchede(); populateTypeDropdown();
+}
+async function deleteTipo(schedaId, tipoId) {
+  confirmAction('Eliminare questo tipo di allenamento?', async () => {
+    await fetch(`/api/schede/${schedaId}/tipi/${tipoId}`, { method:'DELETE' });
+    await loadSchede(); renderSchede(); populateTypeDropdown();
+  });
+}
+
+// ─── Esercizio Modal ──────────────────────────────────────────────────────────
+function openEsercizioModal(schedaId, tipoId, esId) {
+  const scheda = schede.find(s => s.id === schedaId);
+  const tipo   = scheda.tipi.find(t => t.id === tipoId);
+  const es     = esId ? tipo.esercizi.find(e => e.id === esId) : null;
+  modalState = { type:'esercizio', schedaId, tipoId, esId: esId || null };
+  document.getElementById('modal-esercizio-title').textContent = es ? 'Modifica esercizio' : 'Nuovo esercizio';
+  document.getElementById('me-titolo').value   = es ? es.titolo     : '';
+  document.getElementById('me-rip').value      = es ? es.ripetizioni: '';
+  document.getElementById('me-carico').value   = es ? es.carico     : '';
+  document.getElementById('me-recupero').value = es ? es.recupero   : '';
+  document.getElementById('me-note').value     = es ? es.note       : '';
+  showModal('modal-esercizio');
+}
+async function saveEsercizio() {
+  const titolo = document.getElementById('me-titolo').value.trim();
+  if (!titolo) return;
+  const { schedaId, tipoId, esId } = modalState;
+  const body = {
+    titolo,
+    ripetizioni: document.getElementById('me-rip').value.trim(),
+    carico:      document.getElementById('me-carico').value.trim(),
+    recupero:    document.getElementById('me-recupero').value.trim(),
+    note:        document.getElementById('me-note').value.trim()
+  };
+  if (esId) {
+    await fetch(`/api/schede/${schedaId}/tipi/${tipoId}/esercizi/${esId}`, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+  } else {
+    await fetch(`/api/schede/${schedaId}/tipi/${tipoId}/esercizi`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+  }
+  await loadSchede(); closeAllModals(); renderSchede();
+}
+async function deleteEsercizio(schedaId, tipoId, esId) {
+  confirmAction('Eliminare questo esercizio?', async () => {
+    await fetch(`/api/schede/${schedaId}/tipi/${tipoId}/esercizi/${esId}`, { method:'DELETE' });
+    await loadSchede(); renderSchede();
+  });
+}
+
+// ─── Storico pesi ─────────────────────────────────────────────────────────────
+function parseCarico(s) {
+  const m = String(s||'').match(/(\d+(?:[.,]\d+)?)\s*kg/i)
+         || String(s||'').match(/x\s*(\d+(?:[.,]\d+)?)/i)
+         || String(s||'').match(/(\d+(?:[.,]\d+)?)/);
+  return m ? parseFloat(m[1].replace(',','.')) : null;
+}
+
+function openStorico(esNome) {
+  storEsNome = esNome;
+  document.getElementById('storico-title').textContent = 'Storico pesi · ' + esNome;
+  document.getElementById('sl-date').value = toDateString(new Date());
+  document.getElementById('sl-carico').value = '';
+  document.getElementById('sl-note').value = '';
+  renderStorico();
+  showModal('modal-storico');
+}
+
+function renderStorico() {
+  const logs = weightLogs
+    .filter(l => l.esNome === storEsNome)
+    .sort((a,b) => a.date.localeCompare(b.date));
+
+  // List
+  const listEl = document.getElementById('storico-list');
+  if (logs.length === 0) {
+    listEl.innerHTML = '<p class="text-xs text-gray-400 text-center py-3">Nessuna rilevazione ancora</p>';
+  } else {
+    listEl.innerHTML = logs.map(l => `
+      <div class="flex items-center justify-between text-xs border border-gray-100 rounded-lg px-3 py-2">
+        <div>
+          <span class="font-medium text-gray-700">${esc(l.carico)}</span>
+          <span class="text-gray-400 ml-2">${formatDateIT(l.date)}</span>
+          ${l.note ? `<span class="text-gray-400 ml-2 italic">${esc(l.note)}</span>` : ''}
+        </div>
+        <button onclick="deleteWeightLog('${l.id}')" class="text-gray-300 hover:text-red-500 p-1 transition-colors">
+          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>`).join('');
+  }
+
+  // Chart
+  const points = logs.map(l => ({ x: formatDateIT(l.date), y: parseCarico(l.carico) })).filter(p => p.y !== null);
+  const noChart = document.getElementById('storico-no-chart');
+  if (storChartInst) { storChartInst.destroy(); storChartInst = null; }
+
+  if (points.length < 2) {
+    noChart.classList.remove('hidden');
+    document.getElementById('storico-chart').style.display = 'none';
+  } else {
+    noChart.classList.add('hidden');
+    document.getElementById('storico-chart').style.display = '';
+    const dark = document.documentElement.classList.contains('dark');
+    const textColor = dark ? '#94a3b8' : '#6b7280';
+    const gridColor = dark ? '#334155' : '#f1f5f9';
+    storChartInst = new Chart(document.getElementById('storico-chart'), {
+      type: 'line',
+      data: {
+        labels: points.map(p => p.x),
+        datasets: [{
+          label: 'Carico (kg)',
+          data: points.map(p => p.y),
+          borderColor: 'rgba(59,130,246,1)',
+          backgroundColor: 'rgba(59,130,246,0.1)',
+          pointBackgroundColor: 'rgba(59,130,246,1)',
+          pointRadius: 4,
+          tension: 0.3,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { ticks: { color: textColor, font:{ size:9 } }, grid: { color: gridColor } },
+          y: { beginAtZero: false, ticks: { color: textColor, font:{ size:9 } }, grid: { color: gridColor } }
+        }
+      }
+    });
+  }
+}
+
+async function addWeightLog() {
+  const carico = document.getElementById('sl-carico').value.trim();
+  if (!carico) return;
+  const body = {
+    date:   document.getElementById('sl-date').value,
+    esNome: storEsNome,
+    carico,
+    note:   document.getElementById('sl-note').value.trim()
+  };
+  await fetch('/api/weight-logs', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+  await loadWeightLogs();
+  document.getElementById('sl-carico').value = '';
+  document.getElementById('sl-note').value = '';
+  renderStorico();
+}
+
+async function deleteWeightLog(id) {
+  await fetch('/api/weight-logs/' + id, { method:'DELETE' });
+  await loadWeightLogs();
+  renderStorico();
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  MODAL HELPERS
+// ═══════════════════════════════════════════════════════════════
+function showModal(id) {
+  document.getElementById('modal-backdrop').classList.remove('hidden');
+  document.getElementById(id).classList.remove('hidden');
+}
+
+function closeAllModals() {
+  ['modal-backdrop','modal-scheda','modal-duplica','modal-tipo','modal-esercizio',
+   'modal-storico','modal-confirm','modal-warn'].forEach(id => {
+    document.getElementById(id).classList.add('hidden');
+  });
+  modalState = {};
+}
+
+function confirmAction(msg, cb) {
+  document.getElementById('confirm-msg').textContent = msg;
+  document.getElementById('confirm-ok').onclick = () => { closeAllModals(); cb(); };
+  document.getElementById('modal-backdrop').classList.remove('hidden');
+  document.getElementById('modal-confirm').classList.remove('hidden');
+}
+
+function warnAction(msg, cb) {
+  document.getElementById('warn-msg').textContent = msg;
+  document.getElementById('warn-ok').onclick = () => { closeAllModals(); cb(); };
+  document.getElementById('modal-backdrop').classList.remove('hidden');
+  document.getElementById('modal-warn').classList.remove('hidden');
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  UTILS
+// ═══════════════════════════════════════════════════════════════
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  API KEY CONFIG
+// ═══════════════════════════════════════════════════════════════
+async function loadApiKeyStatus() {
+  const res  = await fetch('/api/config');
+  const data = await res.json();
+  const box       = document.getElementById('apikey-box');
+  const setForm   = document.getElementById('apikey-set-form');
+  const savedForm = document.getElementById('apikey-saved-form');
+  box.classList.remove('hidden');
+  if (data.hasKey) {
+    setForm.classList.add('hidden');
+    savedForm.classList.remove('hidden');
+    document.getElementById('apikey-masked').textContent = data.maskedKey;
+    // Hide the yellow border when key is set
+    box.classList.remove('border-yellow-400');
+    box.classList.add('border-green-400');
+  } else {
+    setForm.classList.remove('hidden');
+    savedForm.classList.add('hidden');
+    box.classList.add('border-yellow-400');
+    box.classList.remove('border-green-400');
+  }
+}
+
+async function saveApiKey() {
+  const key = document.getElementById('apikey-input').value.trim();
+  if (!key.startsWith('sk-')) { showToast('La chiave deve iniziare con sk-', 'error'); return; }
+  const res = await fetch('/api/config', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ anthropicApiKey: key })
+  });
+  if (res.ok) {
+    document.getElementById('apikey-input').value = '';
+    await loadApiKeyStatus();
+    showToast('API key salvata', 'success');
+  } else {
+    showToast('Errore nel salvataggio', 'error');
+  }
+}
+
+async function removeApiKey() {
+  await fetch('/api/config/key', { method: 'DELETE' });
+  await loadApiKeyStatus();
+  showToast('API key rimossa', 'info');
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  TOAST
+// ═══════════════════════════════════════════════════════════════
+let toastTimer = null;
+function showToast(msg, type = 'success') {
+  const el  = document.getElementById('toast');
+  const colors = { success: '#16a34a', error: '#dc2626', info: '#2563eb' };
+  el.style.background = colors[type] || colors.success;
+  document.getElementById('toast-msg').textContent = msg;
+  el.classList.remove('hidden');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.add('hidden'), 4000);
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  PDF IMPORT
+// ═══════════════════════════════════════════════════════════════
+function pdfDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'copy';
+  const zone = document.getElementById('pdf-drop-zone');
+  zone.classList.add('border-blue-400', 'bg-blue-50', 'scale-[1.01]');
+}
+
+function pdfDragLeave(e) {
+  // Only leave if actually exiting the zone (not entering a child)
+  if (e.currentTarget.contains(e.relatedTarget)) return;
+  const zone = document.getElementById('pdf-drop-zone');
+  zone.classList.remove('border-blue-400', 'bg-blue-50', 'scale-[1.01]');
+}
+
+async function pdfDrop(e) {
+  e.preventDefault();
+  pdfDragLeave(e);
+  const file = e.dataTransfer.files[0];
+  if (!file) return;
+  if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+    showToast('Carica un file PDF', 'error'); return;
+  }
+  await importPdf(file);
+}
+
+function pdfFileSelected(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  e.target.value = '';
+  importPdf(file);
+}
+
+async function importPdf(file) {
+  const zone    = document.getElementById('pdf-drop-zone');
+  const idle    = document.getElementById('pdf-idle');
+  const loading = document.getElementById('pdf-loading');
+  const status  = document.getElementById('pdf-status');
+
+  // Show loading
+  idle.classList.add('hidden');
+  loading.classList.remove('hidden');
+  zone.style.pointerEvents = 'none';
+
+  const steps = ['Lettura del PDF…', 'Analisi con AI…', 'Strutturazione scheda…'];
+  let stepIdx = 0;
+  status.textContent = steps[0];
+  const stepTimer = setInterval(() => {
+    stepIdx = Math.min(stepIdx + 1, steps.length - 1);
+    status.textContent = steps[stepIdx];
+  }, 2500);
+
+  try {
+    const form = new FormData();
+    form.append('pdf', file);
+
+    const res  = await fetch('/api/import-pdf', { method: 'POST', body: form });
+    const data = await res.json();
+
+    if (!res.ok) {
+      if (data.error === 'API_KEY_MISSING') {
+        // Show the config box and scroll to it
+        await loadApiKeyStatus();
+        document.getElementById('apikey-box').scrollIntoView({ behavior: 'smooth' });
+        throw new Error('Imposta prima la tua API key Anthropic (vedi sopra)');
+      }
+      throw new Error(data.error || 'Errore sconosciuto');
+    }
+
+    // Refresh schede
+    await loadSchede();
+    setTab('schede');   // switch to schede tab so user sees the result
+
+    // Scroll to the new scheda
+    setTimeout(() => {
+      const el = document.getElementById('scheda-' + data.id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 150);
+
+    const nTipi = data.tipi.length;
+    const nEs   = data.tipi.reduce((s, t) => s + t.esercizi.length, 0);
+    showToast(`Scheda "${data.nome}" importata: ${nTipi} giorni, ${nEs} esercizi`, 'success');
+
+  } catch (err) {
+    console.error('[pdf import]', err);
+    showToast(err.message, 'error');
+  } finally {
+    clearInterval(stepTimer);
+    loading.classList.add('hidden');
+    idle.classList.remove('hidden');
+    zone.style.pointerEvents = '';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  BOOT
+// ═══════════════════════════════════════════════════════════════
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+# Filtri rsync per backup.sh: "+" include, "-" esclude. Vince la prima regola che corrisponde.
+
+# I file .env di esempio restano, quelli veri (segreti) no
++ .env.example
+- .env
+- .env.*
+
+# Chiavi e certificati. /config.json è alla radice dei progetti allenamenti-app e contiene la chiave Anthropic
+- /config.json
+- *.pem
+- *.key
+- *.p12
+
+# Roba che si rigenera
+- .git/
+- node_modules/
+- .next/
+- .turbo/
+- .cache/
+- dist/
+- __pycache__/
+- *.pyc
+- .venv/
+- venv/
+- *.log
+
+# Spazzatura macOS e file di lock di Office
+- .DS_Store
+- ~$*
