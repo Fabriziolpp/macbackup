@@ -1,0 +1,794 @@
+{
+  "workouts": [
+    {
+      "id": "feb001",
+      "data": "2026-02-02",
+      "ora": "09:00",
+      "tipo": "Giorno 1",
+      "durata": 55,
+      "note": ""
+    },
+    {
+      "id": "feb002",
+      "data": "2026-02-04",
+      "ora": "09:00",
+      "tipo": "Giorno 2",
+      "durata": 50,
+      "note": ""
+    },
+    {
+      "id": "feb003",
+      "data": "2026-02-07",
+      "ora": "09:00",
+      "tipo": "Giorno 3",
+      "durata": 55,
+      "note": ""
+    },
+    {
+      "id": "feb004",
+      "data": "2026-02-10",
+      "ora": "09:00",
+      "tipo": "Giorno 1",
+      "durata": 50,
+      "note": ""
+    },
+    {
+      "id": "feb005",
+      "data": "2026-02-12",
+      "ora": "09:00",
+      "tipo": "Giorno 2",
+      "durata": 55,
+      "note": ""
+    },
+    {
+      "id": "feb006",
+      "data": "2026-02-14",
+      "ora": "09:00",
+      "tipo": "Giorno 3",
+      "durata": 50,
+      "note": ""
+    },
+    {
+      "id": "feb007",
+      "data": "2026-02-17",
+      "ora": "09:00",
+      "tipo": "Giorno 1",
+      "durata": 55,
+      "note": ""
+    },
+    {
+      "id": "feb008",
+      "data": "2026-02-20",
+      "ora": "09:00",
+      "tipo": "Giorno 2",
+      "durata": 55,
+      "note": ""
+    },
+    {
+      "id": "feb009",
+      "data": "2026-02-24",
+      "ora": "09:00",
+      "tipo": "Giorno 3",
+      "durata": 55,
+      "note": ""
+    },
+    {
+      "id": "feb010",
+      "data": "2026-02-27",
+      "ora": "09:00",
+      "tipo": "Giorno 1",
+      "durata": 55,
+      "note": ""
+    },
+    {
+      "id": "mmi89t3tapq3",
+      "data": "2026-03-02",
+      "ora": "13:00",
+      "scheda": "Marzo 2026",
+      "tipo": "Lezione Calistenics",
+      "durata": 60,
+      "note": ""
+    },
+    {
+      "id": "mmi8av8m6lbe",
+      "data": "2026-03-06",
+      "ora": "13:00",
+      "scheda": "Marzo 2026",
+      "tipo": "Giorno 1",
+      "durata": 60,
+      "note": "fatica trazioni, peso su esercizi percepito come basso"
+    },
+    {
+      "id": "mmj329pp0jjl",
+      "data": "2026-03-09",
+      "ora": "08:30",
+      "scheda": "Marzo 2026",
+      "tipo": "Giorno 2",
+      "durata": 60,
+      "note": "faticato su LAT Machine."
+    },
+    {
+      "id": "mmnf5tmlfavw",
+      "data": "2026-03-12",
+      "ora": "08:00",
+      "scheda": "Marzo 2026",
+      "tipo": "Giorno 3",
+      "durata": 75,
+      "note": "PERSONAL TRAINER"
+    },
+    {
+      "id": "mmt4454sx386",
+      "data": "2026-03-16",
+      "ora": "08:30",
+      "scheda": "Marzo 2026",
+      "tipo": "Giorno 1",
+      "durata": 60,
+      "note": "Trazioni fino alla 3° ok / 456 fatica e sporche. resto ottimo e leggero. Alternate trazioni e dip."
+    },
+    {
+      "id": "mmvwgj7jefee",
+      "data": "2026-03-17",
+      "ora": "13:00",
+      "scheda": "Marzo 2026",
+      "tipo": "Giorno 2",
+      "durata": 45,
+      "note": "Molta fatica su LAT Machine 55kg. saltato addome"
+    }
+  ],
+  "schede": [
+    {
+      "id": "mmi548zezyjh",
+      "nome": "Marzo 2026",
+      "mese": "mese di marzo 26",
+      "tipi": [
+        {
+          "id": "mmi548ze7qfc",
+          "nome": "Giorno 1",
+          "esercizi": [
+            {
+              "id": "mmi548zea3tw",
+              "titolo": "Dragon Flag One Leg",
+              "ripetizioni": "3sx2+2",
+              "carico": "",
+              "recupero": "60\"",
+              "note": ""
+            },
+            {
+              "id": "mmi548zew937",
+              "titolo": "Pull Up",
+              "ripetizioni": "1a sett. 6sx3 / 2a sett. 6sx4 / 3a sett. 8sx3 / 4a sett. 8sx4",
+              "carico": "elastico 25kg",
+              "recupero": "90\"",
+              "note": ""
+            },
+            {
+              "id": "mmi548zediu2",
+              "titolo": "Dip",
+              "ripetizioni": "1a sett. 5sx5 / 2a sett. 5sx5 / 3a sett. 5sx5 / 4a sett. 5sx5",
+              "carico": "elastico 15kg",
+              "recupero": "90\"",
+              "note": "3\" fase concentrica / 3\" fase eccentrica"
+            },
+            {
+              "id": "mmi548zesrfv",
+              "titolo": "Back Squat",
+              "ripetizioni": "1a sett. 5sx7 / 2a sett. 4sx7 / 3a sett. 5sx6 / 4a sett. 4sx6",
+              "carico": "1a sett. 40kg / 2a sett. 42.5kg / 3a sett. 45kg / 4a sett. 47.5kg",
+              "recupero": "90\"",
+              "note": "Al parallelo"
+            },
+            {
+              "id": "mmi548zemxpm",
+              "titolo": "Circuito 1: Push Up / Gorilla Row / Affondi in camminata",
+              "ripetizioni": "AMRAP10'",
+              "carico": "",
+              "recupero": "//",
+              "note": "10 Push Up / 10 Gorilla Row / Affondi in camminata"
+            },
+            {
+              "id": "mmi548zeml4y",
+              "titolo": "Circuito 2: Croci Pettorali a terra / Tirate al mento / Hip Thrust",
+              "ripetizioni": "AMRAP10'",
+              "carico": "",
+              "recupero": "//",
+              "note": "10 Croci Pettorali a terra / 10 Tirate al mento / 10 Hip Thrust"
+            }
+          ]
+        },
+        {
+          "id": "mmi548ze5qzh",
+          "nome": "Giorno 2",
+          "esercizi": [
+            {
+              "id": "mmi548zewx0o",
+              "titolo": "Dragon Flag Tuck/Adv",
+              "ripetizioni": "3sx10",
+              "carico": "",
+              "recupero": "60\"",
+              "note": ""
+            },
+            {
+              "id": "mmi548zedxm1",
+              "titolo": "Lat Machine presa prona",
+              "ripetizioni": "1a sett. 5sx6 / 2a sett. 4sx6 / 3a sett. 5sx4 / 4a sett. 4sx4",
+              "carico": "1a sett. 50kg / 2a sett. 55kg / 3a sett. 60kg / 4a sett. 65kg",
+              "recupero": "90\"",
+              "note": "1\" fermo in tirata"
+            },
+            {
+              "id": "mmi548zeti4y",
+              "titolo": "Panca Piana",
+              "ripetizioni": "1a sett. 4sx3 / 2a sett. 5sx3 / 3a sett. 4sx3 / 4a sett. 5sx3",
+              "carico": "1a sett. 40kg / 2a sett. 40kg / 3a sett. 45kg / 4a sett. 45kg",
+              "recupero": "90\"",
+              "note": "3\" Fase eccentrica / 3\" Fase concentrica"
+            },
+            {
+              "id": "mmi548zew6gz",
+              "titolo": "Deadlift",
+              "ripetizioni": "1a sett. Emom15 singole / 2a sett. Emom12 singole / 3a sett. Emom9 singole / 4a sett. Emom6 singole",
+              "carico": "1a sett. 70kg / 2a sett. 75kg / 3a sett. 80kg / 4a sett. 85kg",
+              "recupero": "Resto del minuto",
+              "note": ""
+            },
+            {
+              "id": "mmi548ze4ha3",
+              "titolo": "Circuito 2: Bulgarian Squat / Spinte Manubri su panca 30° / Rematore su panca inclinata 30°",
+              "ripetizioni": "AMRAP10'",
+              "carico": "",
+              "recupero": "//",
+              "note": "10 Bulgarian Squat / 10 Spinte Manubri su panca 30° / 10 Rematore su panca inclinata 30°"
+            },
+            {
+              "id": "mmi548ze3fqi",
+              "titolo": "Circuito 1: Leg Press / Curl al basso / Push Down",
+              "ripetizioni": "AMRAP10'",
+              "carico": "",
+              "recupero": "//",
+              "note": "10 Leg Press / 10 Curl al basso / 10 Push Down"
+            }
+          ]
+        },
+        {
+          "id": "mmi548zed4dg",
+          "nome": "Giorno 3",
+          "esercizi": [
+            {
+              "id": "mmi548zeeggq",
+              "titolo": "FrontLever Raises anelli",
+              "ripetizioni": "5sx2 (ob: 5sx5)",
+              "carico": "",
+              "recupero": "",
+              "note": "Completo"
+            },
+            {
+              "id": "mmi548zehska",
+              "titolo": "Chin Up",
+              "ripetizioni": "1a sett. 5sx3 / 2a sett. 4sx4 / 3a sett. 5sx4 / 4a sett. 4sx5",
+              "carico": "elastico 15kg",
+              "recupero": "120\"",
+              "note": "1\" fermo in chiusura"
+            },
+            {
+              "id": "mmi548zezs6e",
+              "titolo": "Dip",
+              "ripetizioni": "1a sett. Emom6 doppie / 2a sett. Emom7 doppie / 3a sett. Emom8 doppie / 4a sett. Emom9 doppie",
+              "carico": "",
+              "recupero": "60\"/90\"",
+              "note": "Fermo in buca"
+            },
+            {
+              "id": "mmi548ze2ck0",
+              "titolo": "Back Squat",
+              "ripetizioni": "1a sett. 3sx3 + 2sx2 / 2a sett. 4sx2 / 3a sett. 3sx3 + 2sx2 / 4a sett. 4sx2",
+              "carico": "1a sett. 42.5kg + 45kg / 2a sett. 45kg / 3a sett. 45kg + 47.5kg / 4a sett. 47.5kg",
+              "recupero": "90\"",
+              "note": "2\" fermo in buca"
+            },
+            {
+              "id": "mmi548zey91g",
+              "titolo": "Circuito 1: Australian Pull Up / Tricipiti anelli / Affondi dietro sul posto",
+              "ripetizioni": "AMRAP10'",
+              "carico": "",
+              "recupero": "//",
+              "note": "10 Australian Pull Up / 10 Tricipiti anelli / 10 Affondi dietro sul posto"
+            },
+            {
+              "id": "mmi548zeyer0",
+              "titolo": "Circuito 2: Curl manubri / Alzate Frontali / Leg Extension",
+              "ripetizioni": "AMRAP10'",
+              "carico": "",
+              "recupero": "//",
+              "note": "10 Curl manubri / 10 Alzate Frontali / 10 Leg Extension"
+            }
+          ]
+        },
+        {
+          "id": "mmi548ze1y3p",
+          "nome": "Addome",
+          "esercizi": [
+            {
+              "id": "mmi548ze16mg",
+              "titolo": "Crunch",
+              "ripetizioni": "3x30",
+              "carico": "",
+              "recupero": "",
+              "note": "2 volte a settimana, scegliere 3/4 esercizi"
+            },
+            {
+              "id": "mmi548ze5q2s",
+              "titolo": "Sit Up",
+              "ripetizioni": "3x15/20",
+              "carico": "",
+              "recupero": "",
+              "note": ""
+            },
+            {
+              "id": "mmi548ze8aec",
+              "titolo": "Leg Raise Alternato",
+              "ripetizioni": "3x10+10",
+              "carico": "",
+              "recupero": "",
+              "note": ""
+            },
+            {
+              "id": "mmi548zez8wu",
+              "titolo": "Russian Twist",
+              "ripetizioni": "3x20+20",
+              "carico": "Kettlebell 4kg",
+              "recupero": "",
+              "note": ""
+            },
+            {
+              "id": "mmi548ze6f8y",
+              "titolo": "Plank",
+              "ripetizioni": "3x60\"",
+              "carico": "",
+              "recupero": "",
+              "note": ""
+            },
+            {
+              "id": "mmi548zewfm3",
+              "titolo": "Side Plank",
+              "ripetizioni": "3x30\"",
+              "carico": "",
+              "recupero": "",
+              "note": ""
+            },
+            {
+              "id": "mmi548zeoqy6",
+              "titolo": "Bird Dog",
+              "ripetizioni": "3x10+10",
+              "carico": "",
+              "recupero": "",
+              "note": ""
+            },
+            {
+              "id": "mmi548ze0z81",
+              "titolo": "Superman Alternato gamba/braccia",
+              "ripetizioni": "3x15/20",
+              "carico": "",
+              "recupero": "",
+              "note": ""
+            }
+          ]
+        },
+        {
+          "id": "mmi548zel84o",
+          "nome": "Stretching",
+          "esercizi": [
+            {
+              "id": "mmi548zeabd6",
+              "titolo": "Femorali con elastico",
+              "ripetizioni": "2x60\"",
+              "carico": "",
+              "recupero": "",
+              "note": "Per gamba / 3 volte a settimana, anche lontano dalle sedute"
+            },
+            {
+              "id": "mmi548zed28a",
+              "titolo": "Flessori in affondo",
+              "ripetizioni": "2x30\"",
+              "carico": "",
+              "recupero": "",
+              "note": ""
+            },
+            {
+              "id": "mmi548zevcw8",
+              "titolo": "Posizione rana",
+              "ripetizioni": "3x30\" dinamico 3x10",
+              "carico": "",
+              "recupero": "",
+              "note": ""
+            },
+            {
+              "id": "mmi548ze3p3y",
+              "titolo": "Glutei a terra",
+              "ripetizioni": "2x30\"",
+              "carico": "",
+              "recupero": "",
+              "note": "Per gamba"
+            },
+            {
+              "id": "mmi548ze6f1k",
+              "titolo": "Posizione cobra",
+              "ripetizioni": "2x60\"",
+              "carico": "",
+              "recupero": "",
+              "note": ""
+            },
+            {
+              "id": "mmi548zej17p",
+              "titolo": "Dorsali (torsione)",
+              "ripetizioni": "2x60\"",
+              "carico": "",
+              "recupero": "",
+              "note": "Per lato"
+            },
+            {
+              "id": "mmi548zecyo1",
+              "titolo": "Pettorali anelli",
+              "ripetizioni": "2x60\"",
+              "carico": "",
+              "recupero": "",
+              "note": "Puoi farlo anche in ginocchio"
+            }
+          ]
+        },
+        {
+          "id": "mmi548zet7wf",
+          "nome": "Cardio",
+          "esercizi": [
+            {
+              "id": "mmi548zeymg3",
+              "titolo": "Corsa",
+              "ripetizioni": "30'/45'",
+              "carico": "",
+              "recupero": "",
+              "note": "3/4 volte a settimana"
+            }
+          ]
+        },
+        {
+          "id": "mmi55j33wqe3",
+          "nome": "Lezione Calistenics",
+          "esercizi": []
+        },
+        {
+          "id": "mmi55nlkn3uw",
+          "nome": "Libero",
+          "esercizi": []
+        },
+        {
+          "id": "mmnfftj7y4cs",
+          "nome": "PERSONAL TRAINER",
+          "esercizi": []
+        }
+      ]
+    },
+    {
+      "id": "mmi5wph1rrpr",
+      "nome": "Gennaio / febbraio",
+      "mese": "gen/fb 2026",
+      "tipi": [
+        {
+          "id": "mmi5wph1fh6s",
+          "nome": "Giorno 1",
+          "esercizi": [
+            {
+              "id": "mmi5wph1ubvt",
+              "titolo": "FrontLever Sbarra Elastico",
+              "ripetizioni": "4sx15\"",
+              "carico": "Elastico 15kg",
+              "recupero": "90\"",
+              "note": ""
+            },
+            {
+              "id": "mmi5wph1n6mz",
+              "titolo": "Pull Up Elastico",
+              "ripetizioni": "1a sett. 1xAMRAP RT / 2a sett. 3xAMRAP RT / 3a sett. 4xAMRAP RT / 4a sett. 5xAMRAP RT",
+              "carico": "Elastico Nero 25kg",
+              "recupero": "",
+              "note": "Quando chiudi obiettivo passa a triple. 1a sett. Test 1xAMRAP RT"
+            },
+            {
+              "id": "mmi5wph1qz3n",
+              "titolo": "Dip",
+              "ripetizioni": "1a sett. 4sx5 / 2a sett. 5sx5 / 3a sett. 4sx6 / 4a sett. 5sx6",
+              "carico": "",
+              "recupero": "90\"",
+              "note": "2\" fase negativa con 1\" fermo sopra il parallelo"
+            },
+            {
+              "id": "mmi5wph16ft2",
+              "titolo": "Back Squat",
+              "ripetizioni": "1a sett. 5x10 / 2a sett. 4x10 / 3a sett. 5x8 / 4a sett. 4x8",
+              "carico": "1a sett. 30kg / 2a sett. 32.5kg / 3a sett. 35kg / 4a sett. 37.5kg",
+              "recupero": "90\"",
+              "note": ""
+            },
+            {
+              "id": "mmi5wph195b7",
+              "titolo": "Circuito 1: 10 Push Up, 10 Gorilla Row, Affondi in camminata",
+              "ripetizioni": "AMRAP8'",
+              "carico": "",
+              "recupero": "//",
+              "note": ""
+            },
+            {
+              "id": "mmi5wph15c09",
+              "titolo": "Circuito 2: 10 Croci Pettorali a terra, 10 Tirate al mento, 10 Hip Thrust",
+              "ripetizioni": "AMRAP8'",
+              "carico": "",
+              "recupero": "//",
+              "note": ""
+            }
+          ]
+        },
+        {
+          "id": "mmi5wph1s76l",
+          "nome": "Giorno 2",
+          "esercizi": [
+            {
+              "id": "mmi5wph2hhcn",
+              "titolo": "Dragon Flag ADV",
+              "ripetizioni": "3sx10",
+              "carico": "",
+              "recupero": "60\"",
+              "note": ""
+            },
+            {
+              "id": "mmi5wph280cc",
+              "titolo": "Lat Machine",
+              "ripetizioni": "1a sett. 5sx10 / 2a sett. 4sx10 / 3a sett. 5sx8 / 4a sett. 4sx8",
+              "carico": "1a sett. 30kg / 2a sett. 35kg / 3a sett. 40kg / 4a sett. 45kg",
+              "recupero": "90\"",
+              "note": "1\" fermo al petto. No fermo sopra a braccia tese"
+            },
+            {
+              "id": "mmi5wph27xyi",
+              "titolo": "Panca Piana",
+              "ripetizioni": "1a sett. 5sx5 / 2a sett. 5sx4 / 3a sett. 5sx3 / 4a sett. 5sx2",
+              "carico": "1a sett. 25kg / 2a sett. 30kg / 3a sett. 35kg / 4a sett. 40kg",
+              "recupero": "90\"",
+              "note": "2\" fase eccentrica, 1\" fermo al petto"
+            },
+            {
+              "id": "mmi5wph25o6j",
+              "titolo": "Deadlift partenza da rialzo (usa 2 piastre da 10kg)",
+              "ripetizioni": "1a sett. 5sx5 / 2a sett. 5sx5 / 3a sett. 5sx5 / 4a sett. 5sx5",
+              "carico": "60kg",
+              "recupero": "90\"/120\"",
+              "note": "2\" fase concentrica, fluidità nello stacco"
+            },
+            {
+              "id": "mmi5wph2jett",
+              "titolo": "Circuito 2: 10 Bulgarian Squat, 10 Spinte Manubri su panca 30°, 10 Rematore su panca inclinata 30°",
+              "ripetizioni": "AMRAP8'",
+              "carico": "",
+              "recupero": "//",
+              "note": ""
+            },
+            {
+              "id": "mmi5wph2whgw",
+              "titolo": "Circuito 1: 10 Leg Press, 10 Curl al basso, 10 Push Down",
+              "ripetizioni": "AMRAP8'",
+              "carico": "",
+              "recupero": "//",
+              "note": ""
+            }
+          ]
+        },
+        {
+          "id": "mmi5wph26laz",
+          "nome": "Giorno 3",
+          "esercizi": [
+            {
+              "id": "mmi5wph2fpih",
+              "titolo": "Dragon Flag ISO one leg",
+              "ripetizioni": "3x15\" per gamba",
+              "carico": "",
+              "recupero": "Completo",
+              "note": "Trova inclinazione giusta per lavorare bene tecnicamente"
+            },
+            {
+              "id": "mmi5wph2sj5o",
+              "titolo": "Chin Up Elastico",
+              "ripetizioni": "1a sett. 6sx2 / 2a sett. 7sx2 / 3a sett. 8sx2 / 4a sett. 4sx3",
+              "carico": "Elastico 15kg",
+              "recupero": "60\"/90\"",
+              "note": ""
+            },
+            {
+              "id": "mmi5wph2ji0k",
+              "titolo": "Dip Elastico",
+              "ripetizioni": "1a sett. 4sx3 / 2a sett. 4sx3 / 3a sett. 4sx3 / 4a sett. 4sx3",
+              "carico": "Elastico 15kg",
+              "recupero": "60\"/90\"",
+              "note": "3\" fase eccentrica"
+            },
+            {
+              "id": "mmi5wph2hdlh",
+              "titolo": "Back Squat",
+              "ripetizioni": "1a sett. 3sx3 + 2sx2 / 2a sett. 4sx2 / 3a sett. 3sx3 + 2sx2 / 4a sett. 37.5kg",
+              "carico": "1a sett. 32.5kg + 35kg / 2a sett. 35kg / 3a sett. 35kg + 37.5kg / 4a sett. 37.5kg",
+              "recupero": "90\"",
+              "note": "1\" fermo sopra il parallelo"
+            },
+            {
+              "id": "mmi5wph2w7ux",
+              "titolo": "Circuito 1: 10 Australian Pull Up, 10 Tricipiti anelli, 10 Affondi dietro sul posto",
+              "ripetizioni": "AMRAP8'",
+              "carico": "",
+              "recupero": "//",
+              "note": ""
+            },
+            {
+              "id": "mmi5wph2ja1q",
+              "titolo": "Circuito 2: 10 Curl manubri, 10 Alzate Frontali, 10 Leg Extension",
+              "ripetizioni": "AMRAP8'",
+              "carico": "",
+              "recupero": "//",
+              "note": ""
+            }
+          ]
+        },
+        {
+          "id": "mmi5wph2t1ra",
+          "nome": "Addome (2 volte a settimana)",
+          "esercizi": [
+            {
+              "id": "mmi5wph2ab1p",
+              "titolo": "Crunch",
+              "ripetizioni": "3x30",
+              "carico": "",
+              "recupero": "",
+              "note": "Scegliere 3/4 esercizi tra quelli indicati"
+            },
+            {
+              "id": "mmi5wph2p4hh",
+              "titolo": "Sit Up",
+              "ripetizioni": "3x15/20",
+              "carico": "",
+              "recupero": "",
+              "note": ""
+            },
+            {
+              "id": "mmi5wph2d9o5",
+              "titolo": "Leg Raise Alternato",
+              "ripetizioni": "3x10+10",
+              "carico": "",
+              "recupero": "",
+              "note": ""
+            },
+            {
+              "id": "mmi5wph2qj6b",
+              "titolo": "Russian Twist + Kettlebell",
+              "ripetizioni": "3x20+20",
+              "carico": "4kg",
+              "recupero": "",
+              "note": ""
+            },
+            {
+              "id": "mmi5wph22zc8",
+              "titolo": "Plank",
+              "ripetizioni": "3x60\"",
+              "carico": "",
+              "recupero": "",
+              "note": ""
+            },
+            {
+              "id": "mmi5wph2st7c",
+              "titolo": "Side Plank",
+              "ripetizioni": "3x30\"",
+              "carico": "",
+              "recupero": "",
+              "note": ""
+            },
+            {
+              "id": "mmi5wph2r5p6",
+              "titolo": "Bird Dog",
+              "ripetizioni": "3x10+10",
+              "carico": "",
+              "recupero": "",
+              "note": ""
+            },
+            {
+              "id": "mmi5wph2iv1q",
+              "titolo": "Superman Alternato gamba/braccia",
+              "ripetizioni": "3x15/20",
+              "carico": "",
+              "recupero": "",
+              "note": ""
+            }
+          ]
+        },
+        {
+          "id": "mmi5wph2ceup",
+          "nome": "Stretching (3 volte a settimana)",
+          "esercizi": [
+            {
+              "id": "mmi5wph2y4c7",
+              "titolo": "Femorali con elastico",
+              "ripetizioni": "2x60\" per gamba",
+              "carico": "",
+              "recupero": "",
+              "note": ""
+            },
+            {
+              "id": "mmi5wph2ya0l",
+              "titolo": "Flessori in affondo",
+              "ripetizioni": "2x30\"",
+              "carico": "",
+              "recupero": "",
+              "note": ""
+            },
+            {
+              "id": "mmi5wph2wrug",
+              "titolo": "Posizione rana",
+              "ripetizioni": "3x30\" dinamico 3x10",
+              "carico": "",
+              "recupero": "",
+              "note": ""
+            },
+            {
+              "id": "mmi5wph2nq8a",
+              "titolo": "Glutei a terra",
+              "ripetizioni": "2x30\" per gamba",
+              "carico": "",
+              "recupero": "",
+              "note": ""
+            },
+            {
+              "id": "mmi5wph2oglv",
+              "titolo": "Posizione cobra",
+              "ripetizioni": "2x60\"",
+              "carico": "",
+              "recupero": "",
+              "note": ""
+            },
+            {
+              "id": "mmi5wph21rhn",
+              "titolo": "Dorsali (torsione)",
+              "ripetizioni": "2x60\" per lato",
+              "carico": "",
+              "recupero": "",
+              "note": ""
+            },
+            {
+              "id": "mmi5wph25wod",
+              "titolo": "Pettorali anelli",
+              "ripetizioni": "2x60\"",
+              "carico": "",
+              "recupero": "",
+              "note": "Puoi farlo anche in ginocchio"
+            }
+          ]
+        },
+        {
+          "id": "mmi5wph2o9ig",
+          "nome": "Cardio",
+          "esercizi": [
+            {
+              "id": "mmi5wph276cm",
+              "titolo": "Corsa",
+              "ripetizioni": "3/4 volte a settimana",
+              "carico": "",
+              "recupero": "",
+              "note": "30'/45' di corsa"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "weightLogs": [
+    {
+      "id": "mmnfjovcnm4l",
+      "date": "2026-03-12",
+      "esNome": "Back Squat",
+      "carico": "42,5",
+      "note": "2° SETTIMANA"
+    }
+  ]
+}

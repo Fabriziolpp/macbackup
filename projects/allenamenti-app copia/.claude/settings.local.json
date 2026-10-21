@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install 2>&1)",
+      "Bash(which node && node --version)",
+      "Bash(chmod +x ~/Desktop/Allenamenti.app/Contents/MacOS/allenamenti)",
+      "Bash(python3 -c \"from PIL import Image; print\\('ok'\\)\" 2>/dev/null || echo \"no pillow\")",
+      "Bash(pip3 install pillow -q && echo \"done\")",
+      "Bash(python3 make_icon.py && echo \"done\")",
+      "Bash(iconutil -c icns /tmp/Allenamenti.iconset -o ~/Desktop/Allenamenti.app/Contents/Resources/AppIcon.icns && echo \"done\")",
+      "Bash(rm /tmp/Allenamenti.iconset/icon_64x64* /tmp/Allenamenti.iconset/icon_1024x1024.png\nmkdir -p ~/Desktop/Allenamenti.app/Contents/Resources\niconutil -c icns /tmp/Allenamenti.iconset -o ~/Desktop/Allenamenti.app/Contents/Resources/AppIcon.icns && echo \"done\")",
+      "Bash(npm install pdf-parse multer @anthropic-ai/sdk 2>&1 | tail -5)",
+      "Bash(node --check /Users/fabrizio.lo.presti/allenamenti-app/server.js && echo \"server OK\")",
+      "Bash(node -e \"const m = require\\('pdf-parse'\\); console.log\\(typeof m, typeof m.default\\)\")",
+      "Bash(node -e \"const m = require\\('pdf-parse'\\); console.log\\(Object.keys\\(m\\)\\)\")",
+      "Bash(node -e \"const { PDFParse } = require\\('pdf-parse'\\); const p = new PDFParse\\(\\); console.log\\(typeof p.parse\\)\")",
+      "Bash(npm install pdf-parse@1.1.1 2>&1 | tail -3)",
+      "Bash(node -e \"const p = require\\('pdf-parse'\\); console.log\\(typeof p\\)\")",
+      "Bash(node --check /Users/fabrizio.lo.presti/allenamenti-app/server.js && echo \"OK\")",
+      "Bash(git remote:*)",
+      "Bash(git push:*)"
+    ]
+  }
+}

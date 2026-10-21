@@ -23,7 +23,7 @@ Regole (Defender è attivo): niente `curl … | bash`, niente codice codificato 
 | `documents/` | `Claude/`, `Obsidian Vault/` | `~/Documents/` |
 | `projects/` | `PPTcreator`, `allenamenti-app`, `allenamenti-app copia`, `allenamenti-app backup` (senza `.git`, `node_modules`, `.next`, `.env`) | `~/` |
 | `projects/_git-bundles/` | Storia git completa, **inclusi i 3 commit di allenamenti-app non pushati** | `git clone` |
-| `scripts/` | `backup.sh`, `scan-secrets.sh`, `excludes.txt` | — |
+| `scripts/` | `backup.sh`, `scan-secrets.sh`, `publish.sh`, `excludes.txt` | — |
 
 **Non è nel backup** (di proposito): Desktop, Downloads, `Documents/Sante Data` (dati sanitari, salvati a parte), `OneDrive - Accenture` (già nel cloud), cache (`~/.npm`, `.next`, `node_modules`), skill "synced" (si riscaricano da claude.ai), `~/.claude.json` (stato macchina e login), cronologia della shell, chiave Tanium, **tutti i segreti** (vedi fase 5).
 
@@ -35,11 +35,9 @@ Regole (Defender è attivo): niente `curl … | bash`, niente codice codificato 
    ```bash
    cd ~/mac-backup
    bash scripts/backup.sh
-   bash scripts/scan-secrets.sh
-   git add -A
-   git commit -m "Backup finale prima della migrazione"
-   git push
+   bash scripts/publish.sh "Backup finale prima della migrazione"
    ```
+   `publish.sh` esegue lo scanner dei segreti e si ferma se trova qualcosa. ⚠️ Non usare un semplice `git add -A`: git scarterebbe i file elencati nei `.gitignore` dei progetti, come `data.json` e `backups/` di allenamenti-app.
 2. **Salva i segreti nel password manager**: non sono su GitHub. Sono elencati nella fase 5:
    - `~/allenamenti-app/config.json` → `anthropicApiKey`
    - `~/allenamenti-app/.env` e `~/allenamenti-app/.env.local` → tutte le variabili
@@ -254,6 +252,5 @@ npm run dev                               # l'app parte e si collega a Supabase
 ```bash
 cd ~/mac-backup
 bash scripts/backup.sh
-bash scripts/scan-secrets.sh    # deve dire "Nessun segreto trovato."
-git add -A && git commit -m "Backup $(date +%F)" && git push
+bash scripts/publish.sh         # scanner dei segreti + commit + push
 ```

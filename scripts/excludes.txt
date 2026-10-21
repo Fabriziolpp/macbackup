@@ -23,6 +23,9 @@
 - .venv/
 - venv/
 - *.log
+- *.tsbuildinfo
+- xcuserdata/
+- .swiftpm/
 
 # Spazzatura macOS e file di lock di Office
 - .DS_Store
